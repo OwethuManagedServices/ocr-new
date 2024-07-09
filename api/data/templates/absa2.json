@@ -1,0 +1,114 @@
+{
+	"id": 10002,
+	"name": "ABSA Bank Limited 2",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob",
+	"header": [
+		{
+			"name": "document_title",
+			"position": [1375, 2217, 4131, 2403]
+		},
+		{
+			"name": "client_name",
+			"position": [912, 1428, 3200, 1510]
+		},
+		{
+			"name": "address_1",
+			"position": [912, 1514, 3200, 1582]
+		},
+		{
+			"name": "address_2",
+			"position": [912, 1584, 3200, 1652]
+		},
+		{
+			"name": "address_3",
+			"position": [912, 1656, 3200, 1736]
+		},
+		{
+			"name": "account_number",
+			"position": [2906, 790, 3934, 946]
+		},
+		{
+			"name": "account_type",
+			"position": [2110, 2562, 2858, 2660]
+		},
+		{
+			"name": "start_balance_value",
+			"position": [4203, 3246, 4758, 3327], 
+			"field_type": "amount"
+		},
+		{
+			"name": "date_from_value",
+			"position": [1383, 2385, 1995, 2514], 
+			"field_type": "date",
+			"field_format": "yyyy-mm-dd"
+		},
+		{
+			"name": "date_to_value",
+			"position": [2100, 2400, 2727, 2529], 
+			"field_type": "date",
+			"field_format": "yyyy-mm-dd"
+		},
+    	{
+			"name": "number_pages_of",
+			"position": [621, 6550, 1047, 6639]
+		}
+	],
+	"header_fields": [
+		"document_title", 
+		"date_from_value", 
+		"date_to_value", 
+        "account_number",
+        "account_type",
+		"client_name", 
+		"address_1", 
+		"address_2", 
+		"address_3",
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [219, 693], 
+			"field_type" : "date", 
+			"field_format": "dd/mm/yyyy"
+		},
+		{
+			"name": "transaction_description", 
+			"position_x": [700, 2073],
+			"field_type": "text"
+		},
+		{
+			"name": "amount_in", 
+			"position_x": [3366, 4062],
+			"field_type" : "amount"
+		},
+		{
+			"name": "amount_out", 
+			"position_x": [2814, 3324],
+			"field_type" : "amount"
+		},
+		{
+			"name": "balance", 
+			"position_x": [4128, 4749],
+			"field_type" : "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		}
+	],
+	"grid":{
+		"page_1_start_y": 4246,
+		"page_1_end_y": 6252,
+		"start_y": 3387,
+		"end_y": 6252,
+		"blank_column_trigger": 2,
+		"end_of_document_trigger_word": {
+			"column": 0,
+			"word": "Balance"
+		}
+	}
+}

@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<title>OCR via API</title>
+		<style>
+			body{
+				font-family:sans-serif;
+			}
+			table{
+				font-family:monospace;
+			}
+			#btn_action{
+				padding:10px 20px;
+				width:150px;
+				margin-bottom:20px;
+			}
+		</style>
+		<script src="ocr-api.js"></script>
+	</head>
+	<body onload="OCR.init();">
+		<table cellpadding="2">
+			<tr>
+				<td colspan="2"><b><u>New</u></b></td>
+			</tr>
+			<tr>
+				<td>Filename</td>
+				<td><input id="filename" value="abs.pdf" /></td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td><input id="folder" /></td>
+			</tr>
+		</table>
+		<br>
+		<button id="btn_action" onclick="OCR.start();">Start</button>
+		<button id="btn_action" onclick="OCR.grid_from_data();">Grid</button>
+		<br>
+
+		<div id="edit" style="display:none">
+			<table cellpadding="2">
+				<tr>
+					<td colspan="2"><b><u>Edit Page / Row / Column</u></b></td>
+				</tr>
+				<tr>
+					<td>Page_Row</td>
+					<td>
+						<input id="edit_page_row" />
+					</td>
+				</tr>
+				<tr>
+					<td>Column</td>
+					<td>
+						<input type="number" id="edit_column" />
+					</td>
+				</tr>
+				<tr>
+					<td>Value</td>
+					<td>
+						<input type="text" d="edit_value" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button id="btn_edit" onclick="OCR.grid_find_row();">Find Row</button>
+					</td>
+					<td>
+						<button id="btn_edit" onclick="OCR.grid_edit();">Edit Column</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="log"></div>
+		<div id="grids"></div>
+	</body>
+</html>

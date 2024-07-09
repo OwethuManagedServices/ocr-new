@@ -1,0 +1,11 @@
+Header always set Access-Control-Allow-Origin "http://oms.ocr.ubu"
+Header always set Access-Control-Allow-Methods "DELETE, POST, GET, PUT"
+Header always set Access-Control-Allow-Credentials "true"
+Header always set Access-Control-Allow-Headers "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization"
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php?uri=$1 [QSA,L]
+

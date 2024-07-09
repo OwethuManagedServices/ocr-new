@@ -1,0 +1,191 @@
+body{
+    font-family:sans-serif;
+}
+button{
+	border-radius:5px;
+	margin: 0 5px;
+	padding:5px 20px;
+}
+.bkprogress{
+	border-radius:2px;
+	float:right;
+	opacity:0;
+	border:1px solid #999;
+	width:150px;
+	height:8px;
+	margin-bottom:10px;
+	transition:opacity 1.5s;
+}
+.bkprogressbar{
+	transition:width 0.5s;
+	white-space:nowrap;
+	background:#a7aa5a;
+	height:100%;
+	width:0%;
+	width:0%;
+	line-height:30px;
+}
+#bk_progress_message{
+	margin-top:10px;
+	height:20px;
+	font-weight:400;
+	font-family:monospace,'Courier New';
+	font-size:80%;
+	line-height:50%;
+}
+#bk_spinner{
+	background:url('0spin.gif');
+	background-size: cover;
+	width:50px;
+	height:50px;
+	left:170px;
+	top:20px;
+	position:absolute;
+	display:none;
+	z-index:9999;
+}
+#bk_time{
+	border-radius:2px;
+	float:right;
+	opacity:1;
+	border:1px solid #999;
+	width:110px;
+	height:30px;
+	margin:10px 10px 10px 0;
+	transition:opacity 1.5s;
+	font-weight:400;
+	font-size:120%;
+	font-family:monospace,'Courier New';
+	padding-right:5px;
+	background:white;
+	text-align:right;
+}
+.bkbuttons{
+	width:100%;
+	height:70px;
+	margin-top:5px;
+}
+.bkbuttonmask{
+	position:absolute;
+	left:5px;
+	top:0px;
+	right:5px;
+	bottom:0;
+	background:#fff;
+	opacity:0.5;
+}
+.bkinputtext{
+	font-size:100%;
+	font-family:monospace,'Courier New';
+	width:93%;
+	max-width: 500px !important;
+	height:40px;
+	border:1px solid #999 !important;
+	margin:5px 0 20px 0 !important;
+	border-radius:5px !important;
+}
+.bkinputtext:focus, button{
+	border:2px solid #999 !important;
+	outline: none !important;
+}
+.bkprogressstep{
+	float:left;
+	border:1px solid #999;
+	width:30px;
+	height:30px;
+	margin-right:5px;
+}
+.bkprogressstepdone{
+	float:left;
+	border:1px solid #999;
+	background:#a7aa5a;
+	width:30px;
+	height:30px;
+	margin-right:5px;
+}
+.bkstage{
+	display:none;
+}
+#bk_wrap{
+	background:#eee;
+	padding:10px;
+	max-width:924px;
+	width:100%;
+	position:relative;
+}
+.bkwizardbox{
+	position:relative;
+	width:100%;
+	height:500px;
+	background:#ddd;
+	padding:5px;
+}
+.bkwizardheader{
+	width:calc(100% - 10px);
+	height:80px;
+	padding:15px 5px 5px 5px;
+	border-bottom: 1px solid #fff;
+}
+.bkwizardtitle{
+	font-size:120%;
+}
+.err_amount_no_decimal{
+	background:#861;
+	color:white;
+}
+.err_amount_changed_in{
+	background:darkslateblue;
+	color:white;
+}
+.err_amount_changed_out{
+	background:blue;
+	color:white;
+}
+.err_amount_changed_balance{
+	background:gold;
+}
+.err_amount_invalid_decimal{
+	background:darkred;
+	color:white;
+}
+.err_empty_required_column{
+	background:darkblue;
+	color:white;
+}
+.err_date_empty{
+	background:darkmagenta;
+	color:white;
+}
+.err_invalid_characters{
+	background:#518;
+	color:white;
+}
+.err_green_light_go{
+	background:#5f8;
+	color:black;
+}
+#bk_log td{
+	min-width:50px;
+	padding:2px 5px;
+}
+.bklegend{
+	font-size:80%;
+	background:white;
+	width:100%;
+	height:50px;
+	padding: 4px;
+	margin-bottom:10px;
+}
+.bklegendbox{
+	width:calc(80px - 10px);
+	float:left;
+	border:1px solid black;
+	line-height:90%;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+.img100{
+	width:70%;
+	height:100%;
+}

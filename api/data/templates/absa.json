@@ -1,0 +1,177 @@
+{
+	"id": 10001,
+	"name": "ABSA Bank Limited",
+	"dpi" : 600,
+	"ocr_cmd": "ocrjob1",
+	"statement_from_to_dates": {
+		"header_field_from": "date_from_value",
+		"header_field_to": "date_to_value",
+		"header_field_from_to": "",
+		"field_format": "yyyy-mm-dd"
+	},
+	"header": [
+		{
+			"name": "estamp",
+			"position": [4080, 220, 4440, 320]
+		},
+		{
+			"name": "estamp_ref_name",
+			"position": [3800, 330, 3960, 440]
+		},
+		{
+			"name": "estamp_ref_value",
+			"position": [3960, 320, 4860, 440]
+		},
+		{
+			"name": "estamp_date",
+			"position": [4020, 430, 4466, 550], 
+			"field_type" : "date", 
+			"field_format": "yyyy-mm-dd"
+		},
+		{
+			"name": "estamp_confirm",
+			"position": [3870, 590, 4880, 6900]
+		},
+		{
+			"name": "estamp_confirm_2",
+			"position": [3870, 700, 4880, 800]
+		},
+		{
+			"name": "document_title",
+			"position": [140, 960, 1040, 1130]
+		},
+		{
+			"name": "date_print_value",
+			"position": [1040, 960, 2080, 1130]
+		},
+		{
+			"name": "client_name",
+			"position": [120, 1240, 2120, 1370]
+		},
+		{
+			"name": "address_1",
+			"position": [120, 1350, 2120, 1520]
+		},
+		{
+			"name": "address_2",
+			"position": [120, 1490, 2120, 1620]
+		},
+		{
+			"name": "address_3",
+			"position": [120, 1620, 2120, 1730]
+		},
+		{
+			"name": "bank_name",
+			"position": [2160, 1240, 3000, 1350]
+		},
+		{
+			"name": "account_number",
+			"position": [2160, 1370, 3000, 1480]
+		},
+		{
+			"name": "account_type",
+			"position": [2160, 1500, 3000, 1620]
+		},
+		{
+			"name": "current_balance_name",
+			"position": [120, 1870, 2140, 1990]
+		},
+		{
+			"name": "current_balance_value",
+			"position": [2160, 1880, 2930, 1990], 
+			"field_type": "amount"
+		},
+		{
+			"name": "available_balance_name",
+			"position": [120, 2000, 2140, 2090]
+		},
+		{
+			"name": "available_balance_value",
+			"position": [2160, 2000, 2930, 2090], 
+			"field_type": "amount"
+		},
+		{
+			"name": "uncleared_cheques_name",
+			"position": [120, 2130, 2140, 2220]
+		},
+		{
+			"name": "uncleared_cheques_value",
+			"position": [2160, 2130, 2930, 2220], 
+			"field_type": "amount"
+		},
+		{
+			"name": "statement_period_name",
+			"position": [120, 2340, 1080, 2490]
+		},
+		{
+			"name": "date_from_value",
+			"position": [1070, 2350, 1530, 2460], 
+			"field_type": "date",
+			"field_format": "yyyy-mm-dd"
+		},
+		{
+			"name": "date_to_value",
+			"position": [1575, 2350, 2050, 2460], 
+			"field_type": "date",
+			"field_format": "yyyy-mm-dd"
+		},
+    	{
+			"name": "number_pages_of",
+			"position": [2150, 6200, 3500, 6390]
+		}
+	],
+	"header_fields": [
+		"bank_name",
+		"account_number",
+		"account_type",
+		"client_name", 
+		"date_from_value", 
+		"date_to_value", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [120, 600], 
+			"field_type" : "date", 
+			"field_format": "yyyy-mm-dd"
+		},
+		{
+			"name": "transaction_description", 
+			"position_x": [620, 2700],
+			"field_type": "text"
+		},
+		{
+			"name": "amount_in", 
+			"position_x": [2710, 3360],
+			"field_type" : "amount"
+		},
+		{
+			"name": "balance", 
+			"position_x": [3530, 4290],
+			"field_type" : "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		},
+		{
+			"name": "amount_out", 
+			"column_number": 3,
+			"field_type" : "amount"
+		}
+	],
+	"grid":{
+		"page_1_start_y": 2800,
+		"page_1_end_y": 6180,
+		"start_y": 1070,
+		"end_y": 6180,
+		"blank_column_trigger": 2,
+		"end_of_document_trigger_word": {
+			"column": 0,
+			"word": "Balance"
+		}
+	}
+}

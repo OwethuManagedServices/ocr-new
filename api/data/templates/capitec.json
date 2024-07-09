@@ -1,0 +1,190 @@
+{
+	"id": 10003,
+	"name": "Capitec Bank Limited",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob",
+	"statement_from_to_dates": {
+		"header_field_from": "date_from",
+		"header_field_to": "date_to",
+		"header_field_from_to": "",
+		"field_format": "dd/mm/yyyy"
+	},
+	"header": [
+		{
+			"name": "slogan",
+			"position": [280, 350, 2800, 460]
+		},
+		{
+			"name": "document_title",
+			"position": [260, 470, 2100, 640]
+		},
+		{
+			"name": "client_name",
+			"position": [260, 800, 2000, 900]
+		},
+		{
+			"name": "address_1",
+			"position": [260, 920, 1600, 980]
+		},
+		{
+			"name": "address_2",
+			"position": [260, 980, 1600, 1040]
+		},
+		{
+			"name": "address_3",
+			"position": [260, 1040, 1600, 1100]
+		},
+		{
+			"name": "address_4",
+			"position": [260, 1100, 1600, 1160]
+		},
+		{
+			"name": "address_5",
+			"position": [260, 1160, 1600, 1220]
+		},
+		{
+			"name": "address_6",
+			"position": [260, 1220, 1600, 1360]
+		},
+		{
+			"name": "vat_tax_name",
+			"position": [3860, 840, 5080, 960]
+		},
+		{
+			"name": "vat_name",
+			"position": [3860, 960, 5080, 1060]
+		},
+		{
+			"name": "vat_number",
+			"position": [3860, 1050, 5080, 1340]
+		},
+		{
+			"name": "bank_name",
+			"position": [3860, 1200, 5080, 1300]
+		},
+		{
+			"name": "bank_address_1",
+			"position": [3860, 1300, 5080, 1380]
+		},
+		{
+			"name": "bank_address_2",
+			"position": [3860, 1380, 5080, 1460]
+		},
+		{
+			"name": "bank_address_3",
+			"position": [3860, 1460, 5080, 1540]
+		},
+		{
+			"name": "bank_address_4",
+			"position": [3860, 1540, 5080, 1620]
+		},
+		{
+			"name": "date_from_name",
+			"position": [3860, 1680, 4400, 1760]
+		},
+		{
+			"name": "date_from",
+			"position": [4400, 1680, 5080, 1760], 
+			"type" : "date", 
+			"format": "dd/mm/yyyy"
+		},
+		{
+			"name": "date_to_name",
+			"position": [1930, 1760, 4400, 1820]
+		},
+		{
+			"name": "date_to",
+			"position": [4400, 1820, 5080, 1900], 
+			"type" : "date", 
+			"format": "dd/mm/yyyy"
+		},
+		{
+			"name": "date_print_name",
+			"position": [3860, 1840, 4400, 1920]
+		},
+		{
+			"name": "date_print",
+			"position": [4400, 1840, 5080, 1920], 
+			"type" : "date", 
+			"format": "dd/mm/yyyy"
+		},
+		{
+			"name": "account_number_name",
+			"position": [3860, 2040, 4400, 2120]
+		},
+		{
+			"name": "account_number",
+			"position": [4400, 2040, 5080, 2120]
+		},
+		{
+			"name": "unique_document_name",
+			"position": [2460, 6290, 3000, 6380]
+		},
+		{
+			"name": "unique_document", 
+			"position": [2990, 6290, 5080, 6380]
+		},
+		{
+			"name": "account_type",
+			"position": [240, 464, 1388, 636]
+		},
+		{
+			"name": "number_pages_of",
+			"position": [4480, 6150, 5080, 6250]
+		}
+	],
+	"header_fields": [
+		"bank_name",
+		"account_number",
+		"account_type",
+		"client_name", 
+		"date_from", 
+		"date_to", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "posting_date",
+			"position_x": [240, 760], 
+			"field_type": "date", 
+			"field_format": "dd/mm/yyyy"
+		},
+		{
+			"name": "transaction_date",
+			"position_x": [770, 1270], 
+			"field_type": "date", 
+			"field_format": "dd/mm/yyyy"
+		},
+		{
+			"name": "description",
+			"position_x": [1280, 3110],
+			"field_type": "text"
+		},
+		{
+			"name": "amount_in",
+			"position_x": [3120, 3730], 
+			"field_type": "amount"
+		},
+		{
+			"name": "amount_out",
+			"position_x": [3740, 4390], 
+			"field_type": "amount"
+		},
+		{
+			"name": "balance",
+			"position_x": [4400, 4820], 
+			"field_type": "amount"
+		}
+	],
+	"grid_columns": [
+	],
+	"grid":{
+		"page_1_start_y": 2468,
+		"page_1_end_y": 5868,
+		"start_y": 189,
+		"end_y": 6108,
+		"min_width": 300,
+		"blank_column_trigger": 3,
+		"end_of_document_space_y": 250
+	}
+}

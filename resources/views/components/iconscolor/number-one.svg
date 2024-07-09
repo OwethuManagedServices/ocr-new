@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="500"
+   zoomAndPan="magnify"
+   viewBox="0 0 375 374.999991"
+   height="500"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.0"
+   id="svg15"
+   sodipodi:docname="number-one.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview15"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.56922096"
+     inkscape:cx="246.82858"
+     inkscape:cy="246.82858"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15" />
+  <defs
+     id="defs6">
+    <g
+       id="g1" />
+    <clipPath
+       id="03731ff627">
+      <path
+         d="M 21.363281 27.773438 L 352.863281 27.773438 L 352.863281 359.273438 L 21.363281 359.273438 Z M 21.363281 27.773438 "
+         clip-rule="nonzero"
+         id="path1" />
+    </clipPath>
+    <clipPath
+       id="7a5b1c4f67">
+      <path
+         d="M 187.113281 27.773438 C 95.570312 27.773438 21.363281 101.984375 21.363281 193.523438 C 21.363281 285.066406 95.570312 359.273438 187.113281 359.273438 C 278.652344 359.273438 352.863281 285.066406 352.863281 193.523438 C 352.863281 101.984375 278.652344 27.773438 187.113281 27.773438 Z M 187.113281 27.773438 "
+         clip-rule="nonzero"
+         id="path2" />
+    </clipPath>
+    <clipPath
+       id="eda19659a6">
+      <path
+         d="M 37.5 43.910156 L 337.097656 43.910156 L 337.097656 343.511719 L 37.5 343.511719 Z M 37.5 43.910156 "
+         clip-rule="nonzero"
+         id="path3" />
+    </clipPath>
+    <clipPath
+       id="d2d1dec796">
+      <path
+         d="M 187.300781 43.910156 C 104.566406 43.910156 37.5 110.980469 37.5 193.710938 C 37.5 276.445312 104.566406 343.511719 187.300781 343.511719 C 270.03125 343.511719 337.097656 276.445312 337.097656 193.710938 C 337.097656 110.980469 270.03125 43.910156 187.300781 43.910156 Z M 187.300781 43.910156 "
+         clip-rule="nonzero"
+         id="path4" />
+    </clipPath>
+    <clipPath
+       id="db5e5a1997">
+      <path
+         d="M 37.5 43.910156 L 336.75 43.910156 L 336.75 343.160156 L 37.5 343.160156 Z M 37.5 43.910156 "
+         clip-rule="nonzero"
+         id="path5" />
+    </clipPath>
+    <clipPath
+       id="f13251910b">
+      <path
+         d="M 187.125 43.910156 C 104.488281 43.910156 37.5 110.902344 37.5 193.535156 C 37.5 276.171875 104.488281 343.160156 187.125 343.160156 C 269.761719 343.160156 336.75 276.171875 336.75 193.535156 C 336.75 110.902344 269.761719 43.910156 187.125 43.910156 Z M 187.125 43.910156 "
+         clip-rule="nonzero"
+         id="path6" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#03731ff627)"
+     id="g8">
+    <g
+       clip-path="url(#7a5b1c4f67)"
+       id="g7">
+      <path
+         stroke-linecap="butt"
+         transform="matrix(0.749179, 0, 0, 0.749179, 21.362708, 27.774549)"
+         fill="none"
+         stroke-linejoin="miter"
+         d="M 221.24295 -0.00148359 C 99.051901 -0.00148359 0.000765629 99.054866 0.000765629 221.240701 C 0.000765629 343.43175 99.051901 442.482885 221.24295 442.482885 C 343.428785 442.482885 442.485135 343.43175 442.485135 221.240701 C 442.485135 99.054866 343.428785 -0.00148359 221.24295 -0.00148359 Z M 221.24295 -0.00148359 "
+         stroke="#000000"
+         stroke-width="16"
+         stroke-opacity="1"
+         stroke-miterlimit="4"
+         id="path7" />
+    </g>
+  </g>
+  <g
+     clip-path="url(#eda19659a6)"
+     id="g10">
+    <g
+       clip-path="url(#d2d1dec796)"
+       id="g9">
+      <path
+         fill="#e0000e"
+         d="M 37.5 43.910156 L 337.097656 43.910156 L 337.097656 343.511719 L 37.5 343.511719 Z M 37.5 43.910156 "
+         fill-opacity="1"
+         fill-rule="nonzero"
+         id="path8" />
+    </g>
+  </g>
+  <g
+     clip-path="url(#db5e5a1997)"
+     id="g12">
+    <g
+       clip-path="url(#f13251910b)"
+       id="g11">
+      <path
+         stroke-linecap="butt"
+         transform="matrix(0.749149, 0, 0, 0.749149, 37.500002, 43.911912)"
+         fill="none"
+         stroke-linejoin="miter"
+         d="M 199.72658 -0.00234301 C 89.419149 -0.00234301 -0.00000271975 89.422023 -0.00000271975 199.72424 C -0.00000271975 310.031672 89.419149 399.450823 199.72658 399.450823 C 310.034012 399.450823 399.453163 310.031672 399.453163 199.72424 C 399.453163 89.422023 310.034012 -0.00234301 199.72658 -0.00234301 Z M 199.72658 -0.00234301 "
+         stroke="#000000"
+         stroke-width="8"
+         stroke-opacity="1"
+         stroke-miterlimit="4"
+         id="path10" />
+    </g>
+  </g>
+  <g
+     fill="#ffffff"
+     fill-opacity="1"
+     id="g15">
+    <g
+       transform="translate(139.444611, 289.734192)"
+       id="g14">
+      <g
+         id="g13">
+        <path
+           d="M 4.453125 -135.25 L 4.453125 -180.734375 L 80.609375 -180.734375 L 80.609375 0 L 29.921875 0 L 29.921875 -135.25 Z M 4.453125 -135.25 "
+           id="path12" />
+      </g>
+    </g>
+  </g>
+</svg>

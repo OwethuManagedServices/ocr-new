@@ -1,0 +1,9 @@
+#!/usr/local/bin/bash
+doit() {
+	if [ -f "${2}.hocr" ]; then
+		return
+	fi
+	/usr/local/bin/tesseract "$1" "out-$2" hocr > /dev/null 2>&1
+}
+export -f doit
+/usr/local/bin/parallel doit {} {.} ::: col*.jpg

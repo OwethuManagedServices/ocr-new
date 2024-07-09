@@ -1,0 +1,1365 @@
+composer create-project laravel/laravel accom
+cd acc
+composer require laravel/jetstream
+php artisan jetstream:install livewire --teams
+npm install
+npm run build
+
+
+
+config/app.php
+	'timezone' => 'Africa/Johannesburg',
+
+config/fortify.php
+uncomment Feature::emailVerification(),
+
+config/jetstream.php
+uncomment termsAndPrivacyPolicy()
+profilePhotos()
+api();
+
+
+app/Models/User.php
+class User extends Authenticatable implements MustVerifyEmail
+
+
+routes/web.php
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+package.json
+vite build --watch
+
+create app/functions.php
+
+/composer.json
+
+"autoload": {
+    "psr-4": {
+       ...
+    },
+	"files": [
+		"app/functions.php"
+	],
+...
+
+in root folder
+vi 0c
+
+#!/bin/sh
+sudo chmod -R 777 bootstrap/cache/
+sudo chmod -R 777 storage/logs/
+sudo chmod -R 777 storage/framework/
+php artisan config:clear
+php artisan cache:clear
+composer dump-autoload
+php artisan view:clear
+php artisan route:clear
+npm run build
+
+
+sudo chmod +x 0c
+
+composer require phpoffice/phpspreadsheet
+php artisan make:migration create_temp_key_value --table=temp_key_value --create
+
+.env
+APP_DEBUG=true
+APP_URL=https://afr.enter.lan
+
+LINKEDIN_URL='https://linkedin.com'
+USECURE_API_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55SWQiOiI0NWZiMjcwZS01NTY4LTQxYmEtOGQ2MC00ODFjYjU3OTExMDgiLCJpYXQiOjE3MDAwNTM4NTcsImV4cCI6MTg1Nzg0MTg1N30.9ag_6CNZF4xok--Vd5DvinEhrPUR1fUCd-gjPH2bR2s'
+USECURE_API_CLIENT_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55SWQiOiI0NWZiMjcwZS01NTY4LTQxYmEtOGQ2MC00ODFjYjU3OTExMDgiLCJjbGllbnRPbmx5Ijp0cnVlLCJpYXQiOjE3MDAwNTQwMDksImV4cCI6MTg1Nzg0MjAwOX0.702v_yEVs56qhsHvlxiWdTwsPijJXM8OSgFVlCp1kpA'
+USECURE_API_URL='https://public-api.getusecure.com'
+RECAPTCHAV3_SITEKEY=6LeoLKgoAAAAAHyNy5hGTWKhfrjep8Kqv7nqcUz6
+RECAPTCHAV3_SECRET=6LeoLKgoAAAAAHcwZpmlNVfPppjhHkIgEhqoXc1S
+ADDPAY_API_URL='https://secure-test.addpay.co.za/v2/'
+ADDPAY_USERNAME='dPJFMTcwNTU4NjQ0Mw'
+ADDPAY_PASSWORD='NKjYl7upbCbB9FIe0HTmMqiV3mkMTcyX6v84zz51zy81zqGOGGqv4K7kUfbyrI'
+ADDPAYLIVE_USERNAME='9yGLhMTcwMTE2NTI0OA'
+ADDPAYLIVE_PASSWORD='IrShfhsLcgHgysqyxBWoyG5E6dCTnta2Doz5K3O7OfeuX6HbcyrGOeoPFNYYDkyzPLAwavLZI'
+GITLAB_PAT='glpat-3z2Y1CiJAzi4iJ3j9H-P'
+
+
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=africancc
+DB_USERNAME=root
+DB_PASSWORD=toor
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=outlook.office365.com
+MAIL_PORT=587
+MAIL_USERNAME="sollie777@hotmail.com"
+MAIL_PASSWORD="sollieseven7700"
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="sollie777@hotmail.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+
+
+php artisan make:mail VerifyHumanRiskReport
+php artisan make:mail VerifyFreeTrial
+php artisan make:mail NotifySubmitHumanRiskReport
+php artisan make:mail NotifySubmitFreeTrial
+php artisan make:mail NotifyContactUs
+php artisan queue:table
+php artisan make:job SendEmail
+php artisan config:cache
+
+
+resources/views/emails/
+notify-contact-us.blade.php
+notify-free-trial.blade.php
+notify-human-risk-report.blade.php
+verify-free-trial.blade.php
+verify-human-risk-report.blade.php
+
+
+
+
+
+php artisan make:notification ResetPassword
+/app/Notifications/ResetPassword.php
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+
+
+class ResetPassword extends ResetPasswordNotification implements ShouldQueue
+{
+    use Queueable;
+...
+
+
+
+
+
+vendor/laravel/jetstream/src/HasProfilePhoto.php
+    protected function defaultProfilePhotoUrl()
+    {
+        $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
+            return mb_substr($segment, 0, 1);
+        })->join(' '));
+
+            $sInitials = str_replace(' ', '', $name);
+            if (strlen($sInitials) >= 3){
+                $sInitials = substr($sInitials, 0, 3);
+                $iX = 2.6;
+                $iY = 11.1;
+                $iF = 8;
+            } else {
+                $iX = 3.4;
+                $iY = 11.8;
+                $iF = 10;
+            }
+            $sColor = '113388';
+            $sBackground = 'ddeeff';
+            $sSrc = '<?xml version="1.0" encoding="UTF-8" ?>
+            <svg width="64" height="64" viewBox="0 0 17 17" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <circle
+                   style="fill:#' . $sBackground . 
+                   ';stroke:#' . $sColor . ';stroke-width:1;stroke-dasharray:none"
+                   cx="8.5" cy="8.5" r="8.5" />
+                <text
+                   style="font-family:monospace;font-weight:900;font-size:' . $iF . 'px;fill:#' . $sColor . ';"
+                   x="' . $iX . '" y="' . $iY . '">' . $sInitials . '</text>
+              </g>
+            </svg>';
+            return 'data:image/svg+xml;base64,' . base64_encode($sSrc);
+    }
+
+
+
+
+php artisan make:controller HomeController
+
+php artisan make:controller HumanRiskReportsController --model=HumanRiskReports
+php artisan make:migration create_human_risk_reports --table=human_risk_reports --create
+php artisan make:controller FreeTrialsController --model=FreeTrials
+php artisan make:migration create_free_trials --table=free_trials --create
+php artisan make:controller ContactUsController --model=ContactUs
+php artisan make:migration create_contact_us --table=contact_us --create
+
+php artisan make:controller LeadsController --resource --model=Leads
+php artisan make:migration create_leads --table=leads --create
+
+php artisan make:controller ContactsController --resource --model=Contacts
+php artisan make:migration create_contacts --table=contacts --create
+
+php artisan make:controller WebsiteController --model=Website
+php artisan make:migration create_website --table=website --create
+app/Modes/Website.php
+...
+{
+	protected $table = "website";
+...
+
+php artisan make:controller UsecureController
+php artisan make:model UsecureAdmin --migration
+php artisan make:model UsecureCourses --migration
+php artisan make:model UsecureLearners --migration
+php artisan make:model UsecureReports --migration
+php artisan make:model UsecureTenants --migration
+php artisan make:model UsecureUsers --migration
+
+php artisan make:model DeletedRecords --migration
+php artisan make:model Newsletters --migration
+php artisan make:model Vouchers --migration
+
+php artisan make:controller TenantsController
+php artisan make:model Tenants --migration
+php artisan make:controller TenantEmployeesController --model=TenantEmployees
+php artisan make:migration create_tenant_employees --table=tenant_employees --create
+php artisan make:migration create_contact_tenant_employee --table=contact_tenant_employee --create
+
+
+php artisan make:model ContactLead --migration
+change inside migration file table to contact_lead
+app/Models/ContactLead.php
+...
+{
+	protected $table = 'contact_lead';
+
+
+php artisan make:migration create_finalize
+ rename finalize file to later date
+
+
+php artisan make:controller UsersController --model=Users
+php artisan make:model Payments --migration
+
+php artisan make:controller ClientsController --model=Clients
+php artisan make:migration create_clients --table=clients --create
+php artisan make:model ContactClient --migration
+php artisan make:controller DashboardController
+php artisan make:controller GeneralController
+php artisan make:controller HelpController --model=Help
+php artisan make:migration create_help --table=help --create
+php artisan make:controller PermissionController --model=Permission
+php artisan make:migration create_permission --table=acl_permissions --create
+php artisan make:controller ProductsController --model=Products
+php artisan make:migration create_products --table=prouducts --create
+php artisan make:controller RoleController --model=Role
+php artisan make:migration create_role --table=acl_roles --create
+php artisan make:model RolePermission --migration
+php artisan make:model UserPermission --migration
+php artisan make:model UserRole --migration
+php artisan make:controller TransactionsController --model=Transactions
+php artisan make:migration create_transactions --table=transactions --create
+php artisan make:controller SubsriberAdminController --model=SubsriberAdmin
+##########php artisan make:migration create_subscriber_admin --table=subscriber_admin --create
+php artisan make:model RolesGroups
+php artisan make:migration create_acl_roles_groups --table=acl_roles_groups --create
+
+
+php artisan lang:publish
+
+
+migrations
+users
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->tinyInteger('is_deleted')->default(0);
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('api_token')->nullable();
+            $table->string('html_theme')->nullable();
+            $table->integer('grid_items_per_page')->default(30);
+            $table->timestamps();
+
+        });
+
+human-risk-reports
+        Schema::create('human_risk_reports', function (Blueprint $table) {
+            $table->id();
+            $table->string('company_name');
+            $table->string('domain');
+            $table->string('email');
+            $table->string('telephone');
+            $table->string('email_link')->nullable();
+            $table->string('email_confirmation')->nullable();
+            $table->string('status')->default('submitted');
+            $table->timestamps();
+        });
+
+free_trials
+        Schema::create('free_trials', function (Blueprint $table) {
+            $table->id();
+            $table->string('email');
+            $table->string('name');
+            $table->string('email_link')->nullable();
+            $table->string('email_confirmation')->nullable();
+            $table->string('status')->default('submitted');
+            $table->timestamps();
+        });
+
+contact_us
+        Schema::create('contact_us', function (Blueprint $table) {
+            $table->id();
+            $table->string('email');
+            $table->string('name');
+            $table->string('company')->nullable();
+            $table->mediumText('information');
+            $table->string('status')->default('submitted');
+            $table->timestamps();
+        });
+
+leads
+        Schema::create('leads', function (Blueprint $table) {
+            $table->id();
+            $table->string('company_name');
+            $table->string('branch')->nullable();
+            $table->string('account_type')->nullable();
+            $table->string('industry')->nullable();
+			$table->timestamps();
+        });
+contacts
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();
+            $table->integer('priority')->default(1);
+            $table->string('name');
+            $table->string('designation')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telephone_work')->nullable();
+            $table->string('telephone_cellular')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('surname')->nullable();
+            $table->timestamps();
+        });
+contact_leads
+		Schema::create('contact_lead', function (Blueprint $table) {
+            $table->id();
+            $table->integer('contacts_id');
+            $table->integer('leads_id');
+            $table->timestamps();
+        });
+website
+        Schema::create('website', function (Blueprint $table) {
+            $table->id();
+            $table->string('language');
+            $table->string('category');
+            $table->string('key');
+            $table->mediumText('value');
+            $table->timestamps();
+        });
+temp_key_value
+        Schema::create('temp_key_value', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('run_time');
+            $table->string('category');
+            $table->string('key');
+            $table->mediumText('value');
+            $table->timestamps();
+        });
+payments
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('parent_id')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('category');
+            $table->mediumText('data');
+            $table->timestamps();
+        });
+roles
+	Schema::create('acl_roles', function (Blueprint $table) {
+	    $table->bigIncrements('id');
+	    $table->string('name');
+	    $table->string('slug');
+	    $table->timestamps();
+      });
+permissions
+	Schema::create('acl_permissions', function (Blueprint $table) {
+	    $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('slug');
+            $table->timestamps();
+        });
+users_permissions
+	Schema::create('acl_users_permissions', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->index()->constrained()->references('id')->on('users')->cascadeOnDelete();
+	    $table->foreignId('permission_id')->index()->constrained()->references('id')->on('acl_permissions')->cascadeOnDelete();
+        $table->timestamps();
+	});
+users_roles
+	Schema::create('acl_users_roles', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->index()->constrained()->references('id')->on('users')->cascadeOnDelete();
+	    $table->foreignId('role_id')->index()->constrained()->references('id')->on('acl_roles')->cascadeOnDelete();
+        $table->timestamps();
+	});
+roles_permissions
+	Schema::create('acl_roles_permissions', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('role_id')->index()->constrained()->references('id')->on('acl_roles')->cascadeOnDelete();
+	    $table->foreignId('permission_id')->index()->constrained()->references('id')->on('acl_permissions')->cascadeOnDelete();
+        $table->timestamps();
+	});
+help
+        Schema::create('help', function (Blueprint $table) {
+            $table->id();
+            $table->string('url')->nullable();
+            $table->string('content')->nullable();
+            $table->timestamps();
+        });
+usecure_admins
+        Schema::create('usecure_admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('usecure_id');
+            $table->string('company_name');
+            $table->timestamps();
+        });
+usecure_courses
+        Schema::create('usecure_courses', function (Blueprint $table) {
+            $table->id();
+            $table->string('usecure_id');
+            $table->string('name');
+            $table->string('subject');
+            $table->string('category')->nullable();
+            $table->timestamps();
+        });
+usecure_reports
+        Schema::create('usecure_reports', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+usecure_tenants
+        Schema::create('usecure_tenants', function (Blueprint $table) {
+            $table->id();
+            $table->string('usecure_id');
+            $table->string('tenant_name');
+            $table->string('external_id')->nullable();
+            $table->timestamps();
+        });
+usecure_learners
+        Schema::create('usecure_learners', function (Blueprint $table) {
+            $table->id();
+            $table->string('usecure_id');
+            $table->string('email');
+            $table->string('name');
+            $table->timestamps();
+        });
+usecure_users
+        Schema::create('usecure_users', function (Blueprint $table) {
+			$table->id();
+            $table->integer('usecure_id');
+            $table->string('email');
+            $table->string('name');
+            $table->timestamps();
+        });
+transactions
+        Schema::create('transactions', function (Blueprint $table) {
+            $table->id();
+            $table->integer('clients_id');
+            $table->string('gateway_transaction_id');
+            $table->integer('quantity');
+            $table->string('product');
+            $table->string('payment_term');
+            $table->decimal('price', 8, 2);
+            $table->decimal('discount', 8, 2)->nullable();
+            $table->decimal('tax', 8, 2)->nullable();
+            $table->decimal('total', 8, 2);
+            $table->timestamps();
+        });
+clients
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id();
+            $table->string('account_number');
+            $table->string('company_name');
+    	    $table->timestamps();
+        });
+contact_client
+        Schema::create('contact_client', function (Blueprint $table) {
+            $table->id();
+            $table->integer('contacts_id');
+            $table->integer('clients_id');
+            $table->timestamps();
+        });
+products
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('product_code');
+            $table->string('name');
+            $table->string('description');
+            $table->string('price');
+            $table->string('image');
+            $table->string('category');
+    	    $table->timestamps();
+        });
+
+/database/finalize.sql 
+USE xxxxxxxxxxxxx;
+ALTER TABLE acl_permissions AUTO_INCREMENT=10001;
+ALTER TABLE acl_roles AUTO_INCREMENT=10001;
+ALTER TABLE acl_roles_permissions AUTO_INCREMENT=10001;
+ALTER TABLE acl_users_permissions AUTO_INCREMENT=10001;
+ALTER TABLE acl_users_roles AUTO_INCREMENT=10001;
+ALTER TABLE clients AUTO_INCREMENT=10001;
+ALTER TABLE contact_client AUTO_INCREMENT=10001;
+ALTER TABLE contact_lead AUTO_INCREMENT=10001;
+ALTER TABLE contact_us AUTO_INCREMENT=10001;
+ALTER TABLE contacts AUTO_INCREMENT=10001;
+ALTER TABLE failed_jobs AUTO_INCREMENT=10001;
+ALTER TABLE free_trials AUTO_INCREMENT=10001;
+ALTER TABLE help AUTO_INCREMENT=10001;
+ALTER TABLE human_risk_reports AUTO_INCREMENT=10001;
+ALTER TABLE jobs AUTO_INCREMENT=10001;
+ALTER TABLE leads AUTO_INCREMENT=10001;
+ALTER TABLE password_reset_tokens AUTO_INCREMENT=10001;
+ALTER TABLE payments AUTO_INCREMENT=10001;
+ALTER TABLE personal_access_tokens AUTO_INCREMENT=10001;
+ALTER TABLE products AUTO_INCREMENT=10001;
+ALTER TABLE sessions AUTO_INCREMENT=10001;
+ALTER TABLE team_invitations AUTO_INCREMENT=10001;
+ALTER TABLE team_user AUTO_INCREMENT=10001;
+ALTER TABLE teams AUTO_INCREMENT=10001;
+ALTER TABLE temp_key_value AUTO_INCREMENT=10001;
+ALTER TABLE transactions AUTO_INCREMENT=10001;
+ALTER TABLE usecure_admins AUTO_INCREMENT=10001;
+ALTER TABLE usecure_courses AUTO_INCREMENT=10001;
+ALTER TABLE usecure_learners AUTO_INCREMENT=10001;
+ALTER TABLE usecure_reports AUTO_INCREMENT=10001;
+ALTER TABLE usecure_tenants AUTO_INCREMENT=10001;
+ALTER TABLE usecure_users AUTO_INCREMENT=10001;
+ALTER TABLE users AUTO_INCREMENT=10001;
+ALTER TABLE website AUTO_INCREMENT=10001;
+
+
+
+php artisan migrate
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+public/favicon.ico
+public/upload.php
+/public/docs
+/public/img
+/public/upload/leads
+/public/js
+
+/tailwind.config.js
+...
+/resources/css/app.css
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+copy
+app/Http/Controllers
+app/Models
+app/Mail
+app/functions.php
+resources/views/terms.blade.php
+resources/views/policy.blade.php
+resources/views/home
+resources/views/components/home
+resources/views/components/icons
+lang/en
+resources/views/components/iconscolor
+resources/views/components/iconcolor.blade.php
+resources/css
+resources/views/
+resources/views/auth (delete orig first)
+app/Traits/
+
+edit routes/web.php 
+
+
+
+config/app.php
+        App\Providers\RolesServiceProvider::class,
+        App\Providers\PermissionServiceProvider::class,
+
+
+app/Providers/PermissionServiceProvider.php
+app/Providers/RolesServiceProvider.php
+
+
+app/Http/Kernel.php
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+
+app/Http/Middleware/RoleMiddleware.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+php artisan config:cache
+
+.env
+QUEUE_CONNECTION=database
+
+php artisan config:cache
+php artisan queue:work database --tries=1
+
+php artisan make:model Emails --migration
+
+https://stackoverflow.com/questions/52644934/how-to-queue-laravel-5-7-email-verification-email-sending
+
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Auth\Notifications\VerifyEmail;
+
+
+app/Notifications/VerifyEmailQueued.php
+class VerifyEmailQueued extends VerifyEmail implements ShouldQueue
+{
+    use Queueable;
+
+    // Nothing else needs to go here unless you want to customize
+    // the notification in any way.
+}
+
+app/Models/User.php
+public function sendEmailVerificationNotification()
+{
+    $this->notify(new \App\Notifications\VerifyEmailQueued);
+}
+
+https://stackoverflow.com/questions/11939166/how-to-override-trait-function-and-call-it-from-the-overridden-function
+
+trait A {
+    function calc($v) {
+        return $v+1;
+    }
+}
+
+class MyClass {
+    use A {
+        calc as protected traitcalc;
+    }
+
+    function calc($v) {
+        $v++;
+        return $this->traitcalc($v);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+php artisan make:controller CalendarsController --model=Calendars
+php artisan make:migration create_calendars --table=calendars --create
+php artisan make:controller WebsiteController --model=Website
+
+php artisan make:migration create_temp_key_value --table=temp_key_value --create
+php artisan make:migration create_website --table=website --create
+php artisan make:migration create_contact_company --table=contact_company --create
+php artisan make:migration create_finalize
+ rename finalize file to later date
+php artisan make:mail VerifyCalendarBooking
+php artisan make:mail VerifyHumanRiskReport
+php artisan make:mail VerifyFreeTrial
+php artisan queue:table
+
+
+-------------------
+
+routes/web.php
+use App\Http\Controllers\CompaniesController;
+
+Route::resource('company', CompanyController::class);
+
+
+
+
+php artisan vendor:publish --tag=laravel-pagination
+
+
+
+php artisan make:controller ContactsController --resource --model=Contacts
+php artisan make:migration create_contacts --table=contacts --create
+
+edit /database/migrations/xxx-contacts.php
+		Schema::create('companies', function (Blueprint $table) {
+            $table->id();
+            $table->integer('priority')->default(1);
+            $table->string('name');
+            $table->string('designation')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telephone_work')->nullable();
+            $table->string('telephone_cellular')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('surname')->nullable();
+            $table->string('domain')->nullable();
+            $table->timestamps();                     
+});
+
+app/Models/Contacts.php
+	protected $fillable = [
+		'designation',
+		'domain',
+		'email',
+		'name',
+		'priority',
+		'telephone_work',
+		'telephone_cellular',
+    ];
+
+
+
+composer require phpoffice/phpspreadsheet
+
+php artisan make:controller AjaxController
+
+
+
+vendor/laravel/jetstream/HasProfilePhoto.php
+ change ui-avatar url
+
+
+php artisan make:middleware SessionExpired
+
+
+php artisan make:middleware LanguageMiddleware
+
+php artisan session:table
+ 
+php artisan migrate
+
+
+sudo chmod -R 777 storage/
+
+sudo chmod -R 777 bootstrap/cache/
+php artisan config:clear
+php artisan cache:clear
+composer dump-autoload
+php artisan view:clear
+php artisan route:clear
+npm run build
+
+
+
+resources/views/emails/testemail.php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Laravel Mail Queue Tutorial</title>
+</head>
+<body>
+<p>Hello! This is a test email.</p>
+</body>
+</html>
+
+-----------------
+composer create-project laravel/laravel lighthouse
+cd lighthouse
+
+
+composer require nuwave/lighthouse
+php artisan lighthouse:ide-helper
+composer require mll-lab/laravel-graphql-playground
+php artisan vendor:publish --tag=lighthouse-config
+
+database/migrations/xxx_users_table.php
+$table->string('api_token', 80)->unique()->nullable()->default(null);
+
+
+php artisan make:model Article -m
+
+		$table->unsignedBigInteger('user_id');
+        $table->string('title');
+        $table->text('content');
+
+        $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+
+php artisan migrate
+
+php artisan tinker
+\App\Models\User::factory(10)->create()
+quit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------
+php artisan make:model Role -m
+php artisan make:model Permission -m
+
+		Schema::create('acl_roles', function (Blueprint $table) {
+			$table->bigIncrements('id');
+			$table->string('name');
+			$table->string('slug');
+			$table->timestamps();
+		});
+
+
+		Schema::create('acl_permissions', function (Blueprint $table) {
+			$table->bigIncrements('id');
+            $table->string('name');
+            $table->string('slug');
+            $table->timestamps();
+        });
+        
+php artisan make:migration create_users_permissions_table
+
+		Schema::create('acl_users_permissions', function (Blueprint $table) {
+			$table->foreignId('user_id')->index()->constrained()->references('id')->on('users')->cascadeOnDelete();
+			$table->foreignId('permission_id')->index()->constrained()->references('id')->on('acl_permissions')->cascadeOnDelete();
+			$table->primary(['user_id','permission_id']);
+		});
+
+        
+php artisan make:migration create_users_roles_table
+
+		Schema::create('acl_users_roles', function (Blueprint $table) {
+			$table->foreignId('user_id')->index()->constrained()->references('id')->on('users')->cascadeOnDelete();
+			$table->foreignId('role_id')->index()->constrained()->references('id')->on('acl_roles')->cascadeOnDelete();
+			$table->primary(['user_id','role_id']);
+		});
+
+        
+php artisan make:migration create_roles_permissions_table
+
+		Schema::create('acl_roles_permissions', function (Blueprint $table) {
+			$table->foreignId('role_id')->index()->constrained()->references('id')->on('acl_roles')->cascadeOnDelete();
+			$table->foreignId('permission_id')->index()->constrained()->references('id')->on('acl_permissions')->cascadeOnDelete();
+			$table->primary(['role_id','permission_id']);
+		});
+        
+        
+Role.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Role extends Model
+{
+    use HasFactory;
+    protected $table = 'acl_roles';
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class,'roles_permissions');
+    }
+}
+
+
+Permission.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Permission extends Model
+{
+    use HasFactory;
+    protected $table = 'acl_permissions';
+    
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'roles_permissions');
+    }
+}
+
+mkdir app/Traits
+vi app/Traits/HasRolesAndPermissions.php
+<?php
+
+namespace App\Traits;
+
+use App\Models\Role;
+use App\Models\Permission;
+
+trait HasRolesAndPermissions
+{
+    /**
+     * @return mixed
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'users_roles');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class,'users_permissions');
+    }
+    
+    /**
+ * @param mixed ...$roles
+ * @return bool
+ */
+    public function hasRole(... $roles ) 
+    {
+	foreach ($roles as $role) {
+    	    if ($this->roles->contains('slug', $role)) {
+        	return true;
+    	    }
+	}
+	return false;
+    }
+    
+    /**
+ * @param $permission
+ * @return bool
+ */
+protected function hasPermission($permission)
+{
+    return (bool) $this->permissions->where('slug', $permission->slug)->count();
+}
+
+/**
+ * @param $permission
+ * @return bool
+ */
+protected function hasPermissionTo($permission)
+{
+   return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
+}
+
+/**
+ * @param $permission
+ * @return bool
+ */
+public function hasPermissionThroughRole($permission)
+{
+    foreach ($permission->roles as $role){
+        if($this->roles->contains($role)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * @param array $permissions
+ * @return mixed
+ */
+protected function getAllPermissions(array $permissions)
+{
+    return Permission::whereIn('slug',$permissions)->get();
+}
+
+/**
+ * @param mixed ...$permissions
+ * @return $this
+ */
+public function givePermissionsTo(... $permissions)
+{
+    $permissions = $this->getAllPermissions($permissions);
+    if($permissions === null) {
+        return $this;
+    }
+    $this->permissions()->saveMany($permissions);
+    return $this;
+}
+
+/**
+ * @param mixed ...$permissions
+ * @return $this
+ */
+public function deletePermissions(... $permissions )
+{
+    $permissions = $this->getAllPermissions($permissions);
+    $this->permissions()->detach($permissions);
+    return $this;
+}
+
+/**
+ * @param mixed ...$permissions
+ * @return HasRolesAndPermissions
+ */
+public function refreshPermissions(... $permissions )
+{
+    $this->permissions()->detach();
+    return $this->givePermissionsTo($permissions);
+}
+
+}
+
+app/Models/User.php
+
+use App\Traits\HasRolesAndPermissions;
+
+ use ......;
+ use HasRolesAndPermissions; 
+
+
+php artisan migrate
+
+php artisan make:controller PermissionController --resource
+php artisan make:controller RoleController --resource
+
+php artisan make:middleware RoleMiddleware
+app/Http/Middleware/RoleMiddleware.php
+namespace App\Http\Middleware;
+
+use Closure;
+
+class RoleMiddleware
+{
+    /**
+     * Handle an incoming request.
+     * @param $request
+     * @param Closure $next
+     * @param $role
+     * @param null $permission
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $role, $permission = null)
+    {
+        if(!auth()->user()->hasRole($role)) {
+            abort(404);
+        }
+        if($permission !== null && !auth()->user()->can($permission)) {
+            abort(404);
+        }
+        return $next($request);
+    }
+}
+
+
+php artisan make:provider RolesServiceProvider
+php artisan make:provider PermissionServiceProvider
+
+config/app.php
+        App\Providers\RolesServiceProvider::class,
+
+
+
+
+php artisan make:controller HelpController --model=Help
+php artisan make:migration create_help --table=help 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------
+composer require spatie/laravel-permission
+config/app.php
+'providers' => [
+    // ...
+    Spatie\Permission\PermissionServiceProvider::class,
+];
+
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+
+
+----------------
+composer require spatie/laravel-permission
+#composer require laravelcollective/html
+composer require spatie/laravel-html
+composer require laravel/ui
+
+config/permission.php
+add acl_ in front of all table names
+'teams' => true,
+
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan permission:setup-teams
+
+php artisan migrate
+
+app/Models/User.php
+
+
+
+
+
+use Spatie\Permission\Traits\HasRoles;
+
+use HasRoles;
+
+
+php artisan make:middleware PermissionMiddleware
+App\Http\Middleware\PermissionMiddleware.php
+
+app/Http/Kernel.php
+$middlewareAliases = [
+...
+	'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+	'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+	'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+
+php artisan make:controller RolesController
+App\Http\Controllers\RolesController.php
+
+php artisan make:controller PermissionsController
+App\Http\Controllers\PermissionsController.php
+
+php artisan make:command CreateRoutePermissionsCommand
+App\Console\Commands\CreateRoutePermissionsCommand.php
+
+php artisan permission:setup-teams
+php artisan migrate
+
+php artisan make:command CreateRoutePermissionsCommand
+App\Console\Commands\CreateRoutePermissionsCommand.php
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
+
+class CreateRoutePermissionsCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'permission:create-permission-routes';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a permission routes.';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        $routes = Route::getRoutes()->getRoutes();
+
+        foreach ($routes as $route) {
+            if ($route->getName() != '' && $route->getAction()['middleware']['0'] == 'web') {
+                $permission = Permission::where('name', $route->getName())->first();
+
+                if (is_null($permission)) {
+                    permission::create(['name' => $route->getName()]);
+                }
+            }
+        }
+
+        $this->info('Permission routes added successfully.');
+    }
+}
+
+
+php artisan permission:create-permission-routes
+
+php artisan make:seeder CreateAdminUserSeeder
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+class CreateAdminUserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $user = User::create([
+            'name' => 'Admin', 
+            'email' => 'admin@gmail.com',
+            'username' => 'admin',
+            'password' => 'admin123'
+        ]);
+    
+        $role = Role::create(['name' => 'admin']);
+     
+        $permissions = Permission::pluck('id','id')->all();
+   
+        $role->syncPermissions($permissions);
+     
+        $user->assignRole([$role->id]);
+    }
+}
+
+
+
+
+
+
+
+php artisan db:seed --class=CreateAdminUserSeeder
+
+
+
+
+
+/*
+( mysqldump accommand --add-drop-table --no-data | grep 'DROP TABLE' ) > ./drop_all_tables.sql
+mysql -u root -p database < ./drop_all_tables.sql
+
+
+cat ~/.ssh/accmysql.pem.pub | ssh -p 22022 sol@accommand 'cat >> .ssh/authorized_keys'
+*/
+
+
+
+
+

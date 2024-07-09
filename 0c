@@ -1,0 +1,11 @@
+#!/bin/sh
+sudo chmod -R 777 bootstrap/cache/
+sudo chmod -R 777 storage/logs/
+sudo chmod -R 777 storage/framework/
+php artisan config:clear
+php artisan cache:clear
+composer dump-autoload
+php artisan view:clear
+php artisan route:clear
+npm run build
+

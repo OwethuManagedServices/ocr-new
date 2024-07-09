@@ -1,0 +1,143 @@
+{
+	"id": 10005,
+	"name": "Nedbank Limited",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob",
+	"statement_from_to_dates": {
+		"header_field_from": "",
+		"header_field_to": "",
+		"header_field_from_to": "statement_period",
+		"field_format": "yyyy-mm-dd",
+		"word_split": " To: ",
+		"word_start": "From: "
+	},
+	"header": [
+		{
+			"name": "client_name",
+			"position": [280, 970, 1750, 1058]
+		},
+		{
+			"name": "address_1",
+			"position": [280, 1060, 1750, 1138]
+		},
+		{
+			"name": "address_2",
+			"position": [280, 1140, 1750, 1208]
+		},
+		{
+			"name": "address_3",
+			"position": [280, 1210, 1750, 1298]
+		},
+		{
+			"name": "account_number_name",
+			"position": [280, 1960, 860, 2048]
+		},
+		{
+			"name": "account_number",
+			"position": [880, 1960, 1570, 2034]
+		},
+		{
+			"name": "account_type_name",
+			"position": [280, 2040, 860, 2120]
+		},
+		{
+			"name": "account_type",
+			"position": [880, 2040, 2050, 2120]
+		},
+		{
+			"name": "credit_limit_name",
+			"position": [280, 2125, 860, 2200]
+		},
+		{
+			"name": "credit_limit",
+			"position": [880, 2125, 1570, 2200]
+		},
+		{
+			"name": "statement_date_name",
+			"position": [280, 2125, 860, 2270]
+		},
+		{
+			"name": "statement_date",
+			"position": [880, 2125, 1570, 2270]
+		},
+		{
+			"name": "statement_period_name",
+			"position": [280, 2125, 860, 2270]
+		},
+		{
+			"name": "statement_period",
+			"position": [880, 2275, 2070, 2360]
+		},
+		{
+			"name": "vat_number_name",
+			"position": [1306, 6040, 1616, 6098]
+		},
+		{
+			"name": "vat_number",
+			"position": [1614, 6040, 1900, 6098]
+		},
+		{
+			"name": "bank_name",
+			"position": [320, 6040, 850, 6105]
+		},
+		{
+			"name": "number_pages_of",
+			"position": [4140, 1950, 4740, 2050]
+		}
+	],
+	"header_fields": [
+		"bank_name", 
+		"account_number", 
+		"account_type", 
+		"client_name", 
+		"statement_period", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [320, 690, 160, 540], 
+			"field_type" : "date", 
+			"field_format": "yyyy/mm/dd"
+		},
+		{
+			"name": "transaction_description", 
+			"position_x": [850, 2570, 710, 2700],
+			"field_type" : "text" 
+		},
+		{
+			"name": "amount_in", 
+			"position_x": [3600, 4120, 3300, 3960],
+			"field_type" : "amount"
+		},
+		{
+			"name": "amount_out", 
+			"position_x": [2580, 3450, 2700, 3320],
+			"field_type" : "amount"
+		},
+		{
+			"name": "balance", 
+			"position_x": [4206, 4710, 4000, 4560],
+			"field_type" : "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		}
+	],
+	"grid":{
+		"page_1_start_y": 2580,
+		"page_1_end_y": 5180,
+		"start_y": 1270,
+		"end_y": 6620,
+		"add_negative_to_debit": 1,
+		"blank_column_trigger": 2,
+		"end_of_document_space_y": 250,
+		"end_of_document_trigger_words": {
+			"words": "CARRIED FORWARD",
+			"column": 1
+		}
+	}
+}

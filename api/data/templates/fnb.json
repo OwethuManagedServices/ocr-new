@@ -1,0 +1,139 @@
+{
+	"id": 10004,
+	"name": "First National Bank",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob1",
+	"statement_from_to_dates": {
+		"header_field_from": "",
+		"header_field_to": "",
+		"header_field_from_to": "statement_period",
+		"word_split": " to ",
+		"word_start": "Period : ",
+		"field_format": "dd MMMM yyyy"
+	},
+	"header": [
+		{
+			"name": "bank_name",
+			"position": [480, 1020, 2080, 1120]
+		},
+		{
+			"name": "client_name",
+			"position": [480, 1020, 2080, 1120]
+		},
+		{
+			"name": "address_1",
+			"position": [480, 1030, 2080, 1210]
+		},
+		{
+			"name": "address_2",
+			"position": [480, 1220, 2080, 1300]
+		},
+		{
+			"name": "address_3",
+			"position": [480, 1310, 2080, 1380]
+		},
+		{
+			"name": "address_4",
+			"position": [480, 1390, 2080, 1480]
+		},
+		{
+			"name": "account_number_name",
+			"position": [1490, 6600, 1990, 6650]
+		},
+		{
+			"name": "account_number",
+			"position": [1490, 6670, 1990, 6725]
+		},
+		{
+			"name": "branch_number_name",
+			"position": [1040, 6600, 1450, 6650]
+		},
+		{
+			"name": "branch_number",
+			"position": [1040, 6670, 1450, 6725]
+		},
+		{
+			"name": "account_type",
+			"position": [2400, 6670, 3730, 6725]
+		},
+		{
+			"name": "statement_date_name",
+			"position": [2010, 6600, 2360, 6650]
+		},
+		{
+			"name": "statement_date",
+			"position": [2010, 6670, 2360, 6725]
+		},
+		{
+			"name": "statement_period_name",
+			"position": [3240, 2420, 3760, 2500]
+		},
+		{
+			"name": "statement_period",
+			"position": [3783, 2420, 4860, 2500]
+		},
+		{
+			"name": "number_pages_of",
+			"position": [110, 6470, 760, 6560]
+		}
+	],
+	"header_fields": [
+		"bank_name",
+		"account_number",
+		"account_type",
+		"client_name", 
+		"statement_period",
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [97, 295], 
+			"field_type" : "date", 
+			"field_format": "dd MMM"
+		},
+		{
+			"name": "transaction_description", 
+			"position_x": [310, 3490],
+			"field_type" : "text" 
+		},
+		{
+			"name": "amount_in", 
+			"position_x": [3510, 4000],
+			"field_type" : "amount"
+		},
+		{
+			"name": "balance", 
+			"position_x": [4020, 4535],
+			"field_type" : "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		},
+		{
+			"name": "amount_out", 
+			"column_number": 3,
+			"field_type" : "amount"
+		}
+	],
+	"grid":{
+		"page_1_start_y": 3528,
+		"page_1_end_y": 5565,
+		"start_y": 535,
+		"end_y": 5433,
+		"add_negative_to_debit": 1,
+        "has_cr_for_credit": 1,
+		"blank_column_trigger": 3,
+		"end_of_document_space_y": 250,
+		"page_y_word_grid_start": "Date",
+		"page_y_grid_start_space": 125,
+		"remove_last_row": 1,
+		"end_of_document_trigger_words": {
+			"words": "Closing Balance",
+			"column": 1
+		}
+	}
+}

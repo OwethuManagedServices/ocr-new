@@ -1,0 +1,116 @@
+{
+	"id": 10008,
+	"name": "Standard Bank",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob1",
+	"statement_from_to_dates": {
+		"header_field_from": "date_from",
+		"word_from_split": "T",
+		"header_field_to": "date_to",
+		"word_to_split": "T",
+		"header_field_from_to": "",
+		"field_format": "yyyy-mm-dd"
+	},
+	"header": [
+		{
+			"name": "account_number_name",
+			"position": [200, 970, 756, 1052]
+		},
+		{
+			"name": "account_number",
+			"position": [764, 970, 1370, 1052]
+		},
+		{
+			"name": "bank_name",
+			"position": [474, 237, 1575, 429]
+		},
+		{
+			"name": "account_type_name",
+			"position": [200, 1136, 476, 1220]
+		},
+		{
+			"name": "account_type",
+			"position": [480, 1136, 1370, 1220]
+		},
+		{
+			"name": "client_name_name",
+			"position": [2330, 970, 2816, 1052]
+		},
+		{
+			"name": "client_name",
+			"position": [2820, 970, 4100, 1052]
+		},
+		{
+			"name": "date_from",
+			"position": [3180, 1136, 4024, 1228]
+		},
+		{
+			"name": "date_to",
+			"position": [2330, 1216, 32000, 1296]
+		},
+		{
+			"name": "opening_balance_name",
+			"position": [3420, 1420, 3980, 1503]
+		},
+		{
+			"name": "opening_balance",
+			"position": [3980, 1420, 4720, 1503]
+		},
+		{
+			"name": "number_pages_of",
+			"position": [4330, 6800, 4770, 6880]
+		}
+	],
+	"header_fields": [
+		"bank_name", 
+		"account_number", 
+		"account_type", 
+		"client_name", 
+		"date_from", 
+		"date_to", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [232, 990], 
+			"field_type": "date", 
+			"field_format": "yyyy-mm-dd"
+		},
+		{
+			"name": "description",
+			"position_x": [1036, 3380],
+			"field_type": "text"
+		},
+		{
+			"name": "amount_in",
+			"position_x": [3420, 4048], 
+			"field_type": "amount"
+		},
+		{
+			"name": "balance",
+			"position_x": [4080, 4708], 
+			"field_type": "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		},
+		{
+			"name": "amount_out", 
+			"column_number": 3,
+			"field_type" : "amount"
+		}
+	],
+	"grid":{
+		"page_1_start_y": 1688,
+		"page_1_end_y": 6616,
+		"start_y": 368,
+		"end_y": 6728,
+		"min_width": 300,
+		"blank_column_trigger": 4,
+		"end_of_document_space_y": 250
+	}
+}

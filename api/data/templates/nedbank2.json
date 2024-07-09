@@ -1,0 +1,120 @@
+{
+	"id": 10006,
+	"name": "Nedbank Limited -2",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob",
+	"header": [
+		{
+			"name": "client_name",
+			"position": [440, 826, 2950, 910]
+		},
+		{
+			"name": "address_1",
+			"position": [440, 920, 2950, 1014]
+		},
+		{
+			"name": "address_2",
+			"position": [440, 1020, 2950, 1120]
+		},
+		{
+			"name": "address_3",
+			"position": [440, 1126, 2950, 1220]
+		},
+		{
+			"name": "address_4",
+			"position": [440, 1225, 2950, 1320]
+		},
+		{
+			"name": "account_number_name",
+			"position": [2500, 2820, 4700, 2552]
+		},
+		{
+			"name": "account_number_value",
+			"position": [2500, 2960, 4700, 3100]
+		},
+		{
+			"name": "account_type_name",
+			"position": [240, 2800, 2480, 2950]
+		},
+		{
+			"name": "account_type_value",
+			"position": [240, 2960, 2480, 3100]
+		},
+		{
+			"name": "statement_period_value",
+			"position": [1500, 3250, 2380, 3350]
+		},
+		{
+			"name": "number_pages_of",
+			"position": [4370, 3250, 4720, 3340]
+		}
+	],
+	"header_fields": [
+		"client_name", 
+		"address_1", 
+		"address_2", 
+		"address_3", 
+		"statement_period_value", 
+		"account_number_value", 
+		"account_type_value", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [780, 1120], 
+			"field_type" : "date", 
+			"field_format": "dd/mm/yyyy"
+		},
+		{
+			"name": "description", 
+			"position_x": [1170, 2440],
+			"field_type" : "text" 
+		},
+		{
+			"name": "amount_in", 
+			"position_x": [3530, 4070],
+			"field_type" : "amount"
+		},
+		{
+			"name": "amount_out", 
+			"position_x": [2820, 3500],
+			"field_type" : "amount"
+		},
+		{
+			"name": "balance", 
+			"position_x": [4100, 4720],
+			"field_type" : "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		}
+	],
+	"grid":{
+		"page_1_start_y": 1900,
+		"page_1_end_y": 6200,
+		"start_y": 1180,
+		"end_y": 6130,
+		"add_negative_to_debit": 1,
+		"blank_column_trigger": 4,
+		"end_of_document_space_y": 250,
+		"end_of_document_trigger_words": {
+			"words": "Balance Carried Forward",
+			"column": 1
+		},
+        "last_page_no_transactions": 1,
+		"page_y_word_grid_start": "Date",
+		"page_y_grid_start_space": 25,
+		"skip_whole_page": {
+			"column" : 2,
+			"words": "being correct.",
+			"positions": [
+				[29, 540, 410, 615],
+				[29, 1263,  410, 1336]
+			]
+		}
+	}
+}

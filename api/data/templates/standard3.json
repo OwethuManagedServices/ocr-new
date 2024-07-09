@@ -1,0 +1,108 @@
+{
+	"id": 10010,
+	"name": "Standard Bank 3",
+	"dpi": 600,
+	"ocr_cmd": "ocrjob",
+	"header": [
+		{
+			"name": "account_number_name",
+			"position": [250, 1016, 836, 1104]
+		},
+		{
+			"name": "account_number_value",
+			"position": [848, 1008, 1512, 1104]
+		},
+		{
+			"name": "account_type_name",
+			"position": [248, 1312, 804, 1412]
+		},
+		{
+			"name": "account_type_value",
+			"position": [824, 1316, 2052, 1428]
+		},
+		{
+			"name": "client_name_name",
+			"position": [250, 1132, 816, 1228]
+		},
+		{
+			"name": "client_name",
+			"position": [250, 1132, 2432, 1312],
+			"replace": "Account holder:"
+		},
+		{
+			"name": "date_from_value",
+			"position": [4160, 600, 4940, 724],
+			"replace": "From:"
+		},
+		{
+			"name": "date_to_value",
+			"position": [4144, 732, 4932, 860],
+			"replace": "To:"
+		},
+		{
+			"name": "available_balance_name",
+			"position": [3420, 1908, 4436, 2040]
+		},
+		{
+			"name": "available_balance_value",
+			"position": [3420, 1908, 4932, 2036],
+			"replace": "Available Balance:"
+		},
+		{
+			"name": "number_pages_of",
+			"position": [4420, 6264, 4948, 6368]
+		}
+	],
+	"header_fields": [
+		"client_name", 
+		"account_number_value", 
+		"account_type_value", 
+		"opening_balance_value", 
+		"date_from_value", 
+		"date_to_value", 
+		"number_pages_of"
+	],
+	"columns": [
+		{
+			"name": "date",
+			"position_x": [280, 890], 
+			"field_type": "date", 
+			"field_format": "dd-MMM-yy"
+		},
+		{
+			"name": "description",
+			"position_x": [910, 2760],
+			"field_type": "text"
+		},
+		{
+			"name": "amount_in",
+			"position_x": [3528, 4162], 
+			"field_type": "amount"
+		},
+		{
+			"name": "amount_out",
+			"position_x": [2910, 3500], 
+			"field_type": "amount"
+		},
+		{
+			"name": "balance",
+			"position_x": [4194, 4868], 
+			"field_type": "amount"
+		}
+	],
+	"grid_columns": [
+		{
+			"name": "", 
+			"column_number": 1
+		}
+	],
+	"grid":{
+		"page_1_start_y": 2600,
+		"page_1_end_y": 6228,
+		"start_y": 1716,
+		"end_y": 6192,
+		"min_width": 300,
+		"blank_column_trigger": 4,
+		"end_of_document_space_y": 250
+	}
+}
