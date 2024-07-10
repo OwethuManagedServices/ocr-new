@@ -103,8 +103,12 @@ function balances_monthly($oMeta){
 	$iDaysPeriod = ($iTimeTo - $iTimeFrom) / 60 / 60 / 24;
 	$sDayStart = substr($sDateFrom, 8, 2);
 	$sMonthStart = substr($sDateFrom, 5, 2);
+	// The grid row [0=row_num, 1=date, 2=date, 3=descr, 4=amt_in, 5=amt_out, 6=balance]
 	$aR = $aGrid[0];
-	$aBalances = [['Dates From/To', $sDateFrom, $sDateTo, $iDaysPeriod . ' days'], ['Starting', $aR[1], $aR[6]]];
+	// Create array with header as first element and start balance 2nd
+	$aBalances = [
+		['Dates From/To', $sDateFrom, $sDateTo, $iDaysPeriod . ' days'], 
+		['Starting', $aR[1], $aR[6]]];
 	for ($iI = 1; $iI < sizeof($aGrid); $iI++){
 		$aROld = $aR;
 		$aR = $aGrid[$iI];
@@ -117,6 +121,7 @@ function balances_monthly($oMeta){
 			$sMonthStart = $sMonthNow;
 		}
 	}
+	// Add the last balance
 	$aBalances[] = ['Current', $aR[1], $aR[6]];
 	return $aBalances;
 }
