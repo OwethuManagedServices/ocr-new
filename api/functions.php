@@ -4,7 +4,7 @@ include($sDir . '/libs/simple_html_dom/simple_html_dom.php');
 include($sDir . '/config.php');
 
 
-
+// Launch and keep track of processes
 class Process{
 	private $pid;
 	private $command;
@@ -114,19 +114,6 @@ function response_json($oJson){
 
 
 
-function recon_balance1($oMeta){
-	$aGrid = $oMeta['result']['grid'];
-	$aAnomalies = $oMeta['result']['anomalies'];
-	$oTemplate = $oMeta['result']['template'];
-	$aEdit = $oMeta['result']['edit'];
-	// In/Out/Bal, Ocr/Now/Prev
-	$aA = [[0, 0, 0], [0, 0, 0],[0, 0, 0]];
-	$aRecon = [[]];
-	$aGridNew = [];
-}
-
-
-
 function recon_balance($oMeta){
 	$aGrid = $oMeta['result']['grid'];
 	$aAnomalies = $oMeta['result']['anomalies'];
@@ -150,7 +137,7 @@ function recon_balance($oMeta){
 		$aA[2][1] = $aA[2][0];
 		$aR = $aGrid[$iI];
 		$iOcrBal = floatval($aR[9]);
-		if (isset($oTemplate['grid']['add_negative_to_debit'])) {
+		if (isset($oTemplate['grid']['add_negative_to_debit'])){
 			$aA[1][1] = floatval($aA[1][1]) * -1;
 		}
 		if (isset($oTemplate['grid']['has_cr_for_credit'])) {
@@ -158,7 +145,7 @@ function recon_balance($oMeta){
 		}
 		$aA[2][1] = $aA[2][2] + ($aA[0][1] + $aA[1][1]);
 		$aARe = [0, 0, 0, 0];
-
+		// Recon the row if the calculated balance is not equal to the OCR balance
 		if ((abs($aA[2][0] - $aA[2][1]) > 0.05) || ($iOcrBal)){
 			$aARe = recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iI, $aA, $iBalanceFixedRow);
 			$aRe1 = $aARe;
@@ -170,6 +157,7 @@ function recon_balance($oMeta){
 			$aA[1][1] = $aRe1[1];
 			$aA[2][1] = $aRe1[2];
 		}
+		// Rebuild the grid row with the recon data
 		$aR = $aGrid[$iI];
 		$aR1 = [
 			$aR[0], $aR[1], $aR[2], $aR[3], 
@@ -184,6 +172,7 @@ function recon_balance($oMeta){
 			$aRecon[] = $aR1;
 		}
 		$aGridNew[] = $aR1;
+		// Update the Previous values
 		$aA[0][2] = $aA[0][1];
 		$aA[1][2] = $aA[1][1];
 		$aA[2][2] = $aA[2][1]; 

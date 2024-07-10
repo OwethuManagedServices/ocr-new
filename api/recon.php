@@ -3,9 +3,9 @@
 require('functions.php');
 
 
-
-
 // $oRouteVars['id'] = '1720545068539882';
+
+
 $sId = $oRouteVars['id'];
 $oMeta = [
 	'error' => 10,

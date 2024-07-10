@@ -1,5 +1,4 @@
 <?php
-
 // Find the salaries
 require('functions.php');
 
@@ -38,10 +37,12 @@ function salary($oMeta){
 	$aGrid = $oMeta['result']['grid'];
 	$aSalaries = [];
 	$aIn = [];
+	// Loop through each transaction
 	for ($iI = 1; $iI < sizeof($aGrid); $iI++){
 		$aR = $aGrid[$iI];
 		if ($aR[4]){
 			$bFound = 0;
+			// Find the keyword in the description
 			foreach ($aKeywords as $sK){
 				if (strpos(strtolower($aR[3]), $sK) !== false){
 					$bFound = 1;
@@ -49,12 +50,15 @@ function salary($oMeta){
 				}
 			}
 			if ($bFound){
+				// Write to Salaries grid
 				$aSalaries[] = $aR;
 			} else {
+				// Write to income grid
 				$aIn[] = $aR;
 			}
 		}
 	}
+	// Sort other income to largest first In amount
 	usort($aIn, function ($a, $b) { 
 		return ( floatval($a[4]) < floatval($b[4]) ? 1 : -1 ); 
 	});

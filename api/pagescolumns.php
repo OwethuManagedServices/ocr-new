@@ -9,6 +9,7 @@ function job($oRouteVars, $oV){
 	$sBank = $oRouteVars['bank'];
 	$aPages = json_decode($oRouteVars['pages']);
 	$sWork = $oV['sDirectoryWork'] . $sId;
+	// Create shell scripts to run the OCR jobs
 	file_put_contents($sWork . '/ocrjob', "#!/bin/bash\ndate\n");
 	chmod($sWork . '/ocrjob', 0777);
 	file_put_contents($sWork . '/ocrjob1', "#!/bin/bash\ndate\nexport HOME=/tmp\nexport OMP_THREAD_LIMIT=1\n");
@@ -27,6 +28,7 @@ function job($oRouteVars, $oV){
 				for ($iPage = 1; $iPage <= $iPages; $iPage++){
 					$sMetaFile = metamessage('Splitting into columns, page ' . ($iPg + 1) . '-' . $iPage , $sId, $oV);
 					$sImg = $sWork . '/' . $iPg . '-';
+					// Create JPG files for each columnn of this page
 					pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg . $iPage . '.jpg', $oV, $sMetaFile);
 				}
 				$iPg++;
@@ -79,6 +81,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 		} else {
 			$iStart = 1;
 		}
+		// Crop the page according to page number
 		if ($iPage == $iStart){
 			$iY = $oTemplate['grid']['page_1_start_y'];
 			$iH = $oTemplate['grid']['page_1_end_y'] - $iY;
@@ -87,7 +90,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 			$iY = $oTemplate['grid']['start_y'];
 			$iH = $oTemplate['grid']['end_y'] - $iY;
 		}
-		// First page has different column coordinates
+		// Sometimes, the first page has different column coordinates
 		if (isset($oCol['position_x'][2]) && ($iPage > 1)){
 			$iX = $oCol['position_x'][2];
 			$iW = $oCol['position_x'][3] - $oCol['position_x'][2];
@@ -96,6 +99,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 		$iY = intval($iY / ($oTemplate['dpi'] / $iDpi));
 		$iW = intval($iW / ($oTemplate['dpi'] / $iDpi));
 		$iH = intval($iH / ($oTemplate['dpi'] / $iDpi));
+		// Use imagemagick to crop the column
 		$sIm = $oV['sDirectoryBin'] . 'convert -crop ' . $iW . 'x' . $iH . '+' . $iX . '+' . $iY . ' ' . $sImg . ' ' . $sWork . '/col-' . $iPg . '-' . $iPage . '-' . $iCol . '.jpg';
 		shell_exec($sIm);
 
@@ -106,6 +110,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 		file_put_contents($sWork . '/ocrjob', $sExecFile);
 		$iCol++;
 	}
+	// Finalise the shell scripts
 	$sCmd1 = $oV['sDirectoryBin'] . 'parallel -X :::' . $sCmd1;
 	$sCmd1 .= "\necho $$ > " . $sWork . '/pid' . "\n";
 	$sExecFile1 .= $sCmd1 . "\ndate\n";

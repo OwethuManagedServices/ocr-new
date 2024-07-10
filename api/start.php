@@ -1,6 +1,8 @@
 <?php
-
+// Start off the job
 require('functions.php');
+
+
 $sId = $oRouteVars['id'];
 $sWork = $oV['sDirectoryWork'] . $sId;
 if (file_exists($sWork . '/out-page-1.hocr')){

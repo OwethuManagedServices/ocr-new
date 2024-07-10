@@ -1,5 +1,7 @@
 <?php
+// The API hits this page, which will route the request
 include(getcwd() . '/config.php');
+
 
 class Route{
 
@@ -69,7 +71,7 @@ class Route{
 	}
 	
 	
-	
+	// Send the Authorization header with X-API-KEY
 	function authheader($bUseAuth = 0){
 		if (!$bUseAuth){
 			return 1;
@@ -108,6 +110,9 @@ class Route{
 
 	$oRoute = new Route();
 	if ($oRoute->authheader($oV['bUseAuth'])){
+
+		// Define the routes
+		
 		// Job
 		$oRoute->add('v1/job/{id}',			 					'job.php');
 		$oRoute->add('v1/cancel/{id}', 							'cancel.php');

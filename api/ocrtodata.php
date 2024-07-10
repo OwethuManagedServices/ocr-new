@@ -1,11 +1,11 @@
 <?php
-require('functions.php');
 // Create the OCR files for each column of each page, build grid, recon
+require('functions.php');
 
 /*
-$oRouteVars['id'] = '1720528752946995';
+$oRouteVars['id'] = '1720632288921603';
 $oRouteVars['bank'] = 'fnb';
-$oRouteVars['pages'] = json_encode([3]);
+$oRouteVars['pages'] = json_encode([4,4]);
 */
 
 function job($oRouteVars, $oV){
@@ -14,8 +14,7 @@ function job($oRouteVars, $oV){
 	$aPages = json_decode($oRouteVars['pages']);
 	$sWork = $oV['sDirectoryWork'] . $sId;
 
-
-	$sMetaFile = metamessage('Extracting OCR', $sId, $oV);
+	metamessage('Extracting OCR', $sId, $oV);
 	$bMeta = 0;
 	$sHocr = $sWork . '/out-page-1.hocr';
 	if (file_exists($sHocr)){
@@ -75,7 +74,7 @@ function job($oRouteVars, $oV){
 					$iY = -60;
 					$iH = 0;
 					$iHAvg = 80;
-					// Add columns, all banks results use same columns
+					// Add columns, all banks results has to use same columns
 					$aAllColumns = all_columns($oTemplate);
 					// Loop through longest column
 					for ($iI =0; $iI < sizeof($aGrid[$iLongestColumn]); $iI++){
@@ -282,29 +281,24 @@ function dates_year_fix($aGridData, $oHeader, $sBank){
 		case 'fnb':
 			$aFromTo = explode(' ', $oHeader['statement_period']);
 			$sFrom = '';
-			$sTo = '';
 			for ($iI = 0; $iI < sizeof($aFromTo); $iI++){
 				if ((intval($aFromTo[$iI])) && (intval($aFromTo[$iI]) > 2000)){
 					if (!$sFrom){
 						$sFrom = $aFromTo[$iI];
-					} else {
-						$sTo = $aFromTo[$iI];
 					}
 				}
 			}
-			$sMonthNow = explode('-', $aGridData[0][1])[1];
 			$sYear = $sFrom;
+			$aR = [0, '-00'];
 			for ( $iI = 0; $iI < sizeof($aGridData); $iI++){
-				if ($sFrom == $sTo){
+				$sMonthNow = explode('-', $aR[1])[1];
+				$aR = $aGridData[$iI];
+				$sYear = $sFrom;
+				$aD = explode('-', $aR[1]);
+				// Increase the year when month changes from 12 to 01
+				if ((isset($aD[1])) && ($aD[1] == '01') && ($sMonthNow == '12')){
+					$sFrom = (intval($sYear) + 1) . '';
 					$sYear = $sFrom;
-				} else {
-					$aD = explode('-', $aGridData[$iI][1]);
-					if ((isset($aD[1])) && ($aD[1] == '01') && ($sMonthNow == '12')){
-						$sYear = $sTo;
-					}
-					if (isset($aD[1])){
-						$sMonthNow = $aD[1];
-					} 
 				}
 				$aGridData[$iI][1] = str_replace('0000', $sYear, $aGridData[$iI][1]);
 			}

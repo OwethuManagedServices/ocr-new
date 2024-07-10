@@ -2,22 +2,19 @@
 // Find the bank template by identifying certain text in certain positions
 require('functions.php');
 
+
+
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
 	$sMetaFile = metamessage('Searching bank template', $sId, $oV);
 	$bMeta = 1;
 	if (file_exists($oV['sDirectoryWork'] . $sId . '/0.pdf')){
 		$sWork = $oV['sDirectoryWork'] . $sId;
-		$iFiles = count(glob($sWork . "/*.jpg"));
-		/*if ($iFiles > 9){
-			$sZ = '0';
-		} else { */
-			$sZ = '';
-		//}
+		$sZ = '';
 		$sPng = $sWork . '/0-' . $sZ . '1.jpg';
 		if (file_exists($sPng)){
 			if (!file_exists($sWork . '/out-page-1.hocr')){
-				// Run OCR on first page
+				// Run OCR on first page to identify bank and retrieve header info
 				$sCmd = $oV['sDirectoryBin'] . 'tesseract ' . $sPng . ' ' . $sWork . '/out-page-1 hocr';
 				runcommand($sCmd, $sMetaFile);
 			}
@@ -66,7 +63,7 @@ function job($oRouteVars, $oV){
 }
 
 
-
+// Find the bank by looking for words at certain positions on the first page
 function bank_template($oData){
 	$sId = $oData['id'];
 	$sWork = $oData['work'] . $sId;

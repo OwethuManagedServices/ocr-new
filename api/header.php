@@ -53,17 +53,22 @@ function job($oRouteVars, $oV){
 
 function header_info($sHtml, $oTemplate){
 	$oHeader = [];
+	// Loop through the template header fields
 	foreach ($oTemplate['header'] as $oT){
+		// Get all the words at the field position
 		$aWords = words_at_position($sHtml, $oT['position']);
+		// Concatenate with ' '
 		$sText = '';
 		foreach ($aWords as $oW){
 			$sText .= $oW['text'] . ' ';
 		}
+		// Remove unwanted words
 		if (isset($oT['replace'])){
 			$sText = str_replace($oT['replace'], '', $sText);
 		}
 		$oHeader[$oT['name']] = trim($sText);
 	}
+	// Add the bank name to the header info
 	$oHeader['bank_name'] = $oTemplate['name'];
 	return $oHeader;
 }

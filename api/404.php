@@ -1,4 +1,5 @@
 <?php
+// The route does not exist
 require('functions.php');
 $oJ = [
     'error' => 404,

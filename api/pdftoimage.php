@@ -12,16 +12,21 @@ function job($oRouteVars, $oV){
 	$iPdfNumber = 0;
 	$aFiles= [];
 	$aThumbs = [];
+	// Loop through all the PDFs
 	while (file_exists($oV['sDirectoryWork'] . $sId . '/' . $iPdfNumber . '.pdf')){
 		$sWork = $oV['sDirectoryWork'] . $sId;
+		// Find the number of pages in the PDF
 		$image = new Imagick();
 		$image->pingImage($oV['sDirectoryWork'] . $sId . '/' . $iPdfNumber . '.pdf');
 		$iNumPages = $image->getNumberImages();
 		$image->clear(); 
 		$image->destroy();
+		// Loop through the pages
 		for ($iI = 0; $iI < $iNumPages; $iI++){
+			// Use vips to extract 600dpi JPG file
 			$sCmd = $oV['sDirectoryBin'] . 'vips copy ' . $sWork . '/' . $iPdfNumber . '.pdf[dpi=600,page=' . $iI . '] ' . $oV['sDirectoryWork'] . $sId .'/' . $iPdfNumber . '-' . ($iI + 1) . '.jpg[Q=100]';
 			shell_exec($sCmd);
+			// Use vips to create a thumbnail
 			$sThumb = 'thumb-' . $iPdfNumber . '-' . ($iI + 1) . '.jpg';
 			$sCmd = $oV['sDirectoryBin'] . 'vips copy ' . $sWork . '/' . $iPdfNumber . '.pdf[dpi=25,page=' . $iI . '] ' . $oV['sDirectoryWork'] . $sId .'/' . $sThumb . '[Q=100]';
 			shell_exec($sCmd);
@@ -31,7 +36,6 @@ function job($oRouteVars, $oV){
 		$iPdfNumber++;
 	}
 	if (file_exists($oV['sDirectoryWork'] . $sId . '/0.pdf')){
-//		$iFiles = count(glob($sWork . "/*.jpg"));
 		if (file_exists($sWork . '/0-1.jpg')){
 			$oMeta = [
 				'error' => 0,
@@ -71,5 +75,5 @@ function job($oRouteVars, $oV){
 
 
 
-
 job($oRouteVars, $oV);
+
