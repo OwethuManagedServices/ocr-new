@@ -4,8 +4,6 @@
 require('functions.php');
 
 
- //$oRouteVars['id'] = '1720185656257098';
-
 
 $sId = $oRouteVars['id'];
 $oMeta = [
@@ -30,7 +28,7 @@ if (file_exists($sMetaFile)){
 response_json($oMeta);
 
 
-
+// Ensure consistent date format across the banks
 function statement_date_format($sV, $oTemplateBalance){
 	$sX = $oTemplateBalance['field_format'];
 	$bMonthString = 0;
@@ -75,6 +73,7 @@ function balances_monthly($oMeta){
 	$aGrid = $oMeta['result']['grid'];
 	$oTemplateBalance = $oMeta['result']['template']['statement_from_to_dates'];
 	$oHeader = $oMeta['result']['header'];
+	// Template has from/to fields
 	$sDateFrom = $oTemplateBalance['header_field_from'];
 	if ($sDateFrom){
 		$sDateFrom = $oHeader[$oTemplateBalance['header_field_from']];
@@ -84,30 +83,21 @@ function balances_monthly($oMeta){
 				$sDateFrom = str_replace($oTemplateBalance['word_from_start'], '', $sDateFrom);
 			}
 		}
-		/*
-		$sDateTo = $oHeader[$oTemplateBalance['header_field_to']];
-		if (isset($oTemplateBalance['word_to_split'])){
-			$sDateTo = explode($oTemplateBalance['word_from_split'], $sDateTo)[0];
-			if (isset($oTemplateBalance['word_to_start'])){
-				$sDateTo = str_replace($oTemplateBalance['word_to_start'], '', $sDateTo);
-			}
-		}
-		*/
 		$sDateTo = $aGrid[sizeof($aGrid) - 1][1];
 		$sDateFrom = statement_date_format($sDateFrom, $oTemplateBalance);
-//		$sDateTo = statement_date_format($sDateTo, $oTemplateBalance);
 	}
+	// Template has one field for from/to
 	$sDateFromTo = $oTemplateBalance['header_field_from_to'];
 	if ($sDateFromTo){
 		$sD = $oHeader[$sDateFromTo];
 		$aD = explode($oTemplateBalance['word_split'], $sD);
 		$aD[0] = str_replace($oTemplateBalance['word_start'], '', $aD[0]);
 		$sDateFrom = statement_date_format(trim($aD[0]), $oTemplateBalance);
-//		$sDateTo = statement_date_format(trim($aD[1]), $oTemplateBalance);
 		$aR = $aGrid[sizeof($aGrid) - 1];
 		$sDateTo = $aR[1];
 
 	}
+	// Use Unix time to determine number of days from start to end
 	$iTimeFrom = strtotime($sDateFrom);
 	$iTimeTo = strtotime($sDateTo);
 	$iDaysPeriod = ($iTimeTo - $iTimeFrom) / 60 / 60 / 24;
@@ -120,6 +110,7 @@ function balances_monthly($oMeta){
 		$aR = $aGrid[$iI];
 		$sDayNow = substr($aR[1], 8, 2);
 		$sMonthNow = substr($aR[1], 5, 2);
+		// We have the same day and a new month, save the balance
 		if (($sDayNow == $sDayStart) && ($sMonthNow != $sMonthStart)){
 			$aBalances[] = ['Closing', $aROld[1], $aROld[6]];
 			$aBalances[] = ['Opening', $aR[1], $aR[6]];
