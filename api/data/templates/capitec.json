@@ -150,13 +150,7 @@
 			"field_format": "dd/mm/yyyy"
 		},
 		{
-			"name": "transaction_date",
-			"position_x": [770, 1270], 
-			"field_type": "date", 
-			"field_format": "dd/mm/yyyy"
-		},
-		{
-			"name": "description",
+			"name": "transaction_description",
 			"position_x": [1280, 3110],
 			"field_type": "text"
 		},

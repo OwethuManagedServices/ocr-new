@@ -78,7 +78,7 @@
 			"field_format": "yyyy-mm-dd"
 		},
 		{
-			"name": "description",
+			"name": "transaction_description",
 			"position_x": [1036, 3380],
 			"field_type": "text"
 		},
@@ -94,10 +94,6 @@
 		}
 	],
 	"grid_columns": [
-		{
-			"name": "", 
-			"column_number": 1
-		},
 		{
 			"name": "amount_out", 
 			"column_number": 3,

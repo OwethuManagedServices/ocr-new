@@ -24,7 +24,7 @@ if (file_exists($sMetaFile)){
 		$aRes = salary($oMeta);
 		$oMeta['result']['salaries'] = $aRes[0];
 		$oMeta['result']['incomes'] = $aRes[1];
-		$oMeta['result']['job'] = 'salary';
+		$oMeta['result']['job'] = '';
 		file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
 	}
 }
@@ -40,11 +40,11 @@ function salary($oMeta){
 	// Loop through each transaction
 	for ($iI = 1; $iI < sizeof($aGrid); $iI++){
 		$aR = $aGrid[$iI];
-		if ($aR[4]){
+		if ($aR[3]){
 			$bFound = 0;
 			// Find the keyword in the description
 			foreach ($aKeywords as $sK){
-				if (strpos(strtolower($aR[3]), $sK) !== false){
+				if (strpos(strtolower($aR[2]), $sK) !== false){
 					$bFound = 1;
 					break;
 				}
@@ -60,7 +60,7 @@ function salary($oMeta){
 	}
 	// Sort other income to largest first In amount
 	usort($aIn, function ($a, $b) { 
-		return ( floatval($a[4]) < floatval($b[4]) ? 1 : -1 ); 
+		return ( floatval($a[3]) < floatval($b[3]) ? 1 : -1 ); 
 	});
 	return [$aSalaries, $aIn];
 }

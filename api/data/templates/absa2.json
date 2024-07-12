@@ -3,7 +3,19 @@
 	"name": "ABSA Bank Limited 2",
 	"dpi": 600,
 	"ocr_cmd": "ocrjob",
+	"statement_from_to_dates": {
+		"header_field_from": "",
+		"header_field_to": "",
+		"header_field_from_to": "statement_period",
+		"word_split": " to ",
+		"word_start": "Period : ",
+		"field_format": "dd MMM yyyy"
+	},
 	"header": [
+		{
+			"name": "bank_name",
+			"position": [4263, 303, 4631, 479]
+		},
 		{
 			"name": "document_title",
 			"position": [1375, 2217, 4131, 2403]
@@ -33,18 +45,18 @@
 			"position": [2110, 2562, 2858, 2660]
 		},
 		{
-			"name": "start_balance_value",
+			"name": "start_balance",
 			"position": [4203, 3246, 4758, 3327], 
 			"field_type": "amount"
 		},
 		{
-			"name": "date_from_value",
+			"name": "date_from_to",
 			"position": [1383, 2385, 1995, 2514], 
 			"field_type": "date",
-			"field_format": "yyyy-mm-dd"
+			"field_format": "dd mmm yyyy"
 		},
 		{
-			"name": "date_to_value",
+			"name": "date_to",
 			"position": [2100, 2400, 2727, 2529], 
 			"field_type": "date",
 			"field_format": "yyyy-mm-dd"
@@ -55,15 +67,11 @@
 		}
 	],
 	"header_fields": [
-		"document_title", 
-		"date_from_value", 
-		"date_to_value", 
-        "account_number",
-        "account_type",
+		"bank_name",
+		"account_number",
+		"account_type",
 		"client_name", 
-		"address_1", 
-		"address_2", 
-		"address_3",
+		"date_from_to", 
 		"number_pages_of"
 	],
 	"columns": [
@@ -74,7 +82,7 @@
 			"field_format": "dd/mm/yyyy"
 		},
 		{
-			"name": "transaction_description", 
+			"name": "description", 
 			"position_x": [700, 2073],
 			"field_type": "text"
 		},
@@ -95,16 +103,13 @@
 		}
 	],
 	"grid_columns": [
-		{
-			"name": "", 
-			"column_number": 1
-		}
 	],
 	"grid":{
-		"page_1_start_y": 4246,
+		"page_1_start_y": 4406,
 		"page_1_end_y": 6252,
-		"start_y": 3387,
-		"end_y": 6252,
+		"start_y": 2535,
+		"end_y": 3945,
+		"add_negative_to_debit": 1,
 		"blank_column_trigger": 2,
 		"end_of_document_trigger_word": {
 			"column": 0,

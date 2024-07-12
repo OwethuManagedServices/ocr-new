@@ -3,9 +3,9 @@
 require('functions.php');
 
 /*
-$oRouteVars['id'] = '1720632288921603';
-$oRouteVars['bank'] = 'fnb';
-$oRouteVars['pages'] = json_encode([4,4]);
+$oRouteVars['id'] = '1720797350638209';
+$oRouteVars['bank'] = 'absa2';
+$oRouteVars['pages'] = json_encode([2]);
 */
 
 function job($oRouteVars, $oV){
@@ -14,7 +14,7 @@ function job($oRouteVars, $oV){
 	$aPages = json_decode($oRouteVars['pages']);
 	$sWork = $oV['sDirectoryWork'] . $sId;
 
-	metamessage('Extracting OCR', $sId, $oV);
+	$sMetaFile = metamessage('Extracting OCR', $sId, $oV);
 	$bMeta = 0;
 	$sHocr = $sWork . '/out-page-1.hocr';
 	if (file_exists($sHocr)){
@@ -34,7 +34,7 @@ function job($oRouteVars, $oV){
 			$iPg = 0;
 			foreach ($aPages as $iPages){
 				for ($iPage = 1; $iPage <= $iPages; $iPage++){
-					// Test if the page is a header page without transactions, then skip
+					// Test if the page is a header page without transactions, then skip if it is
 					if ($oSkip){
 						$sHocr = $sWork . '/out-col-' . $iPg . '-' . $iPage . '-' . $oSkip['column'] . '.hocr';
 						$sHtml = str_get_html(file_get_contents($sHocr));
@@ -150,30 +150,8 @@ function job($oRouteVars, $oV){
 						}
 						// Insert extra amount column if necessary
 						$aRow = column_for_debit_and_credit($sBank, $aRow);
-						// Count the blank columns
-						$iM = $oTemplate['grid']['blank_column_trigger'];
-						$iB = 0;
-						foreach( $aRow as $sC){
-							if ($sC === ''){
-								$iB++;
-							}
-						}
-						if (!$bEnd){
-							if ($iB > ($iM + 3)){
-								// Too many blank columns, concatenate to previous row
-								for ($iB = 1; $iB < sizeof($aRow); $iB++){
-									if ($aRow[$iB]){
-										$iSz = sizeof($aGridData) - 1;
-										if ($iSz >= 0){
-											$aGridData[$iSz][$iB] .= ' ' . $aRow[$iB];
-										}
-									}
-								}
-								$aGridData[$iSz][10]++;
-							} else {
-								$aGridData[] = $aRow;
-							}
-						}
+						// Fix multi-row lines
+						$aGridData = columns_blank($aGridData, $oTemplate, $aRow, $bEnd);
 					}
 				}
 				$iPg++;
@@ -182,9 +160,9 @@ function job($oRouteVars, $oV){
 			
 			//loop anomalies to fix multi-line entries
 			foreach ($aGridData as $aR){
-				if ($aR[10]){
+				if ($aR[9]){
 					$aPR = explode('_', $aR[0]);
-					$iR = intval($aPR[1]) + $aR[10];
+					$iR = intval($aPR[1]) + $aR[9];
 					$sPR = $aPR[0] . '_' . $iR;
 					$iI = 0;
 					foreach ($aGridErrors as $aE){
@@ -201,6 +179,7 @@ function job($oRouteVars, $oV){
 			if (substr($aGridData[0][1], 0, 4) == '0000'){
 				$aGridData = dates_year_fix($aGridData, $oHeader, $sBank);
 			}
+			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 			$oMeta = [
 				'error' => 0,
 				'message' => 'Done',
@@ -210,6 +189,7 @@ function job($oRouteVars, $oV){
 					'bank' => $sBank,
 					'grid' => $aGridData,
 					'anomalies' => $aGridErrors,
+					'thumbs' => $oMeta['result']['thumbs'],
 					'edit' => array_fill(0, sizeof($aGridData), []),
 					'job' => 'recon',
 				],
@@ -256,17 +236,51 @@ function all_columns($oTemplate){
 
 
 
+function columns_blank($aGridData, $oTemplate, $aRow, $bEnd){
+	// Count the blank columns
+	$iM = $oTemplate['grid']['blank_column_trigger'];
+	$iB = 0;
+	foreach( $aRow as $sC){
+		if ($sC === ''){
+			$iB++;
+		}
+	}
+	if (!$bEnd){
+		if ($iB > ($iM + 2)){
+			// Too many blank columns, concatenate to previous row
+			$iSz = sizeof($aGridData) - 1;
+			for ($iB = 1; $iB < sizeof($aRow); $iB++){
+				if ($aRow[$iB]){
+					if ($iSz >= 0){
+						$aGridData[$iSz][$iB] .= ' ' . $aRow[$iB];
+					}
+				}
+			}
+			if ($iSz >= 0){
+				$aGridData[$iSz][9]++;
+			} else {
+				$aGridData[] = $aRow;	
+			}		
+		} else {
+			$aGridData[] = $aRow;
+		}
+	}
+	return $aGridData;
+}
+
+
+
 function column_for_debit_and_credit($sBank, $aR){
 	switch ($sBank){
 		case 'standard':
 		case 'fnb':
 		case 'absa':
-			if (isset($aR[5][0])){
-				if ($aR[5][0] != '-'){
-					$aR[5] = '';
-				}
-				if ($aR[4][0] == '-'){
+			if (isset($aR[4][0])){
+				if ($aR[4][0] != '-'){
 					$aR[4] = '';
+				}
+				if ($aR[3][0] == '-'){
+					$aR[3] = '';
 				}
 			}
 		break;
@@ -336,7 +350,6 @@ function field_value_format($iPage, $oTemplate, $oT, $iI, $iJ, $sE, $sV){
 			$aV = explode(',', '0,1,2,3,4,5,6,7,8,9,.,-');
 			if (isset($oTemplate['grid']['has_cr_for_credit'])){
 				if (substr($sV, strlen($sV) -2, 1) != 'C'){
-//				if (!strpos($sV, 'Cr')){
 					$sV = '-' . $sV;
 				}
 			}
@@ -346,9 +359,13 @@ function field_value_format($iPage, $oTemplate, $oT, $iI, $iJ, $sE, $sV){
 					$sW .= $sV[$iM];
 				}
 			}
+			// Place '-' in front
+			if (substr($sW, strlen($sW) - 1, 1) == '-'){
+				$sW = '-' . substr($sW, 0, strlen($sW) - 1);
+			}
 			$sV = $sW;
 			if ((isset($oTemplate['grid']['skip_page_1'])) && ($iPage == 1)){
-
+				// nop
 			} else {
 				if ((strpos($sV, '.') == false) && (floatval($sV))){
 					$sE = "amount_no_decimal";
@@ -414,6 +431,12 @@ function field_value_format($iPage, $oTemplate, $oT, $iI, $iJ, $sE, $sV){
 					$sV = str_replace($sM, $sM1, $sW);
 				}
 			}
+			if (strpos($sX, ' ') === false){
+				$sV = str_replace(' ', '', $sV);
+			}
+			if ((strpos($sX, '/') == 2) && (strpos($sV, '/') == 1)){
+				$sV = '0' . $sV;
+			}
 			$iM = strpos($sX, 'y');
 			$sW = substr($sV, $iM, $iM + 4) . '-';
 			$iM = strpos($sX, 'm');
@@ -455,105 +478,18 @@ function field_value_format($iPage, $oTemplate, $oT, $iI, $iJ, $sE, $sV){
 }	
 
 
-
+// Add a column for in/out amounts 
 function grid_columns_per_bank($sBank, $aGrid){
 	switch ($sBank){
 		case 'absa':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[2],
-				$aGrid[3],
-			];
-		break;
-
-		case 'absa2':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
-			];
-		break;
-
-		case 'nedbank':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
-			];
-		break;
-
-		case 'nedbank2':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
-			];
-		break;
-
-		case 'nedbank3':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
-			];
-		break;
-
 		case 'fnb':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[2],
-				$aGrid[3],
-			];
-		break;
-
 		case 'standard':
 			$aGrid = [
 				$aGrid[0],
-				[[0, [""]]],
 				$aGrid[1],
 				$aGrid[2],
 				$aGrid[2],
 				$aGrid[3],
-			];
-		break;
-
-		case 'standard2':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
-			];
-		break;
-
-		case 'standard3':
-			$aGrid = [
-				$aGrid[0],
-				[[0, [""]]],
-				$aGrid[1],
-				$aGrid[2],
-				$aGrid[3],
-				$aGrid[4],
 			];
 		break;
 	}
@@ -601,10 +537,7 @@ function ocr_to_data_columns($oTemplate, $sWork, $iPg, $iPage){
 				}
 				if (($iColumn) && ($aP[1] > $iYWordGridStart)){
 					$aText = words_at_position($sHtml, $aP);
-					// Do not use the last words first
-//					if ((sizeof($aRows)) || ($aP[1] < 1000)){
-						$aRows[] = [$aP[1], $aText];
-//					}
+					$aRows[] = [$aP[1], $aText];
 				}
 				if (isset($oTemplate['grid']['end_of_document_trigger_words'])){
 					$oTW = $oTemplate['grid']['end_of_document_trigger_words'];
@@ -620,12 +553,9 @@ function ocr_to_data_columns($oTemplate, $sWork, $iPg, $iPage){
 				}
 
 				if ((isset($oTemplate['grid']['page_y_word_grid_start']))){
-
 					if ((!$iColumn) && (isset($aText[0])) && ($aText[0]['text'] == $oTemplate['grid']['page_y_word_grid_start'])){
 						$aRows = [];
-//						if (!$iColumn){
-							$iYWordGridStart = $aP[3] + $oTemplate['grid']['page_y_grid_start_space'];
-//						}
+						$iYWordGridStart = $aP[3] + $oTemplate['grid']['page_y_grid_start_space'];
 					}
 				}
 			}

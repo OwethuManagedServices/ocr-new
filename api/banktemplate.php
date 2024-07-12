@@ -31,6 +31,7 @@ function job($oRouteVars, $oV){
 					'id' => $sId,
 				];
 			} else {
+				$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 				$oMeta = [
 					'error' => 0,
 					'message' => $oData['message'] . '. Finding header information',
@@ -38,6 +39,7 @@ function job($oRouteVars, $oV){
 						'id' => $sId,
 						'pages' => $oRouteVars['pages'],
 						'bank' => $oData['bank'],
+						'thumbs' => $oMeta['result']['thumbs'],
 						'job' => 'header',
 					],
 				];

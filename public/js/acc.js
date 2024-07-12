@@ -976,9 +976,9 @@ display: function(){
 	var aGrid, aEdit, sPR, aAnomalies, aRecon, aBalances, aSalaries, aIncomes, eA, eG, eT, eR, eD, iI, iJ, sBorder, sB, aColsTransactions, aColsBalances;
 	eA = document.querySelector("#uploadbox");
 	eA.style.display = "block";
-	aColsTransactions = "P_R|2%, Date|10%, |0, Description|22%, Amount In|10%|a, Amount Out|10%|a, Balance|10%|a, OCR In|10%|a, OCR Out|10%|a, OCR Bal|10%|a, MR|2%".split(", ");
+	aColsTransactions = "P_R|10%, Date|12%, Description|24%, Amt In|9%|a, Amt Out|9%|a, Balance|9%|a, OCR In|9%|a, OCR Out|9%|a, OCR Bal|9%|a".split(", ");
 	aColsBalances = "Balance|20%, Date|20%, Amount In|20%|a".split(", ");
-	sBorder = "border border-greylight px-4 py-2";
+	sBorder = "border border-greylight px-1 py-2";
 	aGrid = OCR.V.oResult.grid;
 	aEdit = OCR.V.oResult.edit;
 	if (!aEdit){
@@ -1020,6 +1020,7 @@ display: function(){
 	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "", "table");
 	eT.border = 1;
+	/*
 	aAnomalies.forEach(function(aRow){
 		eR = APP.ele(eT, "", "tr");
 		aRow.forEach(function(sCol){
@@ -1027,7 +1028,7 @@ display: function(){
 			eD.innerHTML = sCol;
 		});
 	});
-
+*/
 	eG = document.querySelector("#grid_recon");
 	eG.innerHTML = "";
 	eG.parentNode.style.height = "42px";
@@ -1158,16 +1159,16 @@ display: function(){
 	aSalaries.forEach(function(aR){
 		eR = APP.ele(eT, "", "tr");
 		eD = APP.ele(eR, "p-4", "td");
+		eD.innerHTML = aR[0];
+		eD = APP.ele(eR, "p-4", "td");
 		eD.innerHTML = aR[1];
 		eD = APP.ele(eR, "p-4", "td");
-		eD.innerHTML = aR[3];
+		eD.innerHTML = aR[2];
 		eD = APP.ele(eR, "p-4", "td");
-		eD.innerHTML = aR[4];
+		eD.innerHTML = aR[3];
 	});
 
 	eG = document.querySelector("#grid_salaries");
-//	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "my-4", "table");
 	eR = APP.ele(eT, "", "tr");
 	eD = APP.ele(eR, "p-4", "td");
@@ -1175,11 +1176,13 @@ display: function(){
 	aIncomes.forEach(function(aR){
 		eR = APP.ele(eT, "", "tr");
 		eD = APP.ele(eR, "p-4", "td");
+		eD.innerHTML = aR[0];
+		eD = APP.ele(eR, "p-4", "td");
 		eD.innerHTML = aR[1];
 		eD = APP.ele(eR, "p-4", "td");
-		eD.innerHTML = aR[3];
+		eD.innerHTML = aR[2];
 		eD = APP.ele(eR, "p-4", "td");
-		eD.innerHTML = aR[4];
+		eD.innerHTML = aR[3];
 	});
 },
 
@@ -1314,15 +1317,47 @@ load: function(){
 			OCR.V.oResult = oData.result;
 			APP.dg("processingbox").style.display = "block";
 			OCR.display();
-
+			eA = document.querySelector("#preview");
+			oData.result.thumbs.forEach(function(aT){
+				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1 cursor-pointer");
+				eB.id = "thumb_" + aT[0] + "_" + aT[1];
+				eB.onclick = OCR.pageload;
+				eC = APP.ele(eB, "w-full h-full", "img");
+				OCR.thumbnail(oData, eC, aT);
+				eC = APP.ele(eB);
+				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
+			});
+			OCR.V.bThumbsDisplayed = 1;
 		});
 	}
 },
 
 
 
+pageload: function(oEvent){
+	var eA, aId;
+	eA = oEvent.target;
+	while (!eA.id){
+		eA = eA.parentNode;
+	}
+	aId = eA.id.split("_");
+	APP.ajax({
+		job: "pageload",
+		id: document.querySelector("#folder").value,
+		pdf: aId[1],
+		page: aId[2],
+	}, function(oData){
+		if (oData.url){
+			window.open(oData.url, "_blank").focus();
+		}
+	})
+	console.log(eA);
+},
+
+
+
 progress: async function(){
-	var iTime, eLog, sTime, oResponse, sMessage, sPid, sL, iPages, aPages, eA, eB, eC;
+	var iTime, eLog, sTime, oResponse, sMessage, sPid, iPages, aPages, eA, eB, eC;
 	sMessage = "";
 	sPid = "";
 	oResponse = await fetch(OCR.V.sPingUrl, OCR.V.oApiHeader);
@@ -1341,8 +1376,8 @@ progress: async function(){
 				sMessage = "";
 			}
 			sMessage += oResult.message;
-			if (oResult.ocr_page){
-				sMessage += ", page " + oResult.ocr_page;
+			if ((oResult.result) && (oResult.result.ocr_page)){
+				sMessage += ", page " + oResult.result.ocr_page;
 			}
 		}
 		if ((oResult.result) && (oResult.result.pages)){
@@ -1357,19 +1392,16 @@ progress: async function(){
 			sMessage += ", bank: " + oResult.result.bank;
 		}
 		sPid = "PID: " + oResult.pid;
-		if ((oResult.result) && (oResult.result.id)){
-			sL = "ID: " + oResult.result.id;
-		} else {
-			sL = "";
-		}
-		eLog.innerHTML = sL + "<br>" + sTime + " seconds<br>" + sMessage + "<br>" + sPid;
+		eLog.innerHTML = sTime + " seconds<br>" + sMessage + "<br>" + sPid;
 
 		if ((oResult.result) && (oResult.result.thumbs) && (!OCR.V.bThumbsDisplayed)){
 			eA = document.querySelector("#preview");
 			oResult.result.thumbs.forEach(function(aT){
-				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1");
+				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1 cursor-pointer");
+				eB.id = "thumb_" + aT[0] + "_" + aT[1];
+				eB.onclick = OCR.pageload;
 				eC = APP.ele(eB, "w-full h-full", "img");
-				OCR.thumbnail(eC, aT)
+				OCR.thumbnail(oResult, eC, aT);
 				eC = APP.ele(eB);
 				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
 			});
@@ -1380,9 +1412,10 @@ progress: async function(){
 
 
 
-thumbnail: async function(eImg, aT){
-	var sUrl;
-	sUrl = OCR.V.sApiUrl + "thumb/" + oResult.result.id + "/" + aT[0] + "/" + (aT[1] + 1);
+thumbnail: async function(oData, eImg, aT){
+	var sUrl, sId;
+	sId = document.querySelector("#folder").value;
+	sUrl = OCR.V.sApiUrl + "thumb/" + sId + "/" + aT[0] + "/" + (aT[1] + 1);
 	oResponse = await fetch(sUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();

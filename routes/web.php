@@ -46,6 +46,12 @@ Route::middleware([
 ])->group(function(){
 
 
+Route::get('/statement-page/{id}/{pdf}/{page}', [
+	GeneralController::class, 
+	'statement_page'
+	])->name('statement-page');
+
+
 Route::get('/resources/docs/statement/{filename}', function($filename){
 	$path = resource_path() . '/docs/logos/' . $filename;
 	if(!file_exists($path)) {

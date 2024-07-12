@@ -112,7 +112,7 @@ $aFieldsEdit = [
 				
 				
 				
-				value="0fnb" />
+				value="" />
 			
 			
 			

@@ -17,6 +17,7 @@ function job($oRouteVars, $oV){
 			$oTemplate = json_decode(file_get_contents($oTemplate), 1);
 			$sHtml = str_get_html(file_get_contents($sHocr));
 			$oHeader = header_info($sHtml, $oTemplate);
+			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 			$oMeta = [
 				'error' => 0,
 				'message' => 'Dividing pages into columns',
@@ -25,6 +26,7 @@ function job($oRouteVars, $oV){
 					'pages' => $iPages,
 					'bank' => $sBank,
 					'header' => $oHeader,
+					'thumbs' => $oMeta['result']['thumbs'],
 					'job' => 'pages-columns',
 				],
 			];

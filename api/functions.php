@@ -124,19 +124,19 @@ function recon_balance($oMeta){
 	$aRecon = [[]];
 	$aGridNew = [];
 
-	$aA[2][2] = recon_column_amount($aGrid, $aEdit, 0, 6);
+	$aA[2][2] = recon_column_amount($aGrid, $aEdit, 0, 5);
 	$aR = $aGrid[0];
-	$aGridNew[] = [$aR[0], $aR[1], $aR[2], $aR[3], $aR[4], $aR[5], $aR[6], '', '', ''];
+	$aGridNew[] = [$aR[0], $aR[1], $aR[2], $aR[3], $aR[4], $aR[5], '', '', ''];
 	$iBalanceFixedRow = 0;
 	for ($iI = 1; $iI < sizeof($aGrid); $iI++){
-		$aA[0][0] = recon_column_amount($aGrid, $aEdit, $iI, 4);
-		$aA[1][0] = recon_column_amount($aGrid, $aEdit, $iI, 5);
-		$aA[2][0] = recon_column_amount($aGrid, $aEdit, $iI, 6);
+		$aA[0][0] = recon_column_amount($aGrid, $aEdit, $iI, 3);
+		$aA[1][0] = recon_column_amount($aGrid, $aEdit, $iI, 4);
+		$aA[2][0] = recon_column_amount($aGrid, $aEdit, $iI, 5);
 		$aA[0][1] = $aA[0][0];
 		$aA[1][1] = $aA[1][0];
 		$aA[2][1] = $aA[2][0];
 		$aR = $aGrid[$iI];
-		$iOcrBal = floatval($aR[9]);
+		$iOcrBal = floatval($aR[8]);
 		if (isset($oTemplate['grid']['add_negative_to_debit'])){
 			$aA[1][1] = floatval($aA[1][1]) * -1;
 		}
@@ -160,7 +160,7 @@ function recon_balance($oMeta){
 		// Rebuild the grid row with the recon data
 		$aR = $aGrid[$iI];
 		$aR1 = [
-			$aR[0], $aR[1], $aR[2], $aR[3], 
+			$aR[0], $aR[1], $aR[2], 
 			amount_or_empty($aA[0][1]),
 			amount_or_empty($aA[1][1]),
 			amount_or_empty($aA[2][1]),
@@ -197,17 +197,17 @@ function recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iRow, $aA, $iBalanceFixe
 	}
 	if ($aFound){
 		$iProblemCol = $aFound[3];
-		if ($iProblemCol == 4){
+		if ($iProblemCol == 3){
 			$aA[0][1] = 0;
 			$iIn = 0;
 			$iOut = $aA[1][1];
 		}
-		if ($iProblemCol == 5){
+		if ($iProblemCol == 4){
 			$aA[1][1] = 0;
 			$iIn = $aA[0][1];
 			$iOut = 0;
 		}
-		if ($iProblemCol == 6){
+		if ($iProblemCol == 5){
 			$aA[2][1] = 0;
 		}
 	}
@@ -221,7 +221,10 @@ function recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iRow, $aA, $iBalanceFixe
 		}
 	}
 	$iTr = $aA[2][0] - $aA[2][2];
-	// In and out have values
+
+	// Fix the most obvious first. Don't fix after fixed
+
+	// In and out columns have values
 	if (($aA[0][1]) && ($aA[1][1])){
 		$iB2 = $aA[2][2] + $aA[0][1];
 		$iB3 = $aA[2][2] + $aA[1][1];
@@ -246,7 +249,6 @@ function recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iRow, $aA, $iBalanceFixe
 		}
 	}
 
-
 	if (!$bFixed){
 		// OCR Missed a negative sign
 		$iB1 = $aA[2][0] + $aA[0][1] + $aA[1][1];
@@ -260,8 +262,9 @@ function recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iRow, $aA, $iBalanceFixe
 		}
 	}
 
+	// Still not fixed, sigh and just fix
 	if (!$bFixed){
-		// The OCR Balance column is incorrect
+		// The OCR Balance column has to be incorrect
 		$iB1 = $aA[2][2] + $aA[0][1] + $aA[1][1];
 		if (abs($iB1 - $aA[2][1]) < 0.05){
 			$iIn = floatval(number_format($aA[0][1], 2, '.', ''));
@@ -276,8 +279,6 @@ function recon_row_adjust($aGrid, $aEdit, $aAnomalies, $iRow, $aA, $iBalanceFixe
 			}
 		}
 	}
-	
-
 	return [$iIn, $iOut, $iBal, $iBalanceFixedRow];
 }
 

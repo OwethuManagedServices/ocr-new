@@ -33,6 +33,7 @@ function job($oRouteVars, $oV){
 				}
 				$iPg++;
 			}
+			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 			$oMeta = [
 				'error' => 0,
 				'message' => 'Process OCR page ' . $iPage,
@@ -41,6 +42,7 @@ function job($oRouteVars, $oV){
 					'pages' => json_encode($aPages),
 					'bank' => $sBank,
 					'page' => $iPage,
+					'thumbs' => $oMeta['result']['thumbs'],
 					'job' => 'ocr-to-data',
 				],
 			];
@@ -90,7 +92,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 			$iY = $oTemplate['grid']['start_y'];
 			$iH = $oTemplate['grid']['end_y'] - $iY;
 		}
-		// Sometimes, the first page has different column coordinates
+		// Sometimes the first page has different column coordinates
 		if (isset($oCol['position_x'][2]) && ($iPage > 1)){
 			$iX = $oCol['position_x'][2];
 			$iW = $oCol['position_x'][3] - $oCol['position_x'][2];

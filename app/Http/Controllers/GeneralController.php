@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use File;
+use Response;
 
 use function Laravel\Prompts\error;
 
@@ -27,6 +29,18 @@ public function ajax(Request $oRequest){
 		$oRet = [];
 		// Only respond on 'job' requests
 		switch ($oData['job']){
+
+			case 'pageload':
+				$sId = $oData['id'];
+				$sFile = getcwd() . '/../api/work/' . $sId . '/' . $oData['pdf'] . '-' . ($oData['page'] + 1) . '.jpg';
+				if (file_exists($sFile)){
+					$oRet = [
+						'data' => $oData,
+						'url' => url('/statement-page/' .$sId . '/' . $oData['pdf'] . '/' . $oData['page']),
+					];
+				}
+
+			break;
 
 			case 'transaction_edit':
 				$oData['bUseAuth'] = 0;
@@ -96,6 +110,25 @@ public function ajax(Request $oRequest){
 	}
 
 	return base64_encode(json_encode($oRet));
+}
+
+
+
+public function statement_page(Request $oRequest){
+	$sFile = getcwd() . '/../api/work/' . $oRequest->id . '/' . $oRequest->pdf . '-' . ($oRequest->page + 1) . '.jpg';
+error_log('xxxxxx '.$sFile);
+	if(!file_exists($sFile)) {
+		return response()->json(['message' => 'Image not found.'], 404);
+	}
+
+	$file = File::get($sFile);
+	$type = File::mimeType($sFile);
+
+	$response = Response::make($file, 200);
+	$response->header("Content-Type", $type);
+
+	return $response;
+
 }
 
 

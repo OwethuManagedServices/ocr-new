@@ -1,31 +1,34 @@
 <?php
-
 // Find the monthly opening and closing balances
 require('functions.php');
 
 
 
-$sId = $oRouteVars['id'];
-$oMeta = [
-	'error' => 10,
-	'message' => 'Could not find the record',
-];
-$sMetaFile = $oV['sDirectoryWork'] . $sId . '/meta.json';
-if (file_exists($sMetaFile)){
-	$oMeta = json_decode(file_get_contents($sMetaFile), 1);
-	if ((isset($oMeta)) && (isset($oMeta['result'])) && (isset($oMeta['result']['grid']))){
-		$aGrid = $oMeta['result']['grid'];
-		if (isset($oMeta['result']['edit'])){
-			$aEdit = $oMeta['result']['edit'];
-		} else {
-			$aEdit = array_fill(0, sizeof($aGrid), []);
+function job($oRouteVars, $oV){
+	$sId = $oRouteVars['id'];
+	$oMeta = [
+		'error' => 10,
+		'message' => 'Could not find the record',
+	];
+	$sMetaFile = $oV['sDirectoryWork'] . $sId . '/meta.json';
+	if (file_exists($sMetaFile)){
+		$oMeta = json_decode(file_get_contents($sMetaFile), 1);
+		if ((isset($oMeta)) && (isset($oMeta['result'])) && (isset($oMeta['result']['grid']))){
+			$aGrid = $oMeta['result']['grid'];
+			if (isset($oMeta['result']['edit'])){
+				$aEdit = $oMeta['result']['edit'];
+			} else {
+				$aEdit = array_fill(0, sizeof($aGrid), []);
+			}
+			$oMeta['result']['balances'] = balances_monthly($oMeta);
+			$oMeta['result']['job'] = 'salary';
+			file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
 		}
-		$oMeta['result']['balances'] = balances_monthly($oMeta);
-		$oMeta['result']['job'] = 'salary';
-		file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
 	}
+	response_json($oMeta);
 }
-response_json($oMeta);
+
+
 
 
 // Ensure consistent date format across the banks
@@ -108,7 +111,7 @@ function balances_monthly($oMeta){
 	// Create array with header as first element and start balance 2nd
 	$aBalances = [
 		['Dates From/To', $sDateFrom, $sDateTo, $iDaysPeriod . ' days'], 
-		['Starting', $aR[1], $aR[6]]];
+		['Starting', $aR[1], $aR[5]]];
 	for ($iI = 1; $iI < sizeof($aGrid); $iI++){
 		$aROld = $aR;
 		$aR = $aGrid[$iI];
@@ -116,12 +119,16 @@ function balances_monthly($oMeta){
 		$sMonthNow = substr($aR[1], 5, 2);
 		// We have the same day and a new month, save the balance
 		if (($sDayNow == $sDayStart) && ($sMonthNow != $sMonthStart)){
-			$aBalances[] = ['Closing', $aROld[1], $aROld[6]];
-			$aBalances[] = ['Opening', $aR[1], $aR[6]];
+			$aBalances[] = ['Closing', $aROld[1], $aROld[5]];
+			$aBalances[] = ['Opening', $aR[1], $aR[5]];
 			$sMonthStart = $sMonthNow;
 		}
 	}
 	// Add the last balance
-	$aBalances[] = ['Current', $aR[1], $aR[6]];
+	$aBalances[] = ['Current', $aR[1], $aR[5]];
 	return $aBalances;
 }
+
+
+
+job($oRouteVars, $oV);

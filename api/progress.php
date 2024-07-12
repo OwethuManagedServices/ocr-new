@@ -16,7 +16,7 @@ if (file_exists($sMetaFile)){
 		$iP = count(glob($oV['sDirectoryWork'] . $sId . "/out-col-*.hocr"));
 		$iC = sizeof($oMeta['result']['template']['columns']);
 		$iP = intval($iP / $iC);
-		$oMeta['ocr_page'] = $iP;
+		$oMeta['result']['ocr_page'] = $iP;
 		file_put_contents($oV['sDirectoryWork'] . $sId . '/meta.json', json_encode($oMeta, JSON_PRETTY_PRINT));
 	}
 
