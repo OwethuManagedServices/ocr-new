@@ -11,7 +11,7 @@ $oTheme = [
 
 
 				</head>
-	<body class="bg-light text-dark relative antialiased" onload="APP.init('{!! base64_encode(json_encode($oTheme)) !!}');">
+	<body class="overflow-y-scroll bg-light text-dark relative antialiased" onload="APP.init('{!! base64_encode(json_encode($oTheme)) !!}');">
 		<x-banner />
 
 		<div class="min-h-screen mx-auto max-w-7xl">

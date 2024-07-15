@@ -3,6 +3,8 @@
 require('functions.php');
 
 
+//$oRouteVars['id'] = '1720808682084530';
+
 
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
@@ -76,7 +78,7 @@ function balances_monthly($oMeta){
 	$aGrid = $oMeta['result']['grid'];
 	$oTemplateBalance = $oMeta['result']['template']['statement_from_to_dates'];
 	$oHeader = $oMeta['result']['header'];
-	// Template has from/to fields
+	// Template has From and To fields
 	$sDateFrom = $oTemplateBalance['header_field_from'];
 	if ($sDateFrom){
 		$sDateFrom = $oHeader[$oTemplateBalance['header_field_from']];
@@ -86,10 +88,21 @@ function balances_monthly($oMeta){
 				$sDateFrom = str_replace($oTemplateBalance['word_from_start'], '', $sDateFrom);
 			}
 		}
-		$sDateTo = $aGrid[sizeof($aGrid) - 1][1];
+		$iV = 1;
+		$bFound = 0;
+		while ((!$bFound) && ($iV < 10)){
+			$aR = $aGrid[sizeof($aGrid) - $iV];
+			if (is_valid_date($aR[1])){
+				$bFound = 1;
+			} else {
+				$iV++;
+			}
+		}
+		$aR = $aGrid[sizeof($aGrid) - $iV];
+		$sDateTo = $aR[1];
 		$sDateFrom = statement_date_format($sDateFrom, $oTemplateBalance);
 	}
-	// Template has one field for from/to
+	// Template has one field for From/To
 	$sDateFromTo = $oTemplateBalance['header_field_from_to'];
 	if ($sDateFromTo){
 		$sD = $oHeader[$sDateFromTo];
