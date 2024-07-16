@@ -30,6 +30,31 @@ public function ajax(Request $oRequest){
 		// Only respond on 'job' requests
 		switch ($oData['job']){
 
+			case 'save':
+				$oRet = [
+					'error' => 20,
+					'message' => 'Record not found'
+				];
+				$sId = $oData['id'];
+				$sValue = $oData['value'];
+				$sFile = getcwd() . '/../api/work/' . $sId . '/meta.json';
+				if (file_exists($sFile)){
+					$oMeta = json_decode(file_get_contents($sFile), 1);
+					$oMeta['result']["id"] = $sValue;
+					file_put_contents($sFile, json_encode($oMeta, JSON_PRETTY_PRINT));
+					$sFolder = getcwd() . '/../api/work/';
+					$oRet = [
+						'error' => 0,
+						'message' => '',
+						'result' => [
+							'id' => $sValue,
+						],
+					];
+					rename($sFolder . $sId, $sFolder . $sValue);
+				}
+
+			break;
+
 			case 'pageload':
 				$sId = $oData['id'];
 				$sFile = getcwd() . '/../api/work/' . $sId . '/' . $oData['pdf'] . '-' . ($oData['page'] + 1) . '.jpg';

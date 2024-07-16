@@ -26,7 +26,16 @@ $oLoadButton = [
 	'type' => 'button',
 	'dbfield' => 'statement',
 	'id' => 'statement_load',
-	'onclick' => 'OCR.load()',
+	'onclick' => 'OCR.statementload()',
+];
+$oSaveButton = [
+	'name' => 'save',
+	'no_label' => 1,
+	'description' => 'Save',
+	'type' => 'button',
+	'dbfield' => 'statement',
+	'id' => 'statement_save',
+	'onclick' => 'OCR.statementsave()',
 ];
 $aFieldsEdit = [
 	[
@@ -137,6 +146,9 @@ $aFieldsEdit = [
 		</div>
 		<div class="float-left">
 			<?= formfieldshow($oLoadButton, '', Auth::user())?>
+		</div>
+		<div class="float-left">
+			<?= formfieldshow($oSaveButton, '', Auth::user())?>
 		</div>
 		<br>
 	</div>

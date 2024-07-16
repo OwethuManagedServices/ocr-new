@@ -104,9 +104,11 @@ class Route{
 
 
 
-	}
-	
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+	header('Access-Control-Request-Headers: *');
+} else {
 
 	$oRoute = new Route();
 	if ($oRoute->authheader($oV['bUseAuth'])){
@@ -127,6 +129,7 @@ class Route{
 		$oRoute->add('v1/balances/{id}',						'balances.php');
 		$oRoute->add('v1/salary/{id}',							'salary.php');
 		$oRoute->add('v1/display/{id}',							'display.php');
+		$oRoute->add('v1/rename/{id}/{value}',					'rename.php');
 		// Queries
 		$oRoute->add('v1/thumb/{id}/{pdf}/{page}',				'thumb.php');
 		$oRoute->add('v1/statement/{id}', 						'statement.php');
@@ -145,4 +148,4 @@ class Route{
 			'message' => 'Invalid authorization header',
 		], JSON_PRETTY_PRINT);
 	}
-	
+}

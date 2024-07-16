@@ -748,11 +748,13 @@ uploaddone: function(oData){
 			document.querySelector("#log").innerHTML = "<br><br><br><br>";
 			eA = APP.dg("processingbtn");
 			OCR.V.eButton = APP.dg("btn_action");
-			OCR.V.eButton
 			OCR.V.eFolder = APP.dg("folder");
 			OCR.V.eFolder.value = oData.folder;
 			eA = document.querySelector("#uploadbox");
 			eA.style.display = "none";
+			eB = APP.dg("acc_upload_statement");
+			eB.innerHTML = eB.innerHTML1;
+			MBF._V.aFiles = [];
 			OCR.start(oData.b64_original_filename);
 		}
 	}
@@ -980,11 +982,8 @@ display: function(){
 		aRecon = [];
 	}
 	aAnomalies = OCR.V.oResult.anomalies;
-//	eG = document.querySelector("#processing_section");
-//	eG.style.height = "42px";
 	eG = document.querySelector("#grid_header");
 	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "", "table");
 	OCR.V.oResult.template.header_fields.forEach(function(sField){
 		eR = APP.ele(eT, "", "tr");
@@ -996,7 +995,6 @@ display: function(){
 
 	eG = document.querySelector("#grid_anomalies");
 	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "", "table");
 	eT.border = 1;
 	aAnomalies.forEach(function(aRow){
@@ -1008,7 +1006,6 @@ display: function(){
 	});
 	eG = document.querySelector("#grid_recon");
 	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "", "table");
 	eT.border = 1;
 	aRecon.forEach(function(aRow){
@@ -1124,7 +1121,6 @@ display: function(){
 
 	eG = document.querySelector("#grid_salaries");
 	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "my-4", "table");
 	eR = APP.ele(eT, "", "tr");
 	eD = APP.ele(eR, "p-4", "td");
@@ -1196,7 +1192,9 @@ console.log(sRow);
 		headers: OCR.V.oApiHeader,
 	};
 	sUrl = OCR.V.sApiUrl + 'row-edit/' + OCR.V.sFolderId + "/" + sRow;
-	OCR.job(sUrl, 1);
+	OCR.job(sUrl, function(oData){
+		console.log(oData);
+	});
 	APP.dg("transaction_edit").style.display = "none";
 },
 
@@ -1246,9 +1244,9 @@ init: function(){
 
 
 
-job: async function(sUrl, bEditSave){
+job: async function(sUrl, fCallback){
 	var oResponse, oResult;
-	if (!bEditSave){
+	if (!fCallback){
 		OCR.V.eButton.innerHTML = "Cancel";
 	}
 	OCR.V.oApiHeader = new Headers();
@@ -1264,45 +1262,17 @@ job: async function(sUrl, bEditSave){
 		oResult = await oResponse.json();
 		console.log(oResult);
 		window.setTimeout(function(){
-			if (!bEditSave){
+			if (!fCallback){
 				OCR.V.eButton.innerHTML = "Process";
 				window.clearInterval(OCR.V.iPingInterval);
-			}
-			if (!oResult.error){
-				OCR.V.oResult = oResult.result;
-				OCR.display();
+				if (!oResult.error){
+					OCR.V.oResult = oResult.result;
+					OCR.display();
+				}
+			} else {
+				fCallback(oResult);
 			}
 		}, 1000);
-	}
-},
-
-
-
-load: function(){
-	var sId;
-	sId = APP.dg("folder").value;
-	if (sId){
-		APP.ajax({
-			job: "statement-load",
-			id: sId,
-		}, function(oData){
-			console.log(oData);
-			OCR.V.oResult = oData.result;
-//			APP.dg("processingbox").style.display = "block";
-			OCR.display();
-			eA = document.querySelector("#preview");
-			eA.innerHTML = "";
-			oData.result.thumbs.forEach(function(aT){
-				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1 cursor-pointer");
-				eB.id = "thumb_" + aT[0] + "_" + aT[1];
-				eB.onclick = OCR.pageload;
-				eC = APP.ele(eB, "w-full h-full", "img");
-				OCR.thumbnail(oData, eC, aT);
-				eC = APP.ele(eB);
-				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
-			});
-			OCR.V.bThumbsDisplayed = 1;
-		});
 	}
 },
 
@@ -1461,28 +1431,50 @@ rowedit: function(oEvent){
 
 
 
-section: function(oEvent){
-	var eA, bF, aA;
-	eA = oEvent.target.parentNode;
-	bF = 0;
-	while ((!bF) && (eA)){
-		if (eA.id){
-			aA = eA.id.split("_");
-			if ((aA[1]) && (aA[1] == "section")){
-				bF = 1;
+statementload: function(){
+	var sId;
+	sId = APP.dg("folder").value;
+	if (sId){
+		APP.ajax({
+			job: "statement-load",
+			id: sId,
+		}, function(oData){
+			console.log(oData);
+			OCR.V.oResult = oData.result;
+			OCR.V.sFolderId = oData.result.id;
+//			APP.dg("processingbox").style.display = "block";
+			OCR.display();
+			eA = document.querySelector("#preview");
+			eA.innerHTML = "";
+			oData.result.thumbs.forEach(function(aT){
+				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1 cursor-pointer");
+				eB.id = "thumb_" + aT[0] + "_" + aT[1];
+				eB.onclick = OCR.pageload;
+				eC = APP.ele(eB, "w-full h-full", "img");
+				OCR.thumbnail(oData, eC, aT);
+				eC = APP.ele(eB);
+				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
+			});
+			OCR.V.bThumbsDisplayed = 1;
+		});
+	}
+},
+
+
+
+statementsave: function(){
+	var eA, sV, sUrl;
+	eA = document.querySelector("#folder");
+	sV = eA.value;
+	if (sV){
+		sUrl = OCR.V.sApiUrl + "rename/" + OCR.V.sFolderId + "/" + sV;
+		OCR.job(sUrl, function(oData){
+			console.log(oData);
+			if ((oData) && (oData.result) && (oData.result.id)){
+				OCR.V.sFolderId = oData.result.id;
 			}
-		}
-		if (!bF){
-			eA = eA.parentNode;
-		}
-	}
-	if (bF){
-		if (eA.style.height != "42px"){
-			eA.style.height = "42px";
-		} else {
-			eA.style.height = "";
-		}
-	}
+		});
+	}	
 },
 
 
