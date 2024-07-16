@@ -105,8 +105,8 @@ $aFieldsEdit = [
 			<div class="overflow-hidden shadow-xl sm:rounded-lg">
 				</div>
 				<div class="p-6 lg:p-8">
-	<div><div class="float-left block w-24"><x-icons.logo-acc-name :size="16" color="#0508a2, #fff, #076ad0, #faa51f, #a01929, #000" /></div>
-	<div class="ml-12 mt-12 float-left text-6xl md:text-4xl sm:text-3xl font-medium text-dark">{{ config('app.name') }}</div></div>
+	<div><div class="float-left block w-20 h-12"><x-icons.logo-acc-name size="8" color="#0508a2, #fff, #076ad0, #faa51f, #a01929, #000" /></div>
+	<div class=" mt-4 float-left text-xl font-medium text-dark">{{ config('app.name') }}</div></div>
 	<div style="clear:both"></div>
 
 				</div>
@@ -114,7 +114,7 @@ $aFieldsEdit = [
 <div class="border-b border-greydark h-[30px]">
 
 @for ($iI = 0; $iI < sizeof($aTabs); $iI++)
-<div id="tabbutton_{{ $iI + 1 }}" class="text-sm float-left cursor-pointer border border-greydark py-1 px-4 rounded-t-md mr-[1px] bg-greylight text-dark" onclick="OCR.tabpage(event)">{{ ucfirst($aTabs[$iI]) }}
+<div id="tabbutton_{{ $iI + 1 }}" class="text-sm float-left cursor-pointer border border-greydark py-1 px-5 rounded-t-md bg-greylight text-dark" onclick="OCR.tabpage(event)">{{ ucfirst($aTabs[$iI]) }}
 </div>
 @endfor
 <div class="clear-both"></div>

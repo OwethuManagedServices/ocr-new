@@ -18,7 +18,7 @@ function job($oRouteVars, $oV){
 	$bMeta = 0;
 	$sHocr = $sWork . '/out-page-1.hocr';
 	if (file_exists($sHocr)){
-		$oTemplate = getcwd() . '/data/templates/' . $sBank . '.json';
+		$oTemplate = getcwd() . '/data/templates/banks/' . $sBank . '.json';
 		$oHeader = json_decode(file_get_contents($oV['sDirectoryWork'] . $sId . '/header.json'), 1);
 		if (file_exists($oTemplate)){
 			$aGridData = [];

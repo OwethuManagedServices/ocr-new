@@ -20,7 +20,7 @@ function job($oRouteVars, $oV){
 	$sMetaFile = $oV['sDirectoryWork'] . $sId . '/meta.json';
 	$sImg = $sWork . '/0-';
 	if (file_exists($sImg . '1.jpg')){
-		$oTemplate = getcwd() . '/data/templates/' . $sBank . '.json';
+		$oTemplate = getcwd() . '/data/templates/banks/' . $sBank . '.json';
 		if (file_exists($oTemplate)){
 			$oTemplate = json_decode(file_get_contents($oTemplate), 1);
 			$iPg = 0;

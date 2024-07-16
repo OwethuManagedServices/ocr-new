@@ -126,6 +126,7 @@ class Route{
 		$oRoute->add('v1/recon/{id}',					 		'recon.php');
 		$oRoute->add('v1/balances/{id}',						'balances.php');
 		$oRoute->add('v1/salary/{id}',							'salary.php');
+		$oRoute->add('v1/display/{id}',							'display.php');
 		// Queries
 		$oRoute->add('v1/thumb/{id}/{pdf}/{page}',				'thumb.php');
 		$oRoute->add('v1/statement/{id}', 						'statement.php');

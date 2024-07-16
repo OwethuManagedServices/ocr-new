@@ -12,7 +12,7 @@ function job($oRouteVars, $oV){
 	$bMeta = 1;
 	$sHocr = $sWork . '/out-page-1.hocr';
 	if (file_exists($sHocr)){
-		$oTemplate = getcwd() . '/data/templates/' . $sBank . '.json';
+		$oTemplate = getcwd() . '/data/templates/banks/' . $sBank . '.json';
 		if (file_exists($oTemplate)){
 			$oTemplate = json_decode(file_get_contents($oTemplate), 1);
 			$sHtml = str_get_html(file_get_contents($sHocr));

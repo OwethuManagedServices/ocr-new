@@ -951,8 +951,12 @@ display: function(){
 	var aGrid, aEdit, sPR, aAnomalies, aRecon, aBalances, aSalaries, aIncomes, eA, eG, eT, eR, eD, iI, iJ, sBorder, sB, aColsTransactions, aColsBalances;
 	eA = document.querySelector("#uploadbox");
 	eA.style.display = "block";
+	/*
 	aColsTransactions = "P_R|10%, Date|12%, Description|24%, Amt In|9%|a, Amt Out|9%|a, Balance|9%|a, OCR In|9%|a, OCR Out|9%|a, OCR Bal|9%|a".split(", ");
 	aColsBalances = "Balance|20%, Date|20%, Amount In|20%|a".split(", ");
+	*/
+	aColsTransactions = OCR.V.oResult.display.transactions;
+	aColsBalances = OCR.V.oResult.display.balances;
 	sBorder = "border border-greylight px-1 py-2";
 	aGrid = OCR.V.oResult.grid;
 	aEdit = OCR.V.oResult.edit;
@@ -1020,11 +1024,10 @@ display: function(){
 	eT = APP.ele(eG, "", "table");
 	eR = APP.ele(eT, "", "tr");
 	iI = 0;
-	aColsTransactions.forEach(function(sC){
-		aC = sC.split("|");
+	aColsTransactions.forEach(function(oC){
 		eD = APP.ele(eR, sBorder, "th");
-		eD.width = aC[1];
-		eD.innerHTML = aC[0];
+		eD.width = oC.width + "%";
+		eD.innerHTML = oC.description;
 		iI++;
 	});
 
@@ -1045,7 +1048,6 @@ display: function(){
 		if (sR != sO){
 			console.log(sR + " != " + sO);
 		}
-		iJ = 0;
 		if ((aEdit[iI]) && (aEdit[iI][0])){
 				sPR = aRow[0];
 				aRow = aEdit[iI];
@@ -1062,13 +1064,13 @@ display: function(){
 				}
 		}
 		aRow.forEach(function(sCol){
-			aC = aColsTransactions[iJ].split("|");
-			if (aC[2]){
+			iJ = 0;
+			oC = aColsTransactions[iJ];//.split("|");
+			if (oC.is_amount){
 				sB = sBorder + " text-right";
 			} else {
 				sB = sBorder;
 			}
-			
 			eD = APP.ele(eR, sB, "td");
 			eD.innerHTML = sCol;
 			iJ++;
@@ -1078,7 +1080,6 @@ display: function(){
 
 	eG = document.querySelector("#grid_balances");
 	eG.innerHTML = "";
-//	eG.parentNode.style.height = "42px";
 	eT = APP.ele(eG, "my-4", "table");
 	eR = APP.ele(eT, "", "tr");
 	sB = "p-4";
@@ -1094,11 +1095,10 @@ display: function(){
 	eT = APP.ele(eG, "", "table");
 	eR = APP.ele(eT, "", "tr");
 	iI = 0;
-	aColsBalances.forEach(function(sC){
-		aC = sC.split("|");
+	aColsBalances.forEach(function(oC){
 		eD = APP.ele(eR, sBorder, "th");
-		eD.width = aC[1];
-		eD.innerHTML = aC[0];
+		eD.width = oC.width + "%";
+		eD.innerHTML = oC.description;
 		iI++;
 	});
 	iI = 0;
@@ -1107,8 +1107,8 @@ display: function(){
 			eR = APP.ele(eT, "", "tr");
 			iJ = 0;
 			aRow.forEach(function(sCol){
-				aC = aColsBalances[iJ].split("|");
-				if (aC[2]){
+				oC = aColsBalances[iJ];//.split("|");
+				if (oC.is_amount){
 					sB = sBorder + " text-right";
 				} else {
 					sB = sBorder;
@@ -1291,6 +1291,7 @@ load: function(){
 //			APP.dg("processingbox").style.display = "block";
 			OCR.display();
 			eA = document.querySelector("#preview");
+			eA.innerHTML = "";
 			oData.result.thumbs.forEach(function(aT){
 				eB = APP.ele(eA, "w-32 h-40 float-left border border-greydark p-1 mr-4 mb-1 cursor-pointer");
 				eB.id = "thumb_" + aT[0] + "_" + aT[1];

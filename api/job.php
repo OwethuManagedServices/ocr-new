@@ -70,6 +70,13 @@ function job($oRouteVars, $oV){
 			$oResponse = json_decode($oResponse, 1);
 		}
 		
+		// Info to display the result
+		if ((isset($oResponse['result'])) && (isset($oResponse['result']['job']))){
+			$sUrl = $oV['sApiUrl'] . $oResponse['result']['job'] . '/' . $oResponse['result']['id'];
+			$oResponse = curlget($sUrl, $oV);
+			$oResponse = json_decode($oResponse, 1);
+		}
+		
 	}
 	response_json($oResponse);
 }

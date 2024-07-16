@@ -24,7 +24,7 @@ if (file_exists($sMetaFile)){
 		$aRes = salary($oMeta);
 		$oMeta['result']['salaries'] = $aRes[0];
 		$oMeta['result']['incomes'] = $aRes[1];
-		$oMeta['result']['job'] = '';
+		$oMeta['result']['job'] = 'display';
 		file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
 	}
 }
