@@ -1,0 +1,116 @@
+[
+	{
+		"id": 10001,
+		"name": "capitec",
+		"method": "words_by_class_id",
+		"test": [
+			{
+				"parameter": "word_1_1",
+				"value": "One"
+			}
+		]
+	},
+	{
+		"id": 10002,
+		"name": "absa",
+		"method": "words_by_class_id",
+		"test": [
+			{
+				"parameter": "word_1_1",
+				"value": "eStamp"
+			}
+		]
+	},
+	{
+		"id": 10003,
+		"name": "absa2",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [4227, 146, 4680, 322],
+				"value": "(absa)"
+			},
+			{
+				"parameter": [4190, 310, 4686, 500],
+				"value": "(absa)"
+			}
+		]
+	},
+	{
+		"id": 10004,
+		"name": "nedbank",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [830, 5915, 1385, 5970],
+				"value": "www.nedbank.co.za"
+			}
+		]
+	},
+	{
+		"id": 10005,
+		"name": "nedbank2",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [666, 170, 940, 210],
+				"value": "NEDBANK"
+			}
+		]
+	},
+	{
+		"id": 10006,
+		"name": "nedbank3",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [777, 642, 1052, 691],
+				"value": "NEDBANK"
+			}
+		]
+	},
+	{
+		"id": 10007,
+		"name": "fnb",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [1341, 2315, 1696, 2375],
+				"value": "4210102051"
+			}
+		]
+	},
+	{
+		"id": 10008,
+		"name": "standard",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [500, 260, 1130, 400],
+				"value": "Standard"
+			}
+		]
+	},
+	{
+		"id": 10009,
+		"name": "standard2",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [1690, 770, 2190, 860],
+				"value": "STANDARD"
+			}
+		]
+	},
+	{
+		"id": 100010,
+		"name": "standard3",
+		"method": "words_at_position",
+		"test": [
+			{
+				"parameter": [1768, 468, 2524, 576],
+				"value": "STANDARD"
+			}
+		]
+	}
+]

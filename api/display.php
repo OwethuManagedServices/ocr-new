@@ -14,7 +14,7 @@ function job($oRouteVars, $oV){
     $sWork = $oV['sDirectoryWork'] . $sId . '/';
 	$sMetaFile = $sWork . '/meta.json';
 	if (file_exists($sMetaFile)){
-        copy ($sWork . '../../data/templates/display/display.json', $sWork . 'display.json');
+        copy ($sWork . '../../data/templates/display.json', $sWork . 'display.json');
 		$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 		if ((isset($oMeta)) && (isset($oMeta['result'])) && (isset($oMeta['result']['grid']))){
 			$oMeta['result']['display'] = json_decode(file_get_contents($sWork . 'display.json'));

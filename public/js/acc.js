@@ -1260,19 +1260,11 @@ job: async function(sUrl, fCallback){
 	oResponse = await fetch(sUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();
-		console.log(oResult);
 		window.setTimeout(function(){
-			if (!fCallback){
-				OCR.V.eButton.innerHTML = "Process";
-				window.clearInterval(OCR.V.iPingInterval);
-				if (!oResult.error){
-					OCR.V.oResult = oResult.result;
-					OCR.display();
-				}
-			} else {
+			if (fCallback){
 				fCallback(oResult);
 			}
-		}, 1000);
+		}, 100);
 	}
 },
 
@@ -1432,17 +1424,14 @@ rowedit: function(oEvent){
 
 
 statementload: function(){
-	var sId;
+	var sId, sUrl;
 	sId = APP.dg("folder").value;
 	if (sId){
-		APP.ajax({
-			job: "statement-load",
-			id: sId,
-		}, function(oData){
+		sUrl = OCR.V.sApiUrl + "load/" +sId;
+		OCR.job(sUrl, function(oData){
 			console.log(oData);
 			OCR.V.oResult = oData.result;
 			OCR.V.sFolderId = oData.result.id;
-//			APP.dg("processingbox").style.display = "block";
 			OCR.display();
 			eA = document.querySelector("#preview");
 			eA.innerHTML = "";
@@ -1489,7 +1478,15 @@ start: async function(aFiles){
 		OCR.V.iStartTime = new Date().getTime();
 		OCR.V.iPingInterval = window.setInterval(OCR.progress, OCR.V.iPingTime);
 		sUrl = OCR.V.sApiUrl + "job/" + OCR.V.sFolderId;
-		OCR.job(sUrl);
+		OCR.job(sUrl, function(oResult){
+			console.log(oResult);
+			OCR.V.eButton.innerHTML = "Process";
+			window.clearInterval(OCR.V.iPingInterval);
+			if (!oResult.error){
+				OCR.V.oResult = oResult.result;
+				OCR.display();
+			}
+		});
 	} else {
 		OCR.V.eButton.innerHTML = "Process";
 		sUrl = OCR.V.sApiUrl + "cancel/" + OCR.V.sFolderId;

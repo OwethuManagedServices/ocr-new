@@ -130,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 		$oRoute->add('v1/salary/{id}',							'salary.php');
 		$oRoute->add('v1/display/{id}',							'display.php');
 		$oRoute->add('v1/rename/{id}/{value}',					'rename.php');
+		$oRoute->add('v1/load/{id}',							'load.php');
 		// Queries
 		$oRoute->add('v1/thumb/{id}/{pdf}/{page}',				'thumb.php');
 		$oRoute->add('v1/statement/{id}', 						'statement.php');
