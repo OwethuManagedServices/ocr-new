@@ -6,8 +6,7 @@ require('functions.php');
 
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
-
-	$sMetaFile = metamessage('Separate PDF pages', $sId, $oV);
+	metamessage('Separate PDF pages', $sId, $oV);
 	$bMeta = 1;
 	$iPdfNumber = 0;
 	$aFiles= [];
@@ -16,7 +15,7 @@ function job($oRouteVars, $oV){
 	$sWork = $oV['sDirectoryWork'] . $sId;
 	file_put_contents($sWork . '/extjob', "#!/bin/bash\ndate\n");
 	chmod($sWork . '/extjob', 0777);
-	// Loop through all the PDFs
+	// Loop through all the uploaded PDFs
 	while (file_exists($oV['sDirectoryWork'] . $sId . '/' . $iPdfNumber . '.pdf')){
 		// Find the number of pages in the PDF
 		$image = new Imagick();
@@ -25,7 +24,7 @@ function job($oRouteVars, $oV){
 		$image->clear(); 
 		$image->destroy();
 		
-		// Loop through the pages
+		// Loop through the pages of this PDF
 		for ($iI = 0; $iI < $iNumPages; $iI++){
 			$sExecFile = file_get_contents($sWork . '/extjob');
 
@@ -45,6 +44,8 @@ function job($oRouteVars, $oV){
 	}
 	// Execute the script
 	shell_exec($sWork . '/extjob');
+
+	//Success
 	if (file_exists($oV['sDirectoryWork'] . $sId . '/0.pdf')){
 		if (file_exists($sWork . '/0-1.jpg')){
 			$oMeta = [
@@ -86,4 +87,6 @@ function job($oRouteVars, $oV){
 
 
 job($oRouteVars, $oV);
+
+
 

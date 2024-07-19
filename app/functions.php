@@ -31,7 +31,6 @@ function formfieldshow($oFld, $sVal, $oUser = 0){
 			$sH .= '<img id="' . $oFld['dbfield'] . '" src="' . $sVal . '" class="w-full h-full" /></div>';
 		break;
 
-//			$sH .= '<input type="text" data-coloris />';
 		case 'color':
 			$sH .= '<div>';
 			$sH .= '<input id="' . $oFld['dbfield'] . '" name="' . $oFld['dbfield'] . '"';
@@ -49,23 +48,22 @@ function formfieldshow($oFld, $sVal, $oUser = 0){
 			$sH .= '
 <div>
 <table border=1><tr><td width="50%">
-	<label style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering wd-16 mx-1 text-light text-sm py-2 px-6 rounded-md" for="acc_fileupload_' . $oFld['job'] . '">
-			<span>Select File(s)</span>
+	<label style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering mx-1 text-light text-sm py-2 px-6 rounded-md" for="acc_fileupload_' . $oFld['job'] . '">
+			<span class="text-center">Select File(s)</span>
 		</label>
 		<input type="file" multiple="multiple" id="acc_fileupload_' . $oFld['job'] . '" style="opacity:0;width:1px;margin:0 30px 0 -30px;" onchange="MBF.selected(event)" />
 	</td>
 	<td width="50%">
+		<div class="mt-4 h-8" id="acc_fileupload_' . $oFld['job'] . '_selected"></div>
 		<div class="float-right" id="accwaitspinupload"></div>
 	</td>
 	</tr>
 	<tr>
-		<td colspan="2">
-			<div class="mt-4 h-8" id="acc_fileupload_' . $oFld['job'] . '_selected"></div>
-		</td>
+		
 	</tr>
 	<tr>
 		<td>
-			<button id="acc_upload_' . $oFld['job'] . '" style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering mx-1 text-light text-sm py-2 px-6 rounded-md w-full"	type="button" onclick="MBF.uploadstart(event)">Upload ' . $oFld['description'] . '</button>
+			<button id="acc_upload_' . $oFld['job'] . '" style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering mx-1 text-light text-sm py-2 px-6 rounded-md w-full" type="button" onclick="MBF.uploadstart(event)">Upload ' . $oFld['description'] . '</button>
 		</td>
 		<td>
 			<div id="acc_uploadprogress_' . $oFld['job'] . '" class="accprogress">

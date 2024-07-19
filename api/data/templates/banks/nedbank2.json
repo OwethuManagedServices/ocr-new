@@ -7,7 +7,7 @@
 		"header_field_from": "date_from",
 		"header_field_to": "date_to",
 		"header_field_from_to": "",
-		"field_format": "dd/mm/yyy"
+		"field_format": "dd/mm/yyyy"
 	},
 	"header": [
 		{
@@ -114,7 +114,7 @@
 		"page_1_start_y": 1900,
 		"page_1_end_y": 6200,
 		"start_y": 1180,
-		"end_y": 6130,
+		"end_y": 6300,
 		"add_negative_to_debit": 1,
 		"blank_column_trigger": 4,
 		"end_of_document_space_y": 250,

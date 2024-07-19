@@ -68,58 +68,6 @@ function job($oRouteVars, $oV){
 }
 
 
-function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile){
-	$iCol = 0;
-	$iDpi = $oV['iPageDpi'];
-	$sCmd = '';
-	$sCmd1 = '';
-	$sExecFile = file_get_contents($sWork . '/ocrjob');
-	$sExecFile1 = file_get_contents($sWork . '/ocrjob1');
-	foreach ($oTemplate['columns'] as $oCol){
-		$iX = $oCol['position_x'][0];
-		$iW = $oCol['position_x'][1] - $oCol['position_x'][0];
-		if ((isset($oTemplate['grid']['skip_page_1'])) && ($oTemplate['grid']['skip_page_1'])){
-			$iStart = 2;
-		} else {
-			$iStart = 1;
-		}
-		// Crop the page according to page number
-		if ($iPage == $iStart){
-			$iY = $oTemplate['grid']['page_1_start_y'];
-			$iH = $oTemplate['grid']['page_1_end_y'] - $iY;
-		// After first page
-		} else {
-			$iY = $oTemplate['grid']['start_y'];
-			$iH = $oTemplate['grid']['end_y'] - $iY;
-		}
-		// Sometimes the first page has different column coordinates
-		if (isset($oCol['position_x'][2]) && ($iPage > 1)){
-			$iX = $oCol['position_x'][2];
-			$iW = $oCol['position_x'][3] - $oCol['position_x'][2];
-		}
-		$iX = intval($iX / ($oTemplate['dpi'] / $iDpi));
-		$iY = intval($iY / ($oTemplate['dpi'] / $iDpi));
-		$iW = intval($iW / ($oTemplate['dpi'] / $iDpi));
-		$iH = intval($iH / ($oTemplate['dpi'] / $iDpi));
-		// Use imagemagick to crop the column
-		$sIm = $oV['sDirectoryBin'] . 'convert -crop ' . $iW . 'x' . $iH . '+' . $iX . '+' . $iY . ' ' . $sImg . ' ' . $sWork . '/col-' . $iPg . '-' . $iPage . '-' . $iCol . '.jpg';
-		shell_exec($sIm);
-
-		$sImgCol = $sWork . '/col-' . $iPg . '-' . $iPage . '-' . $iCol . '.jpg';
-		$sCmd = '' . $oV['sDirectoryBin'] . 'tesseract ' . $sImgCol . ' ' . $sWork . '/out-col-' . $iPg . '-' . $iPage . '-' . $iCol . ' hocr';
-		$sCmd1 .= ' "' . $oV['sDirectoryBin'] . 'tesseract ' . $sImgCol . ' ' . $sWork . '/out-col-' . $iPg . '-' . $iPage . '-' . $iCol . ' hocr"';
-		$sExecFile .= $sCmd . "\n";
-		file_put_contents($sWork . '/ocrjob', $sExecFile);
-		$iCol++;
-	}
-	// Finalise the shell scripts
-	$sCmd1 = $oV['sDirectoryBin'] . 'parallel -X :::' . $sCmd1;
-	$sCmd1 .= "\necho $$ > " . $sWork . '/pid' . "\n";
-	$sExecFile1 .= $sCmd1 . "\ndate\n";
-	file_put_contents($sWork . '/ocrjob1', $sExecFile1);
-}
-
-
 
 job($oRouteVars, $oV);
 

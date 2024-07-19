@@ -141,7 +141,6 @@ public function ajax(Request $oRequest){
 
 public function statement_page(Request $oRequest){
 	$sFile = getcwd() . '/../api/work/' . $oRequest->id . '/' . $oRequest->pdf . '-' . ($oRequest->page + 1) . '.jpg';
-error_log('xxxxxx '.$sFile);
 	if(!file_exists($sFile)) {
 		return response()->json(['message' => 'Image not found.'], 404);
 	}

@@ -1,8 +1,8 @@
 <?php
-// Find the bank template by identifying certain text in certain positions
+// Find the bank template by identifying text in certain positions
 require('functions.php');
 
-//$oRouteVars['id'] = '1721149259848147';
+
 
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
@@ -78,6 +78,7 @@ function bank_template($oData){
 	foreach ($aTemplate as $oT){
 		if (!$sBank){
 			switch ($oT['method']){
+				// Detect in 2 ways
 				case 'words_by_class_id':
 					$aBank = [];
 					foreach ($oT['test'] as $oTT){
@@ -96,7 +97,7 @@ function bank_template($oData){
 					$aBank = [];
 					foreach ($oT['test'] as $oTT){
 						$aBank[] = words_at_position($sHtml, $oTT['parameter']);
-						if (($aBank[0][0]['text'] == $oTT['value'])){
+						if ((isset($aBank[0][0]['text']) && ($aBank[0][0]['text'] == $oTT['value']))){
 							$sBank = $oT['name'];
 							break;
 						}
@@ -116,7 +117,7 @@ function bank_template($oData){
 		$oData['message'] = 'Found template: ' . $sBank;
 	} else {
 		$oData['bank'] = '';
-		$oData['message'] = 'Could not find a suitable template. Aborting';
+		$oData['message'] = 'Could not find a bank template';
 		$oData['error'] = 1;
 	}
 	return $oData;
@@ -125,4 +126,6 @@ function bank_template($oData){
 
 
 job($oRouteVars, $oV);
+
+
 

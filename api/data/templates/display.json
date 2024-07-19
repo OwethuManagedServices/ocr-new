@@ -45,17 +45,18 @@
 	],
 	"balances": [
         {
-            "description": "Balance",
-            "width": 20
-        },
-        {
             "description": "Date",
             "width": 20
         },
         {
-            "description": "Amount In",
-            "width": 9,
-			"is_amount": 1 
+            "description": "Opening Balance",
+            "width": 10,
+			"is_amount": 1
+        },
+        {
+            "description": "Closing Balance",
+            "width": 10,
+			"is_amount": 1
         }
 
 	]

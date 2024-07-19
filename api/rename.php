@@ -36,9 +36,7 @@ function job($oRouteVars, $oV){
 	];
     $sWork = $oV['sDirectoryWork'] . $sId;
 	$sMetaFile = $sWork . '/meta.json';
-error_log($sMetaFile);
 	if (file_exists($sMetaFile)){
-        error_log(123);
 		$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 		if ((isset($oMeta)) && (isset($oMeta['result']))){
             $oMeta['result']["id"] = $sValue;
@@ -49,7 +47,6 @@ error_log($sMetaFile);
             rename($sFolder . $sId, $sFolder . $sValue);
 		}
 	}
-    error_log(json_encode($_SERVER['REQUEST_METHOD']));
 	response_json($oMeta);
 }
 

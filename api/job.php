@@ -83,40 +83,6 @@ function job($oRouteVars, $oV){
 
 
 
-function curlget($sUrl, $oV){
-	try {
-		$oCh = curl_init();
-		// Check if initialization had gone wrong
-		if ($oCh === false){
-			throw new Exception('failed to initialize');
-            return '';
-		}
-		curl_setopt($oCh, CURLOPT_URL, $sUrl);
-		curl_setopt($oCh, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($oCh, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($oCh, CURLOPT_FOLLOWLOCATION, 1);
-		if ($oV['bUseAuth']){
-			curl_setopt($oCh, CURLOPT_HTTPHEADER, [
-				'Authorization: X-API-KEY ' . $_SESSION['X-API-KEY'],
-			]);
-		}
-		$sContent = curl_exec($oCh);
-		// Check the return value of curl_exec(), too
-		if ($sContent === false){
-			throw new Exception(curl_error($oCh), curl_errno($oCh));
-		}
-	} catch(Exception $oError) {
-		trigger_error(sprintf(
-			'Curl failed with error #%d: %s',
-			$oError->getCode(), $oError->getMessage()),
-			E_USER_ERROR);
-	} finally {
-		curl_close($oCh);
-	}
-	return $sContent;	
-}
-
-
-
 job($oRouteVars, $oV);
+
 

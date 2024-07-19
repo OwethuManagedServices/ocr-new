@@ -2,6 +2,8 @@
 // Extract header information from the first page
 require('functions.php');
 
+
+
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
 	$sBank = $oRouteVars['bank'];
@@ -16,6 +18,7 @@ function job($oRouteVars, $oV){
 		if (file_exists($oTemplate)){
 			$oTemplate = json_decode(file_get_contents($oTemplate), 1);
 			$sHtml = str_get_html(file_get_contents($sHocr));
+			// Do the job
 			$oHeader = header_info($sHtml, $oTemplate);
 			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 			$oMeta = [
@@ -53,30 +56,7 @@ function job($oRouteVars, $oV){
 
 
 
-function header_info($sHtml, $oTemplate){
-	$oHeader = [];
-	// Loop through the template header fields
-	foreach ($oTemplate['header'] as $oT){
-		// Get all the words at the field position
-		$aWords = words_at_position($sHtml, $oT['position']);
-		// Concatenate with ' '
-		$sText = '';
-		foreach ($aWords as $oW){
-			$sText .= $oW['text'] . ' ';
-		}
-		// Remove unwanted words
-		if (isset($oT['replace'])){
-			$sText = str_replace($oT['replace'], '', $sText);
-		}
-		$oHeader[$oT['name']] = trim($sText);
-	}
-	// Add the bank name to the header info
-	$oHeader['bank_name'] = $oTemplate['name'];
-	return $oHeader;
-}
-
-
-
 job($oRouteVars, $oV);
+
 
 

@@ -1,4 +1,7 @@
 console.log("APP");
+
+
+
 var APP = {
 _V: {
 	oAjax: {
@@ -741,7 +744,7 @@ uploaddone: function(oData){
 	} else {
 		eA = APP.dg("acc_uploadprogressbar_" + MBF._V.sUploadIdPart)
 		eA.style.width = 0;
-		eA.parentNode.style.opacity = 0;
+//		eA.parentNode.style.opacity = 0;
 		if (oData.step == 1){
 			eA = APP.dg("processingbox");
 			eA.style.display = "block";
@@ -1077,17 +1080,11 @@ display: function(){
 
 	eG = document.querySelector("#grid_balances");
 	eG.innerHTML = "";
-	eT = APP.ele(eG, "my-4", "table");
-	eR = APP.ele(eT, "", "tr");
-	sB = "p-4";
-	eD = APP.ele(eR, sB, "td");
-	eD.innerHTML = aBalances[0][0];
-	eD = APP.ele(eR, sB, "td");
-	eD.innerHTML = aBalances[0][1];
-	eD = APP.ele(eR, sB, "td");
-	eD.innerHTML = aBalances[0][2];
-	eD = APP.ele(eR, sB, "td");
-	eD.innerHTML = aBalances[0][3];
+	eT = APP.ele(eG);
+	eT.innerHTML = "";
+	aBalances[0].forEach(function(sWord){
+		eT.innerHTML += (sWord + " ");
+	});
 
 	eT = APP.ele(eG, "", "table");
 	eR = APP.ele(eT, "", "tr");
@@ -1104,7 +1101,7 @@ display: function(){
 			eR = APP.ele(eT, "", "tr");
 			iJ = 0;
 			aRow.forEach(function(sCol){
-				oC = aColsBalances[iJ];//.split("|");
+				oC = aColsBalances[iJ];
 				if (oC.is_amount){
 					sB = sBorder + " text-right";
 				} else {

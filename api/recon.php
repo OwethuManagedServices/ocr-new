@@ -1,9 +1,7 @@
 <?php
-// Return the recon statement information
+// Return the recon statement
 require('functions.php');
 
-
-// $oRouteVars['id'] = '1720790903866023';
 
 
 function job($oRouteVars, $oV){
@@ -22,6 +20,7 @@ function job($oRouteVars, $oV){
 			} else {
 				$aEdit = array_fill(0, sizeof($aGrid), []);
 			}
+			// Do the job
 			$aData = recon_balance($oMeta, $oV);
 			$oMeta['result']['grid'] = $aData[1];
 			$oMeta['result']['recon'] = $aData[0];
@@ -35,4 +34,5 @@ function job($oRouteVars, $oV){
 
 
 job($oRouteVars, $oV);
+
 

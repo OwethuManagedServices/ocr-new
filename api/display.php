@@ -1,7 +1,6 @@
 <?php
-// Find the monthly opening and closing balances
+// Provide the display information
 require('functions.php');
-
 
 
 
@@ -27,3 +26,5 @@ function job($oRouteVars, $oV){
 
 
 job($oRouteVars, $oV);
+
+
