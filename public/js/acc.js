@@ -1294,7 +1294,7 @@ progressdisplay: function(oResult, bDone){
 			
 			case "ocr-to-data":
 				if (!OCR.V.iProgressPercentOcr){
-					OCR.V.iProgressPercentOcr = (99 - OCR.V.iProgressPercent) / iPages;
+					OCR.V.iProgressPercentOcr = (100 - OCR.V.iProgressPercent) / iPages;
 					OCR.V.iProgressPercent -= OCR.V.iProgressPercentOcr;
 					OCR.V.iProgressPercentPgCol = 0;
 				}
@@ -1311,7 +1311,7 @@ progressdisplay: function(oResult, bDone){
 	}
 	sPid = "PID: " + oResult.pid;
 	if ((OCR.V.iProgressPercentPgCol) || (OCR.V.iProgressPercentOcr)){
-		if (typeof oResult.result.page_now != "undefined"){
+		if ((oResult) && (oResult.result) && (typeof oResult.result.page_now != "undefined")){
 			if (OCR.V.iProgressPercentLastPage != oResult.result.page_now){
 				OCR.V.iProgressPercentLastPage = oResult.result.page_now;
 				OCR.V.iProgressPercent += (OCR.V.iProgressPercentPgCol + OCR.V.iProgressPercentOcr);
@@ -1387,6 +1387,12 @@ reset: function(){
 	document.querySelector("#acc_fileupload_statement_selected").innerHTML = "";
 	eA = document.querySelector("#acc_fileupload_statement");
 	eA.value = null;
+	OCR.V.iProgressPercentPgCol = 0;
+	OCR.V.iProgressPercentOcr = 0;
+	OCR.V.iProgressPercentCoefficient = 40;
+	OCR.V.iProgressPercent = 0;
+	OCR.V.iProgressPercentLastPage = 0;
+
 },
 
 
@@ -1467,6 +1473,11 @@ statementsave: function(){
 
 start: async function(aFiles){
 	var sButton, sUrl, eA, eB, eC;
+	OCR.V.iProgressPercentPgCol = 0;
+	OCR.V.iProgressPercentOcr = 0;
+	OCR.V.iProgressPercentCoefficient = 40;
+	OCR.V.iProgressPercent = 0;
+	OCR.V.iProgressPercentLastPage = 0;
 	OCR.V.aFiles = aFiles;
 	sButton = OCR.V.eButton.innerHTML;
 	if (sButton == "Process"){
