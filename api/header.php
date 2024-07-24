@@ -29,6 +29,7 @@ function job($oRouteVars, $oV){
 					'pages' => $iPages,
 					'bank' => $sBank,
 					'header' => $oHeader,
+					'template' => $oMeta['result']['template'],
 					'thumbs' => $oMeta['result']['thumbs'],
 					'job' => 'pages-columns',
 				],

@@ -14,6 +14,13 @@ function job($oRouteVars, $oV){
 
 	if (isset($oResponse['result']['job'])){
 
+		// NUMBER OF PAGES
+		if ((isset($oResponse)) && (isset($oResponse['error'])) && (!$oResponse['error'])){
+			$sUrl = $oV['sApiUrl'] . $oResponse['result']['job'] . '/' . $oResponse['result']['id'];
+			$oResponse = curlget($sUrl, $oV);
+			$oResponse = json_decode($oResponse, 1);    
+		}
+
 		// PDF to IMAGE
 		if ((isset($oResponse)) && (isset($oResponse['error'])) && (!$oResponse['error'])){
 			$sUrl = $oV['sApiUrl'] . $oResponse['result']['job'] . '/' . $oResponse['result']['id'];

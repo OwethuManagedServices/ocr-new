@@ -47,13 +47,13 @@ function formfieldshow($oFld, $sVal, $oUser = 0){
 		case 'upload':
 			$sH .= '
 <div>
-<table border=1><tr><td width="50%">
+<table border=1><tr><td width="200px">
 	<label style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering mx-1 text-light text-sm py-2 px-6 rounded-md" for="acc_fileupload_' . $oFld['job'] . '">
 			<span class="text-center">Select File(s)</span>
 		</label>
 		<input type="file" multiple="multiple" id="acc_fileupload_' . $oFld['job'] . '" style="opacity:0;width:1px;margin:0 30px 0 -30px;" onchange="MBF.selected(event)" />
 	</td>
-	<td width="50%">
+	<td>
 		<div class="mt-4 h-8" id="acc_fileupload_' . $oFld['job'] . '_selected"></div>
 		<div class="float-right" id="accwaitspinupload"></div>
 	</td>
@@ -66,9 +66,7 @@ function formfieldshow($oFld, $sVal, $oUser = 0){
 			<button id="acc_upload_' . $oFld['job'] . '" style="--hoverbg:' . $oUser->theme_color_secondary . ';background:' . $oUser->theme_color_primary . '" class="hovering mx-1 text-light text-sm py-2 px-6 rounded-md w-full" type="button" onclick="MBF.uploadstart(event)">Upload ' . $oFld['description'] . '</button>
 		</td>
 		<td>
-			<div id="acc_uploadprogress_' . $oFld['job'] . '" class="accprogress">
-				<div id="acc_uploadprogressbar_' . $oFld['job'] . '" class="accprogressbar"></div>
-			</div>
+			<div id="acc_uploadprogress_' . $oFld['job'] . '" class="accprogress"><div id="acc_uploadprogressbar_' . $oFld['job'] . '" class="accprogressbar"></div></div>
 		</td>
 	</tr>
 </table>

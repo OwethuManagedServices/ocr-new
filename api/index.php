@@ -120,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 		$oRoute->add('v1/cancel/{id}', 							'cancel.php');
 		$oRoute->add('v1/progress/{id}', 						'progress.php');
 		$oRoute->add('v1/start/{id}', 							'start.php');
+		$oRoute->add('v1/number-pages/{id}',					'numberpages.php');
 		$oRoute->add('v1/pdf-to-image/{id}', 					'pdftoimage.php');
 		$oRoute->add('v1/bank-template/{id}/{pages}', 			'banktemplate.php');
 		$oRoute->add('v1/header/{id}/{bank}/{pages}',		 	'header.php');
@@ -131,6 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 		$oRoute->add('v1/display/{id}',							'display.php');
 		$oRoute->add('v1/rename/{id}/{value}',					'rename.php');
 		$oRoute->add('v1/load/{id}',							'load.php');
+		$oRoute->add('v1/uploaded{filename}/' . 
+		'{ext}/{folder}/{getp}/{orig}/{number}/{id}',			'uploaded.php');
+		
 		// Queries
 		$oRoute->add('v1/thumb/{id}/{pdf}/{page}',				'thumb.php');
 		$oRoute->add('v1/statement/{id}', 						'statement.php');

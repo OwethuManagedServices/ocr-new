@@ -41,8 +41,7 @@ ajax: function(oData, fCallback, sType = "post"){
 	APP._V.oAjax.bDone = 0;
 	APP._V.oAjax.bRaw = oData.raw;
 	oData = APP.json(0, oData);
-	oData = "action=" + APP._V.oSrv.action + "&_token=" + APP._V.oSrv.token +
-		"&data=" + APP.base64(oData);
+	oData = "action=" + APP._V.oSrv.action + "&_token=" + APP._V.oSrv.token + "&data=" + APP.base64(oData);
 	oX = new XMLHttpRequest();
 	oX.open(sType, APP._V.oSrv.url + APP._V.oSrv.ajaxurl);
 	oX.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -376,7 +375,6 @@ themeswitch: function(bLoggedIn){
 			APP.dg("theme_sun").style.display = "block";
 		}
 	}
-	console.log((document.title.split("--")[0]).replace(/ /g, ""));
 	localStorage.setItem((document.title.split("--")[0]).replace(/ /g, ""),
 		JSON.stringify({theme: eH.className}));
 	if (bLoggedIn){
@@ -389,7 +387,6 @@ themeswitch: function(bLoggedIn){
 themeswitchloggedin: function(){
 	var eA, sClass;
 	eA = APP.dg("darkmode");
-	console.log(eA);
 	if (eA.checked){
 		eA.checked = "";
 		sClass = "";
@@ -401,7 +398,6 @@ themeswitchloggedin: function(){
 		job: "darkmode",
 		class: sClass,
 	}, function(oData){
-		console.log(oData);
 		eA = document.getElementsByTagName("html")[0];
 		eA.className = sClass;
 		if (window.location.href.indexOf('dashboard') != -1){
@@ -506,6 +502,7 @@ member: function(bMember){
 },
 
 
+
 };
 
 
@@ -515,38 +512,6 @@ var GRD = {
 V: {
 
 },
-
-
-/*
-filter: function(oEvent){
-	var eA, aL, aM, sS, eA, sU, sP, sV, aL, aM;
-	sS = "pg=";
-	aM = [];
-	aL = window.location.search.substr(1).split("&");
-	aL.forEach(function(sL){
-		if ((sL) && (sL.indexOf(sS) == -1)){
-			aM.push(sL);
-		}
-	});
-	if (aM.length){
-		aM[0] = "?" + aM[0];
-	}
-	sS = window.location.href.split("?")[0] + aM.join("&");
-	window.history.pushState({pageTitle: window.title}, "", sS);
-
-	eA = document.getElementById("filter");
-	sV = eA[eA.value - 1].innerHTML;
-	sU = window.location.href.split("?")[0];
-	sP = APP.getparams("filter", sV).toLowerCase()[0];
-	if (sP == '?filter=all'){
-		window.location.href = sU;
-	} else {
-		if (sP){
-			window.location.href = sU + sP;
-		}
-	}
-},
-*/
 
 
 
@@ -559,8 +524,6 @@ filtershow: function(oEvent){
 		eB.style.height = "300px";
 	}
 },
-
-
 
 
 
@@ -580,7 +543,6 @@ searchclear: function(oEvent){
 	}
 	sS = window.location.href.split("?")[0] + aM.join("&");
 	window.history.pushState({pageTitle: window.title}, "", sS);
-	console.log('c',sS);
 	eA.value = "";
 	eA.focus();
 	GRD.searchtype({target: eA});
@@ -592,7 +554,6 @@ searchenter: function(oEvent){
 	if (oEvent.charCode == 13){
 		GRD.searchgo(oEvent);
 	}
-	console.log('e',oEvent.target);
 },
 
 
@@ -653,7 +614,6 @@ sort: function(sSort){
 	var sP, sU;
 	sU = window.location.href.split("?")[0];
 	sP = APP.getparams("sort", sSort)[0];
-	console.log(sSort);
 	window.location.href = sU + sP;
 },
 
@@ -733,7 +693,6 @@ uploaddone: function(oData){
 			eA.src = oData.convert.src;
 			APP._V.sLogo = oData.convert.src;
 		}
-
 	}
 	MBF._V.sId = oData.folder;
 	MBF._V.iFileNow++;
@@ -744,10 +703,11 @@ uploaddone: function(oData){
 	} else {
 		eA = APP.dg("acc_uploadprogressbar_" + MBF._V.sUploadIdPart)
 		eA.style.width = 0;
-//		eA.parentNode.style.opacity = 0;
 		if (oData.step == 1){
 			eA = APP.dg("processingbox");
 			eA.style.display = "block";
+			eA = APP.dg("uploadbox");
+			eA.style.display = "none";
 			document.querySelector("#log").innerHTML = "<br><br><br><br>";
 			eA = APP.dg("processingbtn");
 			OCR.V.eButton = APP.dg("btn_action");
@@ -772,7 +732,6 @@ uploadprogress: function(){
 		(MBF._V.iUploadChunkNow + 1) * MBF._V.iUploadChunkSize);
 	if (MBF._V.iUploadChunkNow < MBF._V.iUploadChunksTotal){
 		var oReq = new XMLHttpRequest();
-
 		oReq.open("POST", APP._V.oSrv.url + "/upload.php" 
 			+ "?file=" + MBF._V.sUploadFileName + MBF._V.sUploadGet, true);
 		oReq.onload = function (oEvent) {
@@ -793,7 +752,6 @@ uploadprogress: function(){
 		MBF._V.iUploadChunkNow++;
 	} else {
 		eA = APP.dg(MBF._V.sUploadId);
-//		eA.innerHTML = eA.innerHTML1;
 		if (MBF._V.iUploadChunksTotal == -1){
 			APP.ajax({
 				job: "upload-cancel",
@@ -803,7 +761,6 @@ uploadprogress: function(){
 			}, MBF.uploadcancel);
 		} else {
 			sF = MBF._V.sFolderUpload;
-//			APP._V.oAjax.eSpinnerParent = APP.dg("accwaitspinupload");
 			APP.ajax({
 				job: "upload-done",
 				filename: MBF._V.sUploadFileName,
@@ -843,67 +800,61 @@ uploadstart:function(oEvent){
 
 		}
 		eB = APP.dg("acc_fileupload_" + aF[2]);
-
-//		for (iI = 0; iI < eB.files.length; iI++){
-
-			oOF = eB.files[MBF._V.iFileNow];
-			if ((!oOF) || (!oOF.name)){
-				alert("You have to select a file.")
-				return;
-			}
-			MBF._V.sUploadOriginalFileName = oOF.name;
-			MBF._V.sUploadId = eA.id;
-			MBF._V.sUploadIdPart = aF[2];
-			sI = eB.value.toLowerCase();
-			if (sR.test(sI)){
-				if (typeof(FileReader) != "undefined"){
-					eP = APP.dg("acc_uploadprogressbar_" + MBF._V.sUploadIdPart) ;
-					eP.parentNode.style.opacity = 1;
-					eP.style.width = "3%";
-					oReader = new FileReader();
-					eA.innerHTML1 = eA.innerHTML;
-					eA.innerHTML = "Cancel";
-					eA = APP.dg("acc_uploadprogress_" + MBF._V.sUploadIdPart);
-					eA.style.opacity = 1;
-					if (oReader.readAsArrayBuffer){
-						oReader.onload = function(oEvent){
-							MBF._V.oUploadData = oEvent.target.result;
-							MBF._V.iUploadChunkNow = 0;
-							MBF._V.iUploadChunksTotal = 
-								1 + MBF._V.oUploadData.byteLength 
-								/ MBF._V.iUploadChunkSize;
-								iD = Date.now();
-							MBF._V.sUploadFileName = 
-								(iD + "-"
-								+ APP.base64(MBF._V.sUploadOriginalFileName) 
-								+ "-" + Math.random().toString(36).slice(-10))
-								.replace(/=/g, "");
-							MBF.uploadprogress();
-						};
-						oReader.readAsArrayBuffer(eB.files[MBF._V.iFileNow]);
-					} else {
-						oReader.onload = function(oEvent){
-							var sData, aBytes, iI;
-							sData = "";
-							aBytes = new Uint8Array(oEvent.target.result);
-							for (iI = 0; iI < aBytes.byteLength; iI++){
-								sData += String.fromCharCode(aBytes[iI]);
-							}
-							MBF.uploadprogress(sData);
-						};
-						oReader.readAsArrayBuffer(eB.files[MBF._V.iFileNow]);
-					}
+		oOF = eB.files[MBF._V.iFileNow];
+		if ((!oOF) || (!oOF.name)){
+			alert("You have to select a file.")
+			return;
+		}
+		MBF._V.sUploadOriginalFileName = oOF.name;
+		MBF._V.sUploadId = eA.id;
+		MBF._V.sUploadIdPart = aF[2];
+		sI = eB.value.toLowerCase();
+		if (sR.test(sI)){
+			if (typeof(FileReader) != "undefined"){
+				eP = APP.dg("acc_uploadprogressbar_" + MBF._V.sUploadIdPart) ;
+				eP.parentNode.style.opacity = 1;
+				eP.style.width = "3%";
+				oReader = new FileReader();
+				eA.innerHTML1 = eA.innerHTML;
+				eA.innerHTML = "Cancel";
+				eA = APP.dg("acc_uploadprogress_" + MBF._V.sUploadIdPart);
+				eA.style.opacity = 1;
+				if (oReader.readAsArrayBuffer){
+					oReader.onload = function(oEvent){
+						MBF._V.oUploadData = oEvent.target.result;
+						MBF._V.iUploadChunkNow = 0;
+						MBF._V.iUploadChunksTotal = 
+							1 + MBF._V.oUploadData.byteLength 
+							/ MBF._V.iUploadChunkSize;
+							iD = Date.now();
+						MBF._V.sUploadFileName = 
+							(iD + "-"
+							+ APP.base64(MBF._V.sUploadOriginalFileName) 
+							+ "-" + Math.random().toString(36).slice(-10))
+							.replace(/=/g, "");
+						MBF.uploadprogress();
+					};
+					oReader.readAsArrayBuffer(eB.files[MBF._V.iFileNow]);
 				} else {
-					alert("Unsupported browser");
+					oReader.onload = function(oEvent){
+						var sData, aBytes, iI;
+						sData = "";
+						aBytes = new Uint8Array(oEvent.target.result);
+						for (iI = 0; iI < aBytes.byteLength; iI++){
+							sData += String.fromCharCode(aBytes[iI]);
+						}
+						MBF.uploadprogress(sData);
+					};
+					oReader.readAsArrayBuffer(eB.files[MBF._V.iFileNow]);
 				}
 			} else {
-				alert("Please upload a file with a valid extension. " + 
-					"Also consider renaming the filename to be relatively simple " + 
-					"regarding special characters.");
+				alert("Unsupported browser");
 			}
-
-
-//		}
+		} else {
+			alert("Please upload a file with a valid extension. " + 
+				"Also consider renaming the filename to be relatively simple " + 
+				"regarding special characters.");
+		}
 	}
 },
 
@@ -916,23 +867,27 @@ uploadstart:function(oEvent){
 var OCR = {
 
 V: {
-
-
 	sApiUrl: "http://api.ocr.ubu/v1/",
 	sApiKey: "1234567890",
 
 	oApiHeader : {},
 	iStartTime: 0,
 	iPingInterval: 0,
-	iPingTime: 1000,
+	iPingTime: 500,
 	iRowEdit: 0,
 	sFolderId: "",
 	eFolder: {},
 	eButton: 0,
+	eProgress: 0,
 	sPingUrl: "",
 	oResult: {},
 	aFiles: [],
 	bThumbsDisplayed: 0,
+	iProgressPercentCoefficient: 40,
+	iProgressPercent: 0,
+	iProgressPercentPgCol: 0,
+	iProgressPercentOcr: 0,
+	iProgressPercentLastPage: 0,
 },
 
 
@@ -940,13 +895,12 @@ V: {
 cancel: async function(oEvent){
 	var sUrl, eB;
 	eB = oEvent.target;
-	sUrl = OCR.V.sApiUrl + "cancel/" + oResult.result.id;
-	console.log(sUrl);
+	sUrl = OCR.V.sApiUrl + "cancel/" + OCR.V.sFolderId;
 	oResponse = await fetch(sUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();
 		eB.innerHTML = "Process";
-		console.log(oResult);
+		window.clearInterval(OCR.V.iPingInterval);
 	}
 },
 
@@ -956,10 +910,6 @@ display: function(){
 	var aGrid, aEdit, sPR, aAnomalies, aRecon, aBalances, aSalaries, aIncomes, eA, eG, eT, eR, eD, iI, iJ, sBorder, sB, aColsTransactions, aColsBalances;
 	eA = document.querySelector("#uploadbox");
 	eA.style.display = "block";
-	/*
-	aColsTransactions = "P_R|10%, Date|12%, Description|24%, Amt In|9%|a, Amt Out|9%|a, Balance|9%|a, OCR In|9%|a, OCR Out|9%|a, OCR Bal|9%|a".split(", ");
-	aColsBalances = "Balance|20%, Date|20%, Amount In|20%|a".split(", ");
-	*/
 	aColsTransactions = OCR.V.oResult.display.transactions;
 	aColsBalances = OCR.V.oResult.display.balances;
 	sBorder = "border border-greylight px-1 py-2";
@@ -1031,8 +981,6 @@ display: function(){
 		iI++;
 	});
 
-
-	
 	iI = 0;
 	aGrid.forEach(function(aRow){
 		if (iI % 2){
@@ -1045,9 +993,6 @@ display: function(){
 		eR.id = "row_" + iI;
 		var sR = aRow[0];
 		var sO = OCR.V.oResult.grid[iI][0];
-		if (sR != sO){
-			console.log(sR + " != " + sO);
-		}
 		if ((aEdit[iI]) && (aEdit[iI][0])){
 				sPR = aRow[0];
 				aRow = aEdit[iI];
@@ -1155,7 +1100,6 @@ display: function(){
 
 
 edit_cancel: function(){
-	console.log("cancel");
 	APP.dg("transaction_edit").style.display = "none";
 },
 
@@ -1175,10 +1119,8 @@ edit_save: async function(){
 		APP.dg("edit_ocr_out").value,
 		APP.dg("edit_ocr_balance").value,
 	];
-console.log(sRow);
 
 	sRow = btoa(JSON.stringify(sRow)).replace(/[/]/g, "-").replace(/=/g, "_");
-console.log(sRow);
 	OCR.V.sFolderId = APP.dg("folder").value;
 	OCR.V.oApiHeader = new Headers();
 	OCR.V.oApiHeader.append("Authorization", "X-API-KEY " + OCR.V.sApiKey);
@@ -1190,7 +1132,6 @@ console.log(sRow);
 	};
 	sUrl = OCR.V.sApiUrl + 'row-edit/' + OCR.V.sFolderId + "/" + sRow;
 	OCR.job(sUrl, function(oData){
-		console.log(oData);
 	});
 	APP.dg("transaction_edit").style.display = "none";
 },
@@ -1221,7 +1162,6 @@ grid_from_data: async function(){
 	oResponse = await fetch(sUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();
-		console.log(oResult);
 		if (!oResult.error){
 			OCR.V.oResult = oResult.result;
 			document.querySelector("#grids").innerHTML = "";
@@ -1284,49 +1224,18 @@ pageload: function(oEvent){
 			window.open(oData.url, "_blank").focus();
 		}
 	})
-	console.log(eA);
 },
 
 
 
 progress: async function(){
-	var iTime, eLog, sTime, oResponse, sMessage, sPid, iPages, aPages, eA, eB, eC;
+	var oResponse, sMessage, sPid, eA, eB, eC;
 	sMessage = "";
 	sPid = "";
 	oResponse = await fetch(OCR.V.sPingUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();
-		iTime = new Date().getTime();
-		eLog = document.querySelector("#log");
-		sTime = parseInt((iTime - OCR.V.iStartTime) / 100) / 10;
-		if (sTime == parseInt(sTime)){
-			sTime += ".0";
-		}
-		if (oResult.message){
-			if (oResult.result.job){
-				sMessage = oResult.result.job + ": ";	
-			} else {
-				sMessage = "";
-			}
-			sMessage += oResult.message;
-			if ((oResult.result) && (oResult.result.ocr_page)){
-				sMessage += ", page " + oResult.result.ocr_page;
-			}
-		}
-		if ((oResult.result) && (oResult.result.pages)){
-			iPages = 0;
-			aPages = JSON.parse(oResult.result.pages);
-			aPages.forEach(function(iP){
-				iPages += iP
-			})
-			sMessage += ", pages: " + iPages;
-		}
-		if ((oResult.result) && (oResult.result.bank)){
-			sMessage += ", bank: " + oResult.result.bank;
-		}
-		sPid = "PID: " + oResult.pid;
-		eLog.innerHTML = sTime + " seconds<br>" + sMessage + "<br>" + sPid;
-
+		OCR.progressdisplay(oResult);
 		if ((oResult.result) && (oResult.result.thumbs) && (!OCR.V.bThumbsDisplayed)){
 			eA = document.querySelector("#preview");
 			oResult.result.thumbs.forEach(function(aT){
@@ -1341,6 +1250,79 @@ progress: async function(){
 			OCR.V.bThumbsDisplayed = 1;
 		}
 	}
+},
+
+
+
+progressdisplay: function(oResult, bDone){
+	var iTime, sTime, sMessage, sPid, iPages, aPages, iT;
+	iTime = new Date().getTime();
+	eLog = document.querySelector("#log");
+	sTime = parseInt((iTime - OCR.V.iStartTime) / 100) / 10;
+	if (sTime == parseInt(sTime)){
+		sTime += ".0";
+	}
+	if (oResult.message){
+		sMessage = oResult.message;
+		if ((oResult.result) && (oResult.result.page_now)){
+			sMessage += ", page " + oResult.result.page_now;
+		}
+	}
+	if ((oResult.result) && (oResult.result.pages)){
+		iPages = 0;
+		aPages = JSON.parse(oResult.result.pages);
+		aPages.forEach(function(iP){
+			iPages += iP
+		});
+		sMessage += ", pages: " + iPages;
+
+		iT = parseFloat(sTime);
+		switch (oResult.result.job){
+
+			case "pdf-to-image":
+			case "bank-template":
+			case "header":
+				OCR.V.iProgressPercent = parseInt(parseFloat(sTime) / OCR.V.iProgressPercentCoefficient * 100);
+			break;
+
+			case "pages-columns":
+				if (!OCR.V.iProgressPercentPgCol){
+					OCR.V.iProgressPercentPgCol = (50 - OCR.V.iProgressPercent) / iPages;
+					OCR.V.iProgressPercentLastPage = -1;
+				}
+			break;
+			
+			case "ocr-to-data":
+				if (!OCR.V.iProgressPercentOcr){
+					OCR.V.iProgressPercentOcr = (99 - OCR.V.iProgressPercent) / iPages;
+					OCR.V.iProgressPercent -= OCR.V.iProgressPercentOcr;
+					OCR.V.iProgressPercentPgCol = 0;
+				}
+			break;
+			
+			case "display":
+				OCR.V.iProgressPercent = 100;
+			break;
+
+		}
+	}
+	if ((oResult.result) && (oResult.result.bank)){
+		sMessage += ", bank: " + oResult.result.bank;
+	}
+	sPid = "PID: " + oResult.pid;
+	if ((OCR.V.iProgressPercentPgCol) || (OCR.V.iProgressPercentOcr)){
+		if (typeof oResult.result.page_now != "undefined"){
+			if (OCR.V.iProgressPercentLastPage != oResult.result.page_now){
+				OCR.V.iProgressPercentLastPage = oResult.result.page_now;
+				OCR.V.iProgressPercent += (OCR.V.iProgressPercentPgCol + OCR.V.iProgressPercentOcr);
+			}
+		}
+	}
+	if (OCR.V.iProgressPercent > 100){
+		OCR.V.iProgressPercent = 100;
+	}
+	OCR.V.eProgress.childNodes[0].style.width = OCR.V.iProgressPercent + "%";
+	eLog.innerHTML = sTime + " s, " + sMessage + "<br>" + sPid;
 },
 
 
@@ -1384,8 +1366,27 @@ thumbnail: async function(oData, eImg, aT){
 	oResponse = await fetch(sUrl, OCR.V.oApiHeader);
 	if (oResponse.ok){
 		oResult = await oResponse.json();
-		eImg.src = "data:image/gif;base64," + oResult.result.b64;
+		if ((oResult.result) && (oResult.result.b64)){
+			eImg.src = "data:image/gif;base64," + oResult.result.b64;
+		}
 	}
+},
+
+
+
+reset: function(){
+	var eA;
+	document.querySelector("#folder").value = "";
+	document.querySelector("#log").innerHTML = "";
+	document.querySelector("#preview").innerHTML = "";
+	eA = document.querySelector("#acc_processprogress_statement");
+	eA.style.opacity = 0;
+	eA.childNodes[0].style.width = 0;
+	document.querySelector("#processingbox").style.display = "none";
+	document.querySelector("#uploadbox").style.display = "block";
+	document.querySelector("#acc_fileupload_statement_selected").innerHTML = "";
+	eA = document.querySelector("#acc_fileupload_statement");
+	eA.value = null;
 },
 
 
@@ -1407,7 +1408,6 @@ rowedit: function(oEvent){
 	eA.style.left = (iX) + "px";
 	eA.style.display = "block";
 	aRow = OCR.V.oResult.grid[iRow];
-	console.log(OCR.V.oResult.grid[iRow]);
 	APP.dg("edit_date").value = aRow[1];
 	APP.dg("edit_description").value = aRow[3];
 	APP.dg("edit_amount_in").value = aRow[4];
@@ -1466,10 +1466,29 @@ statementsave: function(){
 
 
 start: async function(aFiles){
-	var sButton, sUrl, eA;
+	var sButton, sUrl, eA, eB, eC;
 	OCR.V.aFiles = aFiles;
 	sButton = OCR.V.eButton.innerHTML;
 	if (sButton == "Process"){
+		document.querySelector("#processprogress").style.display = "block";
+		document.querySelector("#preview").innerHTML = "";
+		OCR.V.bThumbsDisplayed = 0;
+		OCR.V.bProgressPercentStarted = 0;
+		eA = document.querySelector("#acc_uploadprogress_statement");
+		eA.childNodes[0].style.width = 0;	
+		eB = document.querySelector("#process_progress");
+		eC = document.querySelector("#acc_processprogress_statement");
+		if (!eC){
+			eC = eA.cloneNode(1);
+			eC.id = "acc_processprogress_statement";
+			eB.appendChild(eC);
+		}
+		eA.style.opacity = 0;
+		eC.style.opacity = 1;
+		eA = document.querySelector("#uploadbox");
+		eA.style.display = "none";
+		OCR.V.eProgress = eB.childNodes[1];
+		OCR.V.eButton.innerHTML = "Cancel";
 		OCR.V.sFolderId = OCR.V.eFolder.value;
 		OCR.V.sPingUrl = OCR.V.sApiUrl + "progress/" + OCR.V.sFolderId;
 		OCR.V.iStartTime = new Date().getTime();
@@ -1477,19 +1496,24 @@ start: async function(aFiles){
 		sUrl = OCR.V.sApiUrl + "job/" + OCR.V.sFolderId;
 		OCR.job(sUrl, function(oResult){
 			console.log(oResult);
-			OCR.V.eButton.innerHTML = "Process";
 			window.clearInterval(OCR.V.iPingInterval);
-			if (!oResult.error){
+			if ((!oResult.error) && (oResult.result)){
+				OCR.progressdisplay(oResult, 1);
+				eA = document.querySelector("#acc_processprogress_statement");
+				eA.childNodes[0].style.width = 0;
+				eA.style.opacity = 0;
+				window.setTimeout(function(){
+					document.querySelector("#processprogress").style.display = "none";
+				}, 200);
 				OCR.V.oResult = oResult.result;
+				OCR.V.eButton.innerHTML = "Process";
 				OCR.display();
+			} else {
+				OCR.reset();
 			}
 		});
 	} else {
-		OCR.V.eButton.innerHTML = "Process";
-		sUrl = OCR.V.sApiUrl + "cancel/" + OCR.V.sFolderId;
-		eA = document.querySelector("#uploadbox");
-		eA.style.display = "none";
-		window.clearInterval(OCR.V.iPingInterval);
+		OCR.cancel({target: OCR.V.eButton});
 	}
 },
 
@@ -1498,8 +1522,6 @@ start: async function(aFiles){
 };
 
 
-
-	
 
 var ROL = {
 

@@ -105,6 +105,7 @@ function balances_monthly($oMeta){
 	$aGrid = $oMeta['result']['grid'];
 	$oTemplateBalance = $oMeta['result']['template']['statement_from_to_dates'];
 	$oHeader = $oMeta['result']['header'];
+	/*
 	// Template has From and To fields
 	$sDateFrom = $oTemplateBalance['header_field_from'];
 	if ($sDateFrom){
@@ -125,6 +126,7 @@ function balances_monthly($oMeta){
 		$aD[0] = str_replace($oTemplateBalance['word_start'], '', $aD[0]);
 		$sDateFrom = statement_date_format(trim($aD[0]), $oTemplateBalance);
 	}
+	*/
 	$iV = 1;
 	$bFound = 0;
 	while ((!$bFound) && ($iV < 10)){
@@ -137,6 +139,20 @@ function balances_monthly($oMeta){
 	}
 	$aR = $aGrid[sizeof($aGrid) - $iV];
 	$sDateTo = $aR[1];
+
+	$iV = 0;
+	$bFound = 0;
+	while ((!$bFound) && ($iV < 10)){
+		$aR = $aGrid[$iV];
+		if (is_valid_date($aR[1])){
+			$bFound = 1;
+		} else {
+			$iV++;
+		}
+	}
+	$aR = $aGrid[$iV];
+	$sDateFrom = $aR[1];
+
 	// Use Unix time to determine number of days from start to end
 	$iTimeFrom = strtotime($sDateFrom);
 	$iTimeTo = strtotime($sDateTo);
@@ -175,7 +191,7 @@ function balances_monthly($oMeta){
 	// Add the last balance
 	$aBalances[$iIndex][2] = $aBalances[$iIndex][1];
 	$aBalances[$iIndex][1] = '';
-	return $aBalances;
+	return [$aBalances, $sDateFrom, $sDateTo];
 }
 
 
@@ -631,6 +647,7 @@ function pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg, $oV, $sMetaFile
 		$sCmd1 .= ' "' . $oV['sDirectoryBin'] . 'tesseract ' . $sImgCol . ' ' . $sWork . '/out-col-' . $iPg . '-' . $iPage . '-' . $iCol . ' hocr"';
 		$sExecFile .= $sCmd . "\n";
 		file_put_contents($sWork . '/ocrjob', $sExecFile);
+		
 		$iCol++;
 	}
 	// Finalise the shell scripts
@@ -939,26 +956,28 @@ function words_at_position($sHtml, $aPos){
 	}
 	$aPos = $aP;
 	$aWords = [];
-	foreach ($sHtml->find('span') as $oElement) {
-		// Cycle through all words
-		if ($oElement->class === 'ocrx_word') {
-			$oW = [
-				'text' => $oElement->innertext,
-				'id' => $oElement->id,
-				'title'	=> $oElement->title,
-			];
-			$aWP = explode(' ', $oElement->title);
-			$aWP1 = [];
-			// Find the position coordinates
-			foreach ($aWP as $sP) {
-				$aWP1[] = intval($sP);
-			}
-			$oW['pos'] = $aWP1;
-			// Test if word is inside provided position range
-			if (($oW['pos'][2] >= $aPos[1]) && ($oW['pos'][2] <= $aPos[3])
-				&& ($oW['pos'][1] >= $aPos[0]) && ($oW['pos'][1] <= $aPos[2])
-			) {
-				$aWords[] = $oW;
+	if ($sHtml){
+		foreach ($sHtml->find('span') as $oElement) {
+			// Cycle through all words
+			if ($oElement->class === 'ocrx_word') {
+				$oW = [
+					'text' => $oElement->innertext,
+					'id' => $oElement->id,
+					'title'	=> $oElement->title,
+				];
+				$aWP = explode(' ', $oElement->title);
+				$aWP1 = [];
+				// Find the position coordinates
+				foreach ($aWP as $sP) {
+					$aWP1[] = intval($sP);
+				}
+				$oW['pos'] = $aWP1;
+				// Test if word is inside provided position range
+				if (($oW['pos'][2] >= $aPos[1]) && ($oW['pos'][2] <= $aPos[3])
+					&& ($oW['pos'][1] >= $aPos[0]) && ($oW['pos'][1] <= $aPos[2])
+				) {
+					$aWords[] = $oW;
+				}
 			}
 		}
 	}
@@ -969,17 +988,19 @@ function words_at_position($sHtml, $aPos){
 
 function words_by_class_id($sHtml, $sTagName, $sId = '', $sClass = ''){
 	$sRet = '';
-	foreach ($sHtml->find($sTagName) as $oElement) {
-		if ($sId) {
-			if ($oElement->id === $sId) {
-				$sRet = $oElement->innertext;
-				break;
+	if ($sHtml){
+		foreach ($sHtml->find($sTagName) as $oElement) {
+			if ($sId) {
+				if ($oElement->id === $sId) {
+					$sRet = $oElement->innertext;
+					break;
+				}
 			}
-		}
-		if ($sClass) {
-			if ($oElement->class === $sClass) {
-				$sRet = $oElement->innertext;
-				break;
+			if ($sClass) {
+				if ($oElement->class === $sClass) {
+					$sRet = $oElement->innertext;
+					break;
+				}
 			}
 		}
 	}

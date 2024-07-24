@@ -6,7 +6,7 @@ use function Laravel\Prompts\error;
 require('functions.php');
 
 /*
-$oRouteVars['id'] = '1721314748477998';
+$oRouteVars['id'] = '1721400130088732';
 $oRouteVars['bank'] = 'fnb';
 $oRouteVars['pages'] = json_encode([3]);
 */
@@ -175,11 +175,17 @@ function job($oRouteVars, $oV){
 				$iPg++;
 			}
 			// All pages done yay
+			// Fix dates without years
+			if (substr($aPageDates[0][1], 0, 4) == '0000'){
+				$aPageDates = dates_year_fix($aPageDates, $oHeader, $sBank);
+			}
+//			error_log(json_encode($aPageDates));
 
 			// Sort by date
 			usort($aPageDates, function($a, $b){
 				return ($a[1] >= $b[1] ? 1 : -1);
 			});
+//error_log(json_encode($aPageDates));
 			$aGridData1 = [];
 			// Assemble the statement in the correct date order
 			foreach ($aPageDates as $aP){

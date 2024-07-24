@@ -14,7 +14,7 @@ function job($oRouteVars, $oV){
 			'result' => [
 				'id' => $sId,
 				'pid' => 0,
-				'job' => 'pdf-to-image'
+				'job' => 'number-pages'
 			],
 		];
 	} else {

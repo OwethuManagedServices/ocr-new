@@ -2,7 +2,7 @@
 // Find the monthly opening and closing balances
 require('functions.php');
 
-$oRouteVars['id'] = '1721398658947604';
+//$oRouteVars['id'] = '1721399736570339';
 
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
@@ -20,7 +20,10 @@ function job($oRouteVars, $oV){
 			} else {
 				$aEdit = array_fill(0, sizeof($aGrid), []);
 			}
-			$oMeta['result']['balances'] = balances_monthly($oMeta);
+			$aResult = balances_monthly($oMeta);
+			$oMeta['result']['balances'] = $aResult[0];
+			$oMeta['result']['header']['date_from'] = $aResult[1];
+			$oMeta['result']['header']['date_to'] = $aResult[2];
 			$oMeta['result']['job'] = 'salary';
 			file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
 		}

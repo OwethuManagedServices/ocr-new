@@ -2,6 +2,8 @@
 // Ping the process for progress information
 require('functions.php');
 
+
+
 $sId = $oRouteVars['id'];
 $sMetaFile = $oV['sDirectoryWork'] . $sId . '/meta.json';
 
@@ -16,7 +18,14 @@ if (file_exists($sMetaFile)){
 		$iP = count(glob($oV['sDirectoryWork'] . $sId . "/out-col-*.hocr"));
 		$iC = sizeof($oMeta['result']['template']['columns']);
 		$iP = intval($iP / $iC);
-		$oMeta['result']['ocr_page'] = $iP;
+		$oMeta['result']['page_now'] = $iP;
+		file_put_contents($oV['sDirectoryWork'] . $sId . '/meta.json', json_encode($oMeta, JSON_PRETTY_PRINT));
+	}
+	if ((isset($oMeta['result']['job'])) && ($oMeta['result']['job'] == 'pages-columns')){
+		$iP = count(glob($oV['sDirectoryWork'] . $sId . "/col-*.jpg"));
+		$iC = sizeof($oMeta['result']['template']['columns']);
+		$iP = intval($iP / $iC);
+		$oMeta['result']['page_now'] = $iP;
 		file_put_contents($oV['sDirectoryWork'] . $sId . '/meta.json', json_encode($oMeta, JSON_PRETTY_PRINT));
 	}
 

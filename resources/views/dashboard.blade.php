@@ -131,7 +131,7 @@ $aFieldsEdit = [
 <div id="tabpage_{{ $iI + 1 }}" class="tabpage w-full my-4" style="display:none;">
 
 @if (!$iI)
-<div class="bg-greylight bg-opacity-25 grid grid-cols-1 md:grid-cols-2  p-6 lg:p-8">
+<div class="bg-greylight bg-opacity-25 grid grid-cols-[80%_20%] p-6">
 	<div class="col-span-2">
 		<div class="float-left mr-4">
 			<input type="text" id="folder" 
@@ -155,20 +155,20 @@ $aFieldsEdit = [
 	<div id="uploadbox" class="my-4">
 		<?= formfieldshow($oUploadField, '', Auth::user())?>
 	</div>
-	<div id="processingbox" style="display:none" class="col-span-2 h-48">
-		<div>Processing</div>
+	<div id="processingbox" style="display:none" class="col-span-2 mb-4">
+		<div id="processprogress" class="mt-4">
 		<div>
-			<?= formfieldshow([
-				'name' => 'process',
-				'no_label' => 1,
-				'type' => 'button',
-				'id' => 'btn_action',
-				'description' => 'Process',
-				'dbfield' => 'statement',
-				'onclick' => 'OCR.start();',
-			], 'button', Auth::user()) ?>
-		</div>
-		<div id="log"></div>
+			<div class="float-left">
+				<?= formfieldshow([
+					'name' => 'process',
+					'no_label' => 1,
+					'type' => 'button',
+					'id' => 'btn_action',
+					'description' => 'Process',
+					'dbfield' => 'statement',
+					'onclick' => 'OCR.start();',
+				], 'button', Auth::user()) ?></div></div><div id="process_progress" class="float-left mb-2">&nbsp;&nbsp;Processing</div><div style="clear:both;height:20px"></div>
+		</div><div id="log"></div>
 	</div>
 	<div class="col-span-2">
 		<div id="preview"></div>

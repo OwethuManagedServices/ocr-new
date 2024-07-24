@@ -3,6 +3,7 @@
 	"name": "Nedbank Limited - 2",
 	"dpi": 600,
 	"ocr_cmd": "ocrjob",
+	"ocr_time_coefficient": 0.85,
 	"statement_from_to_dates": {
 		"header_field_from": "date_from",
 		"header_field_to": "date_to",

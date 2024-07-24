@@ -24,12 +24,14 @@ function job($oRouteVars, $oV){
 		if (file_exists($oTemplate)){
 			$oTemplate = json_decode(file_get_contents($oTemplate), 1);
 			$iPg = 0;
+			$iPgNow = 1;
 			foreach ($aPages as $iPages){
 				for ($iPage = 1; $iPage <= $iPages; $iPage++){
-					$sMetaFile = metamessage('Splitting into columns, page ' . ($iPg + 1) . '-' . $iPage , $sId, $oV);
+					$sMetaFile = metamessage('Splitting into columns, page ' . $iPgNow . ' ' . ($iPg + 1) . '-' . $iPage , $sId, $oV);
 					$sImg = $sWork . '/' . $iPg . '-';
 					// Create JPG files for each columnn of this page
 					pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg . $iPage . '.jpg', $oV, $sMetaFile);
+					$iPgNow++;
 				}
 				$iPg++;
 			}

@@ -9,13 +9,18 @@ if (file_exists($sMetaFile)){
 	$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 	$oMeta['message'] = 'Canceled';
 	$oMeta['error'] = 999;
+	$oMeta['result']['job'] = '';
 	if ((isset($oMeta['pid'])) && ($oMeta['pid'])){
 		$oProcess = new Process();
 		$oProcess->setPid($oMeta['pid']);
 		$oProcess->stop();
 		$oMeta['pid'] = 0;
 	}
-	file_put_contents($sMetaFile, json_encode($oMeta, JSON_PRETTY_PRINT));
+	$sCmd = getcwd() . '/killall.sh';
+	shell_exec($sCmd);
+	$sCmd = 'rm -rf ' . getcwd() . '/work/' . $oMeta['result']['id'] . '/';
+	shell_exec($sCmd);
+//	error_log($sCmd);
 }
 response_json($oMeta);
 

@@ -39,6 +39,7 @@ function job($oRouteVars, $oV){
 						'id' => $sId,
 						'pages' => $oRouteVars['pages'],
 						'bank' => $oData['bank'],
+						'template' => json_decode(file_get_contents($oV['sDirectoryWork'] . '../data/templates/banks/' . $oData['bank'] . '.json', 1)),
 						'thumbs' => $oMeta['result']['thumbs'],
 						'job' => 'header',
 					],
@@ -115,6 +116,11 @@ function bank_template($oData){
 		$oData['bank'] = $sBank;
 		$oData['error'] = 0;
 		$oData['message'] = 'Found template: ' . $sBank;
+
+
+
+
+
 	} else {
 		$oData['bank'] = '';
 		$oData['message'] = 'Could not find a bank template';

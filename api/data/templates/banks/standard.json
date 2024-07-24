@@ -3,6 +3,7 @@
 	"name": "Standard Bank",
 	"dpi": 600,
 	"ocr_cmd": "ocrjob1",
+	"ocr_time_coefficient": 0.8,
 	"statement_from_to_dates": {
 		"header_field_from": "date_from",
 		"word_from_split": "T",
