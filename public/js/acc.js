@@ -989,7 +989,7 @@ display: function(){
 			sB = "bg-greylight";
 		}
 		eR = APP.ele(eT, sB, "tr");
-		eR.onclick=OCR.rowedit;
+		eR.ondblclick=OCR.rowedit;
 		eR.id = "row_" + iI;
 		var sR = aRow[0];
 		var sO = OCR.V.oResult.grid[iI][0];
@@ -1201,7 +1201,7 @@ job: async function(sUrl, fCallback){
 			if (fCallback){
 				fCallback(oResult);
 			}
-		}, 100);
+		}, 200);
 	}
 },
 
@@ -1243,7 +1243,7 @@ progress: async function(){
 				eB.id = "thumb_" + aT[0] + "_" + aT[1];
 				eB.onclick = OCR.pageload;
 				eC = APP.ele(eB, "w-full h-full", "img");
-				OCR.thumbnail(oResult, eC, aT);
+				OCR.thumbnail(eC, aT);
 				eC = APP.ele(eB);
 				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
 			});
@@ -1263,9 +1263,9 @@ progressdisplay: function(oResult, bDone){
 		sTime += ".0";
 	}
 	if (oResult.message){
-		sMessage = oResult.message;
+		sMessage = oResult.message + ", ";
 		if ((oResult.result) && (oResult.result.page_now)){
-			sMessage += ", page " + oResult.result.page_now;
+			sMessage += "page " + oResult.result.page_now + " of ";
 		}
 	}
 	if ((oResult.result) && (oResult.result.pages)){
@@ -1274,7 +1274,7 @@ progressdisplay: function(oResult, bDone){
 		aPages.forEach(function(iP){
 			iPages += iP
 		});
-		sMessage += ", pages: " + iPages;
+		sMessage += iPages + " pages";
 
 		iT = parseFloat(sTime);
 		switch (oResult.result.job){
@@ -1301,13 +1301,13 @@ progressdisplay: function(oResult, bDone){
 			break;
 			
 			case "display":
-				OCR.V.iProgressPercent = 100;
+				OCR.V.iProgressPercent = 0;
 			break;
 
 		}
 	}
 	if ((oResult.result) && (oResult.result.bank)){
-		sMessage += ", bank: " + oResult.result.bank;
+		sMessage += ", bank " + oResult.result.bank;
 	}
 	sPid = "PID: " + oResult.pid;
 	if ((OCR.V.iProgressPercentPgCol) || (OCR.V.iProgressPercentOcr)){
@@ -1322,7 +1322,10 @@ progressdisplay: function(oResult, bDone){
 		OCR.V.iProgressPercent = 100;
 	}
 	OCR.V.eProgress.childNodes[0].style.width = OCR.V.iProgressPercent + "%";
-	eLog.innerHTML = sTime + " s, " + sMessage + "<br>" + sPid;
+	eLog.innerHTML = sTime + " s<br>" + sMessage + "<br>" + sPid;
+	if (eLog.innerHTML == "undefined"){
+		console.log("123");
+	}
 },
 
 
@@ -1359,7 +1362,7 @@ tabpage: function(oEvent){
 
 
 
-thumbnail: async function(oData, eImg, aT){
+thumbnail: async function(eImg, aT){
 	var sUrl, sId;
 	sId = document.querySelector("#folder").value;
 	sUrl = OCR.V.sApiUrl + "thumb/" + sId + "/" + aT[0] + "/" + (aT[1] + 1);
@@ -1377,8 +1380,8 @@ thumbnail: async function(oData, eImg, aT){
 reset: function(){
 	var eA;
 	document.querySelector("#folder").value = "";
-	document.querySelector("#log").innerHTML = "";
 	document.querySelector("#preview").innerHTML = "";
+	document.querySelector("#log").innerHTML = "";
 	eA = document.querySelector("#acc_processprogress_statement");
 	eA.style.opacity = 0;
 	eA.childNodes[0].style.width = 0;
@@ -1443,7 +1446,7 @@ statementload: function(){
 				eB.id = "thumb_" + aT[0] + "_" + aT[1];
 				eB.onclick = OCR.pageload;
 				eC = APP.ele(eB, "w-full h-full", "img");
-				OCR.thumbnail(oData, eC, aT);
+				OCR.thumbnail(eC, aT);
 				eC = APP.ele(eB);
 				eC.innerHTML = (aT[0] + 1) + " - " + (aT[1] + 1);
 			});
@@ -1484,7 +1487,6 @@ start: async function(aFiles){
 		document.querySelector("#processprogress").style.display = "block";
 		document.querySelector("#preview").innerHTML = "";
 		OCR.V.bThumbsDisplayed = 0;
-		OCR.V.bProgressPercentStarted = 0;
 		eA = document.querySelector("#acc_uploadprogress_statement");
 		eA.childNodes[0].style.width = 0;	
 		eB = document.querySelector("#process_progress");
@@ -1513,13 +1515,12 @@ start: async function(aFiles){
 				eA = document.querySelector("#acc_processprogress_statement");
 				eA.childNodes[0].style.width = 0;
 				eA.style.opacity = 0;
-				window.setTimeout(function(){
-					document.querySelector("#processprogress").style.display = "none";
-				}, 200);
+				document.querySelector("#processprogress").style.display = "none";
 				OCR.V.oResult = oResult.result;
 				OCR.V.eButton.innerHTML = "Process";
 				OCR.display();
 			} else {
+				window.alert(oResult.message);
 				OCR.reset();
 			}
 		});

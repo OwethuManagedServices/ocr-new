@@ -3,7 +3,7 @@
 	"name": "First National Bank",
 	"dpi": 600,
 	"ocr_cmd": "ocrjob1",
-	"ocr_time_coefficient": 1.1,
+	"header_bottom": 3060,
 	"statement_from_to_dates": {
 		"header_field_from": "",
 		"header_field_to": "",

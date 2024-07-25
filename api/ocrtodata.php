@@ -92,7 +92,7 @@ function job($oRouteVars, $oV){
 						}
 						$aRow = array_fill(0, sizeof($aGrid) + 4, '');
 						$aRow[] = 0;
-						$aRow[0] = $iPg . '_' . $iPage . '_' . $iI;
+						$aRow[0] = ($iPg + 1) . '_' . $iPage . '_' . ($iI + 1);
 						$iL = $iY;
 						$iY = $aGrid[$iLongestColumn][$iI][0];
 						$iL = ($iY - $iL - $iYWordGridStart);
@@ -179,13 +179,11 @@ function job($oRouteVars, $oV){
 			if (substr($aPageDates[0][1], 0, 4) == '0000'){
 				$aPageDates = dates_year_fix($aPageDates, $oHeader, $sBank);
 			}
-//			error_log(json_encode($aPageDates));
 
 			// Sort by date
 			usort($aPageDates, function($a, $b){
 				return ($a[1] >= $b[1] ? 1 : -1);
 			});
-//error_log(json_encode($aPageDates));
 			$aGridData1 = [];
 			// Assemble the statement in the correct date order
 			foreach ($aPageDates as $aP){

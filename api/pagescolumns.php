@@ -14,10 +14,6 @@ function job($oRouteVars, $oV){
 	chmod($sWork . '/ocrjob', 0777);
 	file_put_contents($sWork . '/ocrjob1', "#!/bin/bash\ndate\nexport HOME=/tmp\nexport OMP_THREAD_LIMIT=1\n");
 	chmod($sWork . '/ocrjob1', 0777);
-	$sMetaFile = metamessage('OCR columns', $sId, $oV);
-	$bMeta = 1;
-
-	$sMetaFile = $oV['sDirectoryWork'] . $sId . '/meta.json';
 	$sImg = $sWork . '/0-';
 	if (file_exists($sImg . '1.jpg')){
 		$oTemplate = getcwd() . '/data/templates/banks/' . $sBank . '.json';
@@ -27,7 +23,7 @@ function job($oRouteVars, $oV){
 			$iPgNow = 1;
 			foreach ($aPages as $iPages){
 				for ($iPage = 1; $iPage <= $iPages; $iPage++){
-					$sMetaFile = metamessage('Splitting into columns, page ' . $iPgNow, $sId, $oV);
+					$sMetaFile = metamessage('Splitting into columns', $sId, $oV);
 					$sImg = $sWork . '/' . $iPg . '-';
 					// Create JPG files for each columnn of this page
 					pages_columnns($oTemplate, $sWork, $iPg, $iPage, $sImg . $iPage . '.jpg', $oV, $sMetaFile);
@@ -36,18 +32,9 @@ function job($oRouteVars, $oV){
 				$iPg++;
 			}
 			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
-			$oMeta = [
-				'error' => 0,
-				'message' => 'Process OCR page ' . $iPage,
-				'result' => [
-					'id' => $sId,
-					'pages' => json_encode($aPages),
-					'bank' => $sBank,
-					'page' => $iPage,
-					'thumbs' => $oMeta['result']['thumbs'],
-					'job' => 'ocr-to-data',
-				],
-			];
+			$oMeta['message'] = 'Process OCR page ' . $iPage;
+			$oMeta['result']['page'] = $iPage;
+			$oMeta['result']['job'] = 'ocr-to-data';
 		} else {
 			$oMeta = [
 				'error' => 7,

@@ -206,9 +206,9 @@ ul.breadcrumb li a{
 .accprogress{
 	border-radius:2px;
 	opacity:0;
-	border:1px solid blue;
+	border:1px solid #888;
 	width:165px;
-	height:8px;
+	height:12px;
 	margin-left:10px;
 	margin-bottom:10px;
 	transition:opacity 1.5s;
@@ -216,7 +216,7 @@ ul.breadcrumb li a{
 .accprogressbar{
 	transition:width 0.5s;
 	white-space:nowrap;
-	background:darkblue;
+	background:#3579ac;
 	height:100%;
 	width:0%;
 	width:0%;

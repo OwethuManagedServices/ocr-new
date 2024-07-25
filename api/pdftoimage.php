@@ -17,6 +17,7 @@ function job($oRouteVars, $oV){
 	if (file_exists($sMetaFile)){
 		$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 		$aFiles = json_decode($oMeta['result']['pages']);
+		
 
 		// Create shell script to run the splitting pages jobs
 		file_put_contents($sWork . '/extjob', "#!/bin/bash\ndate\n");
@@ -46,16 +47,9 @@ function job($oRouteVars, $oV){
 		//Success
 		if (file_exists($oV['sDirectoryWork'] . $sId . '/0.pdf')){
 			if (file_exists($sWork . '/0-1.jpg')){
-				$oMeta = [
-					'error' => 0,
-					'message' => 'Find the bank template',
-					'result' => [
-						'id' => $sId,
-						'pages' => json_encode($aFiles),
-						'thumbs' => $aThumbs,
-						'job' => 'bank-template',
-					],
-				];
+				$oMeta['message'] = 'Find the bank template';
+				$oMeta['result']['pages'] = json_encode($aFiles);
+				$oMeta['result']['job'] = 'bank-template';
 			} else {
 				$oMeta = [
 					'error' => 3,

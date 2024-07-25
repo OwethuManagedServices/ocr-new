@@ -2,7 +2,7 @@
 // Find the bank template by identifying text in certain positions
 require('functions.php');
 
-
+//$oRouteVars['id'] = '1721836218849264';
 
 function job($oRouteVars, $oV){
 	$sId = $oRouteVars['id'];
@@ -11,11 +11,12 @@ function job($oRouteVars, $oV){
 	if (file_exists($oV['sDirectoryWork'] . $sId . '/0.pdf')){
 		$sWork = $oV['sDirectoryWork'] . $sId;
 		$sZ = '';
-		$sPng = $sWork . '/0-' . $sZ . '1.jpg';
-		if (file_exists($sPng)){
+		$sImage = $sWork . '/0-' . $sZ . '1.jpg';
+		if (file_exists($sImage)){
+			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
 			if (!file_exists($sWork . '/out-page-1.hocr')){
 				// Run OCR on first page to identify bank and retrieve header info
-				$sCmd = $oV['sDirectoryBin'] . 'tesseract ' . $sPng . ' ' . $sWork . '/out-page-1 hocr';
+				$sCmd = $oV['sDirectoryBin'] . 'tesseract ' . $sImage . ' ' . $sWork . '/out-page-1 hocr';
 				runcommand($sCmd, $sMetaFile);
 			}
 			$oData = [
@@ -31,19 +32,9 @@ function job($oRouteVars, $oV){
 					'id' => $sId,
 				];
 			} else {
-				$oMeta = json_decode(file_get_contents($sMetaFile), 1);
-				$oMeta = [
-					'error' => 0,
-					'message' => $oData['message'] . '. Finding header information',
-					'result' => [
-						'id' => $sId,
-						'pages' => $oRouteVars['pages'],
-						'bank' => $oData['bank'],
-						'template' => json_decode(file_get_contents($oV['sDirectoryWork'] . '../data/templates/banks/' . $oData['bank'] . '.json', 1)),
-						'thumbs' => $oMeta['result']['thumbs'],
-						'job' => 'header',
-					],
-				];
+				$oMeta['message'] = $oData['message'] . '. Finding header information';
+				$oMeta['result']['template'] = json_decode(file_get_contents($oV['sDirectoryWork'] . '../data/templates/banks/' . $oData['bank'] . '.json', 1));
+				$oMeta['result']['job'] = 'header'; 
 			}
 		} else {
 			$oMeta = [
@@ -82,6 +73,7 @@ function bank_template($oData){
 				// Detect in 2 ways
 				case 'words_by_class_id':
 					$aBank = [];
+					$iI = 0;
 					foreach ($oT['test'] as $oTT){
 						$aBank[] = words_by_class_id($sHtml, 'span', $oTT['parameter']);
 						if (($aBank[0] == $oTT['value'])){
@@ -91,20 +83,23 @@ function bank_template($oData){
 						if ($sBank){
 							break;
 						}
+						$iI++;
 					}
 				break;
 				
 				case 'words_at_position':
 					$aBank = [];
+					$iI = 0;
 					foreach ($oT['test'] as $oTT){
 						$aBank[] = words_at_position($sHtml, $oTT['parameter']);
-						if ((isset($aBank[0][0]['text']) && ($aBank[0][0]['text'] == $oTT['value']))){
+						if ((isset($aBank[$iI][0]['text']) && ($aBank[$iI][0]['text'] == $oTT['value']))){
 							$sBank = $oT['name'];
 							break;
 						}
 						if ($sBank){
 							break;
 						}
+						$iI++;
 					}
 				break;
 				

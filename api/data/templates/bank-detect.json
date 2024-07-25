@@ -27,11 +27,11 @@
 		"method": "words_at_position",
 		"test": [
 			{
-				"parameter": [4227, 146, 4680, 322],
+				"parameter": [4190, 310, 4686, 500],
 				"value": "(absa)"
 			},
 			{
-				"parameter": [4190, 310, 4686, 500],
+				"parameter": [4227, 146, 4680, 322],
 				"value": "(absa)"
 			}
 		]
@@ -86,8 +86,8 @@
 		"method": "words_at_position",
 		"test": [
 			{
-				"parameter": [500, 260, 1130, 400],
-				"value": "Standard"
+				"parameter": [212, 1140, 484, 1220],
+				"value": "Product"
 			}
 		]
 	},
@@ -108,7 +108,7 @@
 		"method": "words_at_position",
 		"test": [
 			{
-				"parameter": [1768, 468, 2524, 576],
+				"parameter": [1755, 468, 2552, 576],
 				"value": "STANDARD"
 			}
 		]

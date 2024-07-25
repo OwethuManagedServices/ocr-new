@@ -10,7 +10,7 @@ function job($oRouteVars, $oV){
 	if (file_exists($sWork . '/0.pdf')){
 		$oMeta = [
 			'error' => 0,
-			'message' => 'Separate PDF pages',
+			'message' => 'Find total pages',
 			'result' => [
 				'id' => $sId,
 				'pid' => 0,

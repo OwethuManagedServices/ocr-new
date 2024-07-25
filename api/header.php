@@ -21,19 +21,9 @@ function job($oRouteVars, $oV){
 			// Do the job
 			$oHeader = header_info($sHtml, $oTemplate);
 			$oMeta = json_decode(file_get_contents($sMetaFile), 1);
-			$oMeta = [
-				'error' => 0,
-				'message' => 'Dividing pages into columns',
-				'result' => [
-					'id' => $sId,
-					'pages' => $iPages,
-					'bank' => $sBank,
-					'header' => $oHeader,
-					'template' => $oMeta['result']['template'],
-					'thumbs' => $oMeta['result']['thumbs'],
-					'job' => 'pages-columns',
-				],
-			];
+			$oMeta['message'] = 'Dividing pages into columns';
+			$oMeta['result']['header'] = $oHeader;
+			$oMeta['result']['job'] = 'pages-columns';
 			file_put_contents($oV['sDirectoryWork'] . $sId . '/header.json', json_encode($oHeader, JSON_PRETTY_PRINT));
 		} else {
 			$oMeta = [

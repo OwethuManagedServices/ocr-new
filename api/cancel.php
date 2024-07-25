@@ -18,9 +18,10 @@ if (file_exists($sMetaFile)){
 	}
 	$sCmd = getcwd() . '/killall.sh';
 	shell_exec($sCmd);
-	$sCmd = 'rm -rf ' . getcwd() . '/work/' . $oMeta['result']['id'] . '/';
-	shell_exec($sCmd);
-//	error_log($sCmd);
+	if ($oMeta['result']['id']){
+		$sCmd = 'rm -rf ' . getcwd() . '/work/' . $oMeta['result']['id'] . '/';
+		shell_exec($sCmd);
+	}
 }
 response_json($oMeta);
 
